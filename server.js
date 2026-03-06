@@ -7,9 +7,6 @@ import multer from "multer";
 import path from "path";
 
 
-
-
-
 // Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -74,9 +71,7 @@ function isAdmin(req, res, next) {
 
 
 
-app.get("/", async function (req, res) {
-    //récupération bdd (code à réutiliser pour les autres routes)
-    
+app.get("/", async function (req, res) {    
     res.render("index");
 });
 
@@ -107,6 +102,9 @@ app.get("/co", async function (req, res) {
     }
 });
 
+app.get("/presentation", async function (req, res) {
+    res.render("presentation");
+});
 
 
 app.get('/produit/:id', async function (req, res) {

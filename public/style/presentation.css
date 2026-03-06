@@ -1,0 +1,64 @@
+.main-presentation {
+    display: flex;
+}
+* {
+    margin:0;
+}
+
+.left-column {
+    padding:5%;
+}
+.guillemet1 {
+    position: absolute;
+    rotate: 180deg;
+    top: 20%;
+}
+.guillemet2 {
+    position: absolute;
+    left: 50%;
+    top: 42.5%;
+}
+.left-column h2, .cultural-planning h2 {
+    font-size: 3em;
+    margin-left: 12%;
+}
+.left-column p {
+    font-size: 1.4em;
+}
+
+.contexte {
+    padding: 10% 12%;
+}
+
+.contexte span {
+    font-weight: bold;
+    color: #2B8006;
+}
+
+.left-column ul {
+    font-size: 1.2em;
+    list-style: none;
+    display: flex;
+    margin-top: 5%;
+}
+
+.left-column li {
+    background-color: #D5F2D3;
+    border-radius: 25px;
+    padding: 2%;
+    text-align: center;
+    margin-right: 5%;
+    width: 50%
+}
+
+.video-cont {
+    margin-top: -2.75%;
+    background-color: #7C6F5C;
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+.video-cont iframe {
+    padding: 10%;
+    width: 80%;
+}
