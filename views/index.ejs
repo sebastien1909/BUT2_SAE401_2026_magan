@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style/index.css">
-    <title>Document</title>
+<link rel="stylesheet" href="../public/style/index.css">    <title>Document</title>
 </head>
 
 <body>
-<div class="index-top-pic">
-    <%- include ("header") %>
+    <div class="index-top-pic">
+        <%- include("header") %>
         <div class="index-title">
             <div class="first-row">
                 <h1 class="white">Magañ</h1>
@@ -23,91 +22,92 @@
             </div>
 
         </div>
-</div>
-
-<section class="presentation">
-
-    <div class="presentation-first-column">
-        <h2 class="black">Qui sommes-nous ?</h2>
-        <div class="separateur"></div>
-        <p>
-            Magañ c’est tout d’abord un projet mais ce n’est pas un projet comme les autres, mené par Camille Montier,
-            ce projet est divisé en plusieurs catégories et regroupe le maraîchage diversifié, la transformation,
-            l’arboriculture ainsi qu’une pépinière spécialisé.
-        </p>
-        <button class="voir-plus"> Voir plus</button>
-    </div>
-    <div class="presentation-second-column">
-        <img src="/img/presentationpic.png" alt="">
     </div>
 
-</section>
+    <section class="presentation">
 
-<section class="liste-categorie">
-    <h2 class="white">Les catégories</h2>
-    <a href="catalogue_produit?filtre=type&valeur=pepiniere" class="categorie-lien">
-        <img src="/img/illu-pepiniere.jpg" class="categorie-illu">
-        <h4>Pépinière spécialisée</h4>
-    </a>
-    <a href="catalogue_produit?filtre=type&valeur=arboriculture" class="categorie-lien">
-        <img src="/img/illu-arboriculture.jpg" class="categorie-illu">
-        <h4>Arboriculture</h4>
-    </a>
-    <a href="catalogue_produit?filtre=type&valeur=maraichage" class="categorie-lien">
-        <img src="/img/illu-maraichage.jpg" class="categorie-illu">
-        <h4>Maraichage diversifié</h4>
-    </a>
-    <a href="catalogue_produit?filtre=type&valeur=transformation" class="categorie-lien">
-        <img src="/img/illu-transformation.jpg" class="categorie-illu">
-        <h4>Transformation</h4>
-    </a>
-</section>
+        <div class="presentation-first-column">
+            <h2 class="black">Qui sommes-nous ?</h2>
+            <div class="separateur"></div>
+            <p>
+                Magañ c’est tout d’abord un projet mais ce n’est pas un projet comme les autres, mené par Camille
+                Montier,
+                ce projet est divisé en plusieurs catégories et regroupe le maraîchage diversifié, la transformation,
+                l’arboriculture ainsi qu’une pépinière spécialisé.
+            </p>
+            <button class="voir-plus"> Voir plus</button>
+        </div>
+        <div class="presentation-second-column">
+            <img src="/img/presentationpic.png" alt="">
+        </div>
 
-<section class="horaire">
-    <div class="horaire-first-column">
-        <img src="/img/lanrodec-map.png">
-        <button class="aller">J'y vais !</button>
-    </div>
-    <div class="horaire-second-column">
-        <h2 class="black">Nos horaires</h2>
-        <div class="separateur"></div>
-        <div class="second-column-info-cont">
-            <div class="info-cont-left-column">
-                <img src="/img/icone/horaire.png" alt="icône des horaires" class="icone-horaire">
-                <h3 class="black">Cette semaine</h3>
+    </section>
+
+    <section class="liste-categorie">
+        <h2 class="white">Les catégories</h2>
+        <a href="catalogue_produit?filtre=type&valeur=pepiniere" class="categorie-lien">
+            <img src="/img/illu-pepiniere.jpg" class="categorie-illu">
+            <h4>Pépinière spécialisée</h4>
+        </a>
+        <a href="catalogue_produit?filtre=type&valeur=arboriculture" class="categorie-lien">
+            <img src="/img/illu-arboriculture.jpg" class="categorie-illu">
+            <h4>Arboriculture</h4>
+        </a>
+        <a href="catalogue_produit?filtre=type&valeur=maraichage" class="categorie-lien">
+            <img src="/img/illu-maraichage.jpg" class="categorie-illu">
+            <h4>Maraichage diversifié</h4>
+        </a>
+        <a href="catalogue_produit?filtre=type&valeur=transformation" class="categorie-lien">
+            <img src="/img/illu-transformation.jpg" class="categorie-illu">
+            <h4>Transformation</h4>
+        </a>
+    </section>
+
+    <section class="horaire">
+        <div class="horaire-first-column">
+            <img src="/img/lanrodec-map.png">
+            <button class="aller">J'y vais !</button>
+        </div>
+        <div class="horaire-second-column">
+            <h2 class="black">Nos horaires</h2>
+            <div class="separateur"></div>
+            <div class="second-column-info-cont">
+                <div class="info-cont-left-column">
+                    <img src="/img/icone/horaire.png" alt="icône des horaires" class="icone-horaire">
+                    <h3 class="black">Cette semaine</h3>
 
 
 
 
 
 
-            </div>
-            <div class="info-cont-right-column">
-                <img src="/img/icone/emplacement.png" alt="icône de lieux" class="icone-lieux">
-                <h3 class="black">Où nous retrouver</h3>
-                <p>5 Calvin, 22170, Lanrodec</p>
+                </div>
+                <div class="info-cont-right-column">
+                    <img src="/img/icone/emplacement.png" alt="icône de lieux" class="icone-lieux">
+                    <h3 class="black">Où nous retrouver</h3>
+                    <p>5 Calvin, 22170, Lanrodec</p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-<section class="cagnotte-section">
-    <h2 class="white">Notre cagnotte participative</h2>
-    <p>
-        Magañ est un projet qui me tient à coeur et que j’aimerais voir fleurir dans le futur. Mais c’est un projet que
-        je ne peux pas porter seule, j’ai besoin de vous ! Venez m’aider à faire grandir cette petite entreprise via
-        cette cagnotte participative :
-    </p>
-    <br>
-    <a
-        href="https://url-hyper-normal-de-cagnotte-participative-pour-participer-cagnotivement-à-ce-projet-arboricultant.com">Participer
-        !</a>
-</section>
+    <section class="cagnotte-section">
+        <h2 class="white">Notre cagnotte participative</h2>
+        <p>
+            Magañ est un projet qui me tient à coeur et que j’aimerais voir fleurir dans le futur. Mais c’est un projet
+            que
+            je ne peux pas porter seule, j’ai besoin de vous ! Venez m’aider à faire grandir cette petite entreprise via
+            cette cagnotte participative :
+        </p>
+        <br>
+        <a
+            href="https://url-hyper-normal-de-cagnotte-participative-pour-participer-cagnotivement-à-ce-projet-arboricultant.com">Participer
+            !</a>
+    </section>
 
 
-
-<%- include ("footer") %>
+    <%- include("footer") %>
 </body>
 
 </html>
