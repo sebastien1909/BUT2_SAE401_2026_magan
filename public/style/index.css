@@ -1,21 +1,84 @@
-body{
-    font-family: reem kufi, sans-serif;
-    font-weight: 500;
+body {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 50;
     margin: 0px;
 }
-.index-top-pic{
-    background-image: url('https://picsum.photos/1200/1200');
+
+/* ##################################################################################################
+Titre et image
+################################################################################################## */
+
+.index-top-pic {
+    background-image: url('/img/jardin_ensoleille.png');
     background-size: cover;
     background-position: center;
 }
-.index-title{
-    font-size: 1em;
-    font-weight: normal;
-    color: white;
-    padding: 20px;
-}
-h1{
-    font-size: 3em;
-    text-transform: uppercase;
 
+.index-title {
+    font-size: 1.5em;
+    font-weight: 50;
+    color: white;
+    padding: 5%;
+    margin-bottom: 2%;
+}
+
+.first-row {
+    display: flex;
+    margin-top: 20%;
+    align-items: center; 
+}
+
+h1 {
+    font-size: 4em;
+    text-transform: uppercase;
+    font-weight: 50;
+}
+
+.first-row h2 {
+    font-size: 3em;
+    margin-left: 5%;
+    font-weight: 50;
+}
+.second-row {
+    display: flex;
+    margin-top: -8%;
+    align-items: center; 
+}
+
+/* ##################################################################################################
+L'atelier végétal
+################################################################################################## */
+.presentation {
+    display: flex;
+    padding: 8%;
+    gap: 5%;
+}
+.black {
+    color: black;
+    font-size: 3em;
+    font-weight: 500;
+}
+.voir-plus {
+    background-color: #DCCBB2;
+    padding: 10px 50px;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.presentation-first-column p {
+    font-size: 1.2em;
+    line-height: 1.5em;
+    margin-bottom: 5%;
+    align-items: center; 
+
+}
+.presentation-second-column img {
+    border-radius: 10px;
+    align-items: baseline;
+    size: 1.5%; 
+    margin-top: 5%;
 }
