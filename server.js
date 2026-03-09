@@ -212,91 +212,10 @@ app.get("/catalogue_categorie", async function (req, res) {
 
 
 
-// partie pour le gerant
-
-app.get("/gerant/accueil", async function (req, res) {
-    let produits_aime = await pool.query("SELECT * FROM produit ORDER BY note DESC LIMIT 5;");
-    res.render("gerant/accueil", {
-        produits_aime: produits_aime[0],
-        prenom: req.session.nom
-    });
-});
-
-app.get("/gerant/ajout_suppr_produit", async function (req, res) {
-    const liste_produit = await pool.query("SELECT * FROM produit");
-    res.render("gerant/ajout_suppr_produit", { produits_suppr: liste_produit[0] });
-});
-
-app.get("/gerant/check_reservation", function (req, res) {
-    res.render("gerant/check_reservation", { variable: "aled" });
-});
-
-app.get("/gerant/liste_reservation", async function (req, res) {
-    const liste_reservation = await pool.query("SELECT produit.description, produit.marque, produit.modele, produit.image, location.date_debut, location.date_retour_prevue, location.id, location.prix_total, location.date_retour_effective, utilisateur.login, utilisateur.email FROM produit NATURAL JOIN location LEFT JOIN utilisateur ON (utilisateur.id = location.utilisateur_id)")
-    const resa_unfinished = await pool.query("SELECT produit.description, produit.marque, produit.modele, produit.image, location.date_debut, location.date_retour_prevue, location.id, location.prix_total, location.date_retour_effective, utilisateur.login, utilisateur.email FROM location JOIN utilisateur ON (utilisateur.id = location.utilisateur_id) JOIN produit ON (produit.id = location.produit_id) WHERE location.date_retour_effective IS NULL")
-    res.render("gerant/liste_resa", { liste_resa: liste_reservation[0], resa_pas_finis:resa_unfinished[0] });
-});
-
-app.get("/gerant/nouveaute", function (req, res) {
-    res.render("gerant/nouveaute", { variable: "aled" });
-});
-
-app.get("/gerant/catalogue_produit", async function (req, res) {
-    const tri = req.query.tri;
-    const ordre = req.query.ordre === 'desc' ? 'DESC' : 'ASC';
-    const filtre = req.query.filtre;
-    const valeur = req.query.valeur;
-
-    let RequetedeBase = "SELECT * FROM produit";
-    let queryParams = [];
-
-    if (filtre && valeur) {
-        RequetedeBase += ` WHERE ${filtre} = ?`;
-        queryParams.push(valeur);
-    }
-
-    // Ajout du tri si demandé
-    if (tri) {
-        RequetedeBase += ` ORDER BY ${tri} ${ordre}`;
-    }
-
-    try {
-        const result = await pool.query(RequetedeBase, queryParams);
-        res.render("gerant/catalogue_produit", { liste_produits: result[0] });
-    } catch (error) {
-        console.error("Erreur SQL :", error);
-        res.status(500).send("Erreur serveur");
-    }
-});
+// ADMIN
 
 
-app.get('/gerant/produit/:id', async function (req, res) {
-    const produitId = req.params.id;
-    const row = await pool.query("SELECT * FROM produit WHERE id = ?", [produitId]);
-    const produit = row[0][0]
-    const type = produit.type
-    const produit_plaire = await pool.query("SELECT * FROM produit WHERE type = ? AND id != ? LIMIT 3", [type, produitId]);
-    res.render('gerant/produit', {
-        produit: produit,
-        produit_plaire: produit_plaire[0]
-    })
-});
-
-app.get('/gerant/reservation/:id', async function (req, res) {
-    const produitId = req.params.id;
-    const row = await pool.query("SELECT * FROM produit WHERE id = ?", [produitId]);
-    const produit = row[0][0]
-    const type = produit.type
-    const produit_plaire = await pool.query("SELECT * FROM produit WHERE type = ? AND id != ? LIMIT 3", [type, produitId]);
-    res.render('gerant/reservation', {
-        produit: produit
-    })
-});
-
-
-
-
-app.get('/admin/accueil', async function (req, res) {
+app.get('/admin/index', async function (req, res) {
 
     let produits_aime = await pool.query("SELECT * FROM produit LIMIT 5");
     res.render("admin/accueil", {
@@ -305,16 +224,12 @@ app.get('/admin/accueil', async function (req, res) {
     });
 });
 
-app.get('/liste_gerant', async function (req,res){
-    const liste_gerant = await pool.query("SELECT * FROM utilisateur WHERE type_utilisateur LIKE 'agent'")
-    res.render("admin/liste_gerants", {gerants:liste_gerant[0]})
+app.get('/admin/liste_produits', async function (req,res){
+    const liste_produits = await pool.query("SELECT * FROM produit")
+    res.render("admin/liste_produits", {produits:liste_produits[0]})
 })
 
 
-app.get('/admin/ajout_agent', async function (req,res){
-    const liste_gerant = await pool.query("SELECT * FROM utilisateur WHERE type_utilisateur LIKE 'agent'")
-    res.render("admin/ajout_agent", {gerants:liste_gerant[0]})
-})
 
 
 
@@ -342,69 +257,36 @@ app.post("/connexion", async function (req, res) {
         req.session.userRole = result[0][0].type_utilisateur;
         req.session.userID = result[0][0].id;
         req.session.prenom = result[0][0].prenom;
-        if (req.session.userRole == "agent") {
-            res.redirect("/gerant/accueil");
-        }
-        else if (req.session.userRole == "admin") {
-            res.redirect("/admin/accueil");
+        if (req.session.userRole == "admin") {
+            res.redirect("/admin/index");
         }
         else {
             res.redirect("/");
         }
 
     }
-    //si c'est le cas : on recup le rôle + on initialise une session + redirection page accueil
+
     else {
         res.render("connexion", { message: "Nom d'utilisateur ou mot de passe incorrect" });
     }
-    //sinon : message d'erreur + redirection page connexion
 });
 
-app.post("/deleteReservation/:id", async function(req, res){
+app.post("/deleteProduit/:id", async function(req, res){
     try {
         const id = req.params.id;
         console.log("ID à supprimer:", id); // DEBUG
         
-        const suppression = await pool.query("DELETE FROM location WHERE id = ?", [id]);
+        const suppression = await pool.query("DELETE FROM produit WHERE id = ?", [id]);
         console.log("Résultat suppression:", suppression[0]); // DEBUG
         
-        res.redirect("/gerant/liste_reservation");
+        res.redirect("/admin/liste_produits");
     }
     catch(err) {
         console.error("Erreur:", err);
-        res.status(500).send("Erreur lors de la suppression de la réservation");
+        res.status(500).send("Erreur lors de la suppression du produit");
     }
 });
 
-
-app.post("/ajouter-agent", async function (req, res){
-    try{
-        const { username, nom, prenom, ddn, mdp, mail } = req.body;
-        
-        
-        const loginExistant = await pool.query("SELECT * FROM utilisateur WHERE login = ?", [username]);
-        const mailExistant = await pool.query("SELECT * FROM utilisateur WHERE email = ?", [mail]);
-        
-        if (loginExistant[0].length > 0) {
-            return res.status(400).send("Ce nom d'utilisateur existe déjà");
-        }
-        
-        if (mailExistant[0].length > 0) {
-            return res.status(400).send("Cet email est déjà utilisé");
-        }
-        
-        const mdp_hash = crypto.createHash('md5').update(mdp).digest('hex');
-        
-        await pool.query("INSERT INTO utilisateur (login, password, nom, prenom, ddn, email, type_utilisateur) VALUES (?, ?, ?, ?, ?, ?, 'agent')", [username, mdp_hash, nom, prenom, ddn, mail]);
-        
-        console.log("Agent ajouté avec succès");
-        res.redirect('/admin/ajout_agent');
-        
-    } catch(err){
-        console.error("Erreur complète:", err);
-        res.status(500).send(`Erreur lors de l'ajout de l'agent: ${err.message}`);
-    }
-});
 
 
 app.post('/ajouter-produit', upload.single('image'), async function (req, res) {
@@ -413,7 +295,7 @@ app.post('/ajouter-produit', upload.single('image'), async function (req, res) {
         const image = req.file ? `/img/produits/${req.file.filename}` : null;
         await pool.query("INSERT INTO produit (type, description, marque, modele, prix_location, etat, image) VALUES (?, ?, ?, ?, ?, ?, ?)", [categorie, description, marque, modele, prix, 'très bon état', image]);
 
-        res.redirect('/gerant/ajout_suppr_produit');
+        res.redirect('/admin/ajout_produit');
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur lors de l'ajout du produit");
