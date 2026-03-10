@@ -1,0 +1,151 @@
+.contact-cont{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:80px 10%;
+    gap:60px;
+}
+
+.contact-cont-left-column{
+    width:50%;
+    max-width:600px;
+}
+.contact-cont-left-column h2{
+    font-size:32px;
+    margin-bottom:20px;
+}
+.separateur{
+    width:120px;
+    height:2px;
+    background:black;
+    margin-bottom:40px;
+}
+
+.contact-info-cont{
+    width:100%;
+}
+
+.form-ligne{
+    display:flex;
+    gap:30px;
+    margin-bottom:25px;
+}
+
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+}
+
+.form-group.full{
+    width:100%;
+    margin-bottom:25px;
+}
+
+
+
+.form-group label{
+    margin-bottom:8px;
+    color:black;
+}
+.form-group input,
+.form-group textarea{
+    padding:12px;
+    border:2px solid #8ccf88;
+    background:transparent;
+    color:black;
+    font-size:14px;
+    outline:none;
+}
+
+.form-group textarea{
+    resize:none;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#8ccf88;
+    border:none;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    background:#78b774;
+}
+
+
+
+
+/* colonne de droite */
+
+.contact-cont-right-column{
+    width:50%;
+    min-height:400px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.contact-cont-right-column img{
+    width:100%;
+    max-width:500px;
+    height:auto;
+    object-fit:cover;
+}
+
+
+
+
+
+
+
+.coords-holder{
+    display:flex;
+    justify-content:center;
+    gap:80px;
+    background:#7a6f5d;
+    padding:60px 80px;
+    border-radius:12px;
+    width:70%;
+    margin-top:150px;
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+.coords-holder-info{
+    text-align:center;
+    color:white;
+    position:relative;
+    width:200px;
+    justify-content:space-between
+}
+
+
+.coords-icon-holder{
+    width:75%;
+    height:150%;
+    background:#f2f2f2;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    top:-150%;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.coords-icon-holder img{
+    width:35px;
+}
+
+
+.coords-holder-info p{
+    margin-top:20px;
+}
