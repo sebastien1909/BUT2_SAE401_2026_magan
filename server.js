@@ -160,14 +160,10 @@ app.get("/catalogue_produit", async function (req, res) {
         queryParams.push(valeur);
     }
 
-    if (tri) {
-        RequetedeBase += ` ORDER BY ${tri} ${ordre}`;
-    }
-
     try {
         const result = await pool.query(RequetedeBase, queryParams);
             
-        res.render("catalogue_produit", { liste_produits: result[0] });
+        res.render("catalogue", { liste_produits: result[0], categorie: valeur});
     } catch (error) {
         console.error("Erreur SQL :", error);
         res.status(500).send("Erreur serveur");
