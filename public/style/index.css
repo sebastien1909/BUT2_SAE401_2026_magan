@@ -1,8 +1,13 @@
 body {
-    font-family: 'Reem Kufi', sans-serif;
-    font-weight: 50;
+    font-family: 'Inter', sans-serif;
+
     margin: 0px;
 }
+body h1, h2 {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 100;
+}
+
 
 /* ##################################################################################################
 Titre et image
@@ -18,14 +23,14 @@ Titre et image
     font-size: 1.5em;
     font-weight: 50;
     color: white;
-    padding: 5%;
-    margin-bottom: 2%;
+    padding-left: 8%;
+    padding-bottom: 4%;
 }
 
 .first-row {
     display: flex;
-    margin-top: 20%;
-    align-items: center; 
+    margin-top: 30%;
+    align-items: center;
 }
 
 h1 {
@@ -39,9 +44,10 @@ h1 {
     margin-left: 5%;
     font-weight: 50;
 }
+
 .second-row {
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 /* ##################################################################################################
@@ -49,16 +55,20 @@ L'atelier végétal
 ################################################################################################## */
 .presentation {
     display: flex;
-    padding: 8%;
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 6%;
+    padding-bottom: 6%;
     gap: 5%;
 }
+
 .black {
     color: black;
     font-size: 3em;
     font-weight: 500;
 }
+
 .voir-plus {
-    font-family: Inter, sans-serif 400;
     background-color: #DCCBB2;
     padding: 10px 50px;
     border-radius: 10px;
@@ -69,17 +79,53 @@ L'atelier végétal
     color: black;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
 .presentation-first-column p {
     font-family: Inter, sans-serif 400;
     font-size: 1.2em;
     line-height: 1.5em;
     margin-bottom: 5%;
     margin-top: 5%;
-    align-items: center; 
+    align-items: center;
 
 }
+
 .presentation-second-column img {
-    border-radius: 10px;
     align-items: baseline;
-    size: 1.5%; 
+    size: 1.5%;
+}
+
+/* ##################################################################################################
+Découvrez nos activités
+################################################################################################## */
+.liste-categorie {
+    background-color: #7C6F5C;
+}
+
+.liste-categorie h2 {
+    font-size: 2.5em;
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 3%;
+    padding-bottom: 6%;
+    font-weight: 50;
+    color: white;
+}
+.boutons-categories {
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+    padding-bottom: 6%;
+}
+.boutons-categories a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+.boutons-categories h3 {
+    margin-top: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
 }
