@@ -41,3 +41,99 @@ header {
     height: 2em;
     margin-top: 2%;
 }
+
+
+.mobilemenu {
+    display: none;
+}
+
+.hidden li {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    .logo {
+        width: 15% !important;
+        height: 15% !important;
+        z-index: 5;
+        top: 1.5%;
+        left: 5%;
+    }
+
+    .button-container {
+        display: none;
+    }
+
+    nav {
+        width: 97.5%;
+        left: 1.5%;
+        height: 8%;
+        top: 1%;
+        box-shadow: #000000 0px 2px 2px;
+        z-index: 4;
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    .hidden ul li {
+        display: none;
+    }
+
+    .mobilenav {
+        position: fixed;
+        display: block;
+        position: absolute;
+        top: 2.75%;
+        right: 18%;
+        z-index: 5;
+
+    }
+
+    .hamburger {
+        cursor: pointer;
+        position: fixed;
+        background-COLOR: rgba(0, 0, 0, 0);
+        BORDER: NONE;
+    }
+
+    .bar {
+        display: block;
+        width: 35px;
+        height: 7px;
+        background-color: #274D23;
+        margin: 5px 0;
+        transition: 0.4s;
+        border-radius: 25px;
+    }
+
+    .mobilemenu {
+        background-color: #40271C;
+        position: fixed;
+        top: 7.5%;
+        right: 4%;
+        width: 45%;
+        height: 30%;
+        border-radius: 25px;
+        display: flex;
+        z-index: 5;
+        color: white;
+        border: 1px solid #ffffff;
+        box-shadow: #000000 0px 2px 2px;
+    }
+
+    .mobilemenu ul {
+        position: relative;
+        top: -10%;
+        left: 20%;
+        list-style-type: circle !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        padding: 1em;
+
+    }
+}
