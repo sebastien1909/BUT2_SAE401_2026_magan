@@ -52,13 +52,16 @@ header {
     display: none;
 }
 
+.hamburger {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
 
     .logo {
-        width: 15% !important;
-        height: 15% !important;
+        width: 32.5%;
+        height: 100% ;
         z-index: 5;
-        top: 1.5%;
         left: 5%;
     }
 
@@ -66,14 +69,6 @@ header {
         display: none;
     }
 
-    nav {
-        width: 97.5%;
-        left: 1.5%;
-        height: 8%;
-        top: 1%;
-        box-shadow: #000000 0px 2px 2px;
-        z-index: 4;
-    }
 
     nav ul {
         display: none;
@@ -87,7 +82,7 @@ header {
         position: fixed;
         display: block;
         position: absolute;
-        top: 2.75%;
+        top: 1.5%;
         right: 18%;
         z-index: 5;
 
@@ -102,8 +97,8 @@ header {
 
     .bar {
         display: block;
-        width: 35px;
-        height: 7px;
+        width: 31px;
+        height: 6px;
         background-color: #274D23;
         margin: 5px 0;
         transition: 0.4s;
