@@ -4,13 +4,13 @@
         <%- include("header") %>
         <div class="index-title">
             <div class="first-row">
-                <h1 class="white">Magañ</h1>
-                <h2 class="white">L'atelier végétal</h2>
+                <h1>Magañ</h1>
+                <h2 class="white">l'atelier végétal</h2>
             </div>
             <div class="second-row">
-                <h2 class="white">
+                <h3 class="white">
                     Cultiver le vivant, éveiller les sens
-                </h2>
+                </h3>
             </div>
 
         </div>
@@ -19,7 +19,7 @@
     <section class="presentation">
 
         <div class="presentation-first-column">
-            <h2 class="black">Qui sommes-nous ?</h2>
+            <h2 class="black">L'atelier végétal</h2>
             <div class="separateur"></div>
             <p>
                 Magañ c’est tout d’abord un projet mais ce n’est pas un projet comme les autres, mené par Camille
@@ -27,32 +27,35 @@
                 ce projet est divisé en plusieurs catégories et regroupe le maraîchage diversifié, la transformation,
                 l’arboriculture ainsi qu’une pépinière spécialisé.
             </p>
-            <button class="voir-plus"> Voir plus</button>
+            <a class="voir-plus" href="presentation"> Voir plus</a>
         </div>
         <div class="presentation-second-column">
-            <img src="/img/presentationpic.png" alt="">
+            <img src="/img/presentation_picture.png" alt="Présentation de l'atelier végétal">
         </div>
 
     </section>
 
     <section class="liste-categorie">
-        <h2 class="white">Les catégories</h2>
-        <a href="catalogue_produit?filtre=type&valeur=pepiniere" class="categorie-lien">
+        <h2 class="white">Découvrez nos catégories</h2>
+        <div class="boutons-categories">
+            <a href="catalogue_produit?filtre=type&valeur=pepiniere" class="categorie-lien">
             <img src="/img/illu-pepiniere.jpg" class="categorie-illu">
-            <h4>Pépinière spécialisée</h4>
+            <h3>Pépinière spécialisée</h3>
         </a>
         <a href="catalogue_produit?filtre=type&valeur=arboriculture" class="categorie-lien">
             <img src="/img/illu-arboriculture.jpg" class="categorie-illu">
-            <h4>Arboriculture</h4>
+            <h3>Arboriculture</h3>
         </a>
         <a href="catalogue_produit?filtre=type&valeur=maraichage" class="categorie-lien">
             <img src="/img/illu-maraichage.jpg" class="categorie-illu">
-            <h4>Maraichage diversifié</h4>
+            <h3>Maraichage diversifié</h3>
         </a>
         <a href="catalogue_produit?filtre=type&valeur=transformation" class="categorie-lien">
             <img src="/img/illu-transformation.jpg" class="categorie-illu">
-            <h4>Transformation</h4>
+            <h3>Transformation</h3>
         </a>
+        </div>
+        
     </section>
 
     <section class="horaire">

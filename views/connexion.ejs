@@ -1,0 +1,40 @@
+<%- include("header") %>
+
+<body>
+
+<div class="background"> 
+  <form class="card-connexion" action="/connexion" method="post">
+    <h1>Connexion</h1>
+    <div class="aetm">
+      <p>Nom d'utilisateur</p>
+      <input type="text" placeholder="   Nom d'utilisateur" name="login">
+
+      <p>Mot de passe</p>
+      <input type="password" placeholder="   Mot de passe" name="mdp">
+    </div>
+    <br><br>
+    <div class="submit">
+    <button type="submit" class="lienconn">Connexion</button>
+
+    <div class="message">
+      <% if (locals.message){ %>
+      <%= message %>
+      <% } %>
+    </div>
+
+    <p>Ou se connecter avec :</p>
+    <div class="autres-moyens">
+    <i class="fa-brands fa-google fa-google fa-xl" style="color: #ffffff;"></i>
+    <i class="fa-brands fa-facebook fa-google fa-xl" style="color: #ffffff;"></i>
+    <i class="fa-brands fa-apple fa-google fa-xl" style="color: #ffffff;"></i>
+    </div>
+
+    <p class="pdc">Pas de compte ?</p>
+
+
+    <a href="inscription" class="lieninscrip">Inscrivez-vous</a>
+    </div>
+  </form>
+</div>
+
+</body>
