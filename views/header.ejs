@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magañ - L'atelier du vivant</title>
     <link rel="icon" href="/img/logo-ico.ico" type="image/ico">
+    <script src="https://kit.fontawesome.com/08b10a2ab2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style/style.css">
     <link rel="stylesheet" href="/style/footer.css">
     <link rel="stylesheet" href="/style/header.css">
@@ -44,17 +45,33 @@
         <div id="mobileMenu" class="hidden">
             <ul>
                 <li><a href="#accueil">
-                        <p><span>Accueil</span></p>
+                        <p>L'atelier</p><i class="fa-solid fa-tree"></i>
                     </a></li>
                 <li><a href="projets.html">
-                        <p>Projets</p>
+                        <p>Produits</p><i class="fa-solid fa-seedling"></i>
                     </a></li>
                 <li><a href="#Contact">
-                        <p>Contact</p>
+                        <p>Contact</p><i class="fa-solid fa-envelope"></i>
                     </a></li>
             </ul>
         </div>
   </header>
 
+<script>
+      const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
 
-  
+    hamburger.addEventListener('click', () => {
+        mobileMenu.classList.toggle('mobilemenu');
+        mobileMenu.classList.toggle('hidden');
+    });
+
+ document.addEventListener('DOMContentLoaded', function() {
+        console.log("projetData:", projetData);
+        
+    getProjetIdByName("tout",projetData);
+    list3Projet("tout",projetData);
+
+ });
+
+</script>
