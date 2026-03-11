@@ -53,6 +53,13 @@ header {
     display: none;
 }
 
+.mlv {
+    display: none;
+}
+.separateurmobile {
+    display: none;
+}
+
 .hidden li {
     display: none;
 }
@@ -84,7 +91,6 @@ header {
     }
 
     .mobilenav {
-        position: fixed;
         display: block;
         position: absolute;
         top: 1.5%;
@@ -96,7 +102,6 @@ header {
     .hamburger {
         display: block;
         cursor: pointer;
-        position: fixed;
         background-COLOR: rgba(0, 0, 0, 0);
         BORDER: NONE;
     }
@@ -114,25 +119,42 @@ header {
     .mobilemenu {
         background-color: #F1F1F1;
         position: fixed;
-        right: 4%;
+        right: 1%;
         width: 45%;
         height: 100%;
         display: flex;
         z-index: 5;
         color: rgb(0, 0, 0);
         box-shadow: #000000 0px 2px 2px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .mobilemenu ul {
         position: relative;
-        top: -10%;
-        left: 20%;
-        list-style-type: circle !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
         padding: 1em;
+    }
+    
+    .mobilemenu a {
+        color: #000000;
+        text-decoration: none;
+    }
+
+        .mobilemenu li {
+    list-style: none;
+    }
+    .mlv{
+        display: block;
 
     }
-}
+    .separateurmobile {
+        display: block;
+        width: 10%;
+        height: 1px;
+    }
+        .mobilemenu ul i {
+            background-color: #D9C9B1;
+            padding: 10%;
+            border-radius: 50%;
+        }
+    }
