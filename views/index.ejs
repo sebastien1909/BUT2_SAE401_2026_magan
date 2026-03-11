@@ -42,19 +42,19 @@
 
         <div class="boutons-categories">
             <a href="catalogue_produit?filtre=type&valeur=pepiniere" class="categorie-lien">
-                <img src="/img/illu-pepiniere.jpg" class="categorie-illu">
+                <img src="/img/Pépiniere.png" class="categorie-illu">
                 <h3>Pépinière spécialisée</h3>
             </a>
             <a href="catalogue_produit?filtre=type&valeur=arboriculture" class="categorie-lien">
-                <img src="/img/illu-arboriculture.jpg" class="categorie-illu">
+                <img src="/img/arboriculture.png" class="categorie-illu">
                 <h3>Arboriculture</h3>
             </a>
             <a href="catalogue_produit?filtre=type&valeur=maraichage" class="categorie-lien">
-                <img src="/img/illu-maraichage.jpg" class="categorie-illu">
+                <img src="/img/Maraichage.png" class="categorie-illu">
                 <h3>Maraichage diversifié</h3>
             </a>
             <a href="catalogue_produit?filtre=type&valeur=transformation" class="categorie-lien">
-                <img src="/img/illu-transformation.jpg" class="categorie-illu">
+                <img src="/img/transfo.png" class="categorie-illu">
                 <h3>Transformation</h3>
             </a>
         </div>
@@ -62,47 +62,34 @@
     </section>
 
     <section class="horaire">
-        <div class="horaire-first-column">
-            <img src="/img/lanrodec-map.png">
-            <button class="aller">J'y vais !</button>
-        </div>
-        <div class="horaire-second-column">
-            <h2 class="black">Nos horaires</h2>
-            <div class="separateur"></div>
-            <div class="second-column-info-cont">
-                <div class="info-cont-left-column">
-                    <img src="/img/icone/horaire.png" alt="icône des horaires" class="icone-horaire">
+    <div class="horaire-first-column">
+        <img src="/img/Lanrodec-maps.png">
+        <a class="aller" href="#">J'y vais !</a>
+    </div>
+
+    <div class="horaire-second-column">
+        <h2>Nos horaires</h2>
+        <div class="separateur"></div>
+
+        <div class="second-column-info-cont">
+            <div class="info-cont-column">
+                <div class="title-wrapper">
+                    <i class="fa-solid fa-store" style="color: #98e39d;"></i>
                     <h3 class="black">Cette semaine</h3>
-
-
-
-
-
-
-                </div>
-                <div class="info-cont-right-column">
-                    <img src="/img/icone/emplacement.png" alt="icône de lieux" class="icone-lieux">
-                    <h3 class="black">Où nous retrouver</h3>
-                    <p>5 Calvin, 22170, Lanrodec</p>
                 </div>
             </div>
+
+            <div class="info-cont-column">
+                <div class="title-wrapper">
+                    <i class="fa-solid fa-location-dot" style="color: #98e39d;"></i>
+                    <h3 class="black">Où nous retrouver</h3>
+                </div>
+                <p class="address">5 Calvin, 22170<br>Lanrodec</p>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-
-    <section class="cagnotte-section">
-        <h2 class="white">Notre cagnotte participative</h2>
-        <p>
-            Magañ est un projet qui me tient à coeur et que j’aimerais voir fleurir dans le futur. Mais c’est un projet
-            que
-            je ne peux pas porter seule, j’ai besoin de vous ! Venez m’aider à faire grandir cette petite entreprise via
-            cette cagnotte participative :
-        </p>
-        <br>
-        <a
-            href="https://url-hyper-normal-de-cagnotte-participative-pour-participer-cagnotivement-à-ce-projet-arboricultant.com">Participer
-            !</a>
-    </section>
 
 
     <%- include("footer") %>
