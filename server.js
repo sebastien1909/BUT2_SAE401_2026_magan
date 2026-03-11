@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import pool from "./db.js";
 import multer from "multer";
 import path from "path";
+import nodemailer from "nodemailer";
 
 
 // Multer
@@ -18,7 +19,6 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     }
 });
-
 
 
 
@@ -72,78 +72,20 @@ function isAdmin(req, res, next) {
 
 
 app.get("/", async function (req, res) {    
-    res.render("index");
+    if (req.session.role === "admin") {
+        res.render("/admin/index");
+    } else {
+        res.render("index");
+    }
 });
 
-app.get("/logo-accueil", function(req,res){
-    let role = req.session.userRole;
-    if (role == "admin"){
-        res.redirect("/admin/accueil");
-    } else {
-        res.redirect("/");
-    }
-})
-
-
-app.get("/co", async function (req, res) {
-    if (req.session.userRole) {
-        let user = await pool.query("SELECT * FROM utilisateur WHERE id = ?", [req.session.userID]);
-
-        if (user[0].length > 0) { // vérifie si l'utilisateur existe
-            res.render("profil", {
-                user: user[0][0]  // prends tout le tableau de l'utilisateur
-            });
-        } else {
-            res.redirect("connexion");
-        }
-    }
-    else {
-        res.redirect("connexion");
-    }
+app.get("/contact", async function (req, res) {
+    res.render("contact");
 });
 
 app.get("/presentation", async function (req, res) {
     res.render("presentation");
 });
-
-
-app.get('/produit/:id', async function (req, res) {
-    const produitId = req.params.id;
-    const row = await pool.query("SELECT * FROM produit WHERE id = ?", [produitId]);
-    const produit = row[0][0]
-    const type = produit.type
-    const produit_plaire = await pool.query("SELECT * FROM produit WHERE type = ? AND id != ?LIMIT 3", [type, produitId]);
-    res.render('produit', {
-        produit: produit,
-        produit_plaire: produit_plaire[0]
-    })
-});
-
-app.get('/nutrition/:id', async function (req, res) {
-    const produitId = req.params.id;
-    const row = await pool.query("SELECT * FROM produit WHERE id = ?", [produitId]);
-    const produit = row[0][0]
-    const type = produit.type
-    const produit_plaire = await pool.query("SELECT * FROM produit WHERE type = ? AND id != ?LIMIT 3", [type, produitId]);
-    res.render('nutrition', {
-        produit: produit,
-        produit_plaire: produit_plaire[0]
-    })
-});
-
-app.get('/appareils_equipements/:id', async function (req, res) {
-    const produitId = req.params.id;
-    const row = await pool.query("SELECT * FROM produit WHERE id = ?", [produitId]);
-    const produit = row[0][0]
-    const type = produit.type
-    const produit_plaire = await pool.query("SELECT * FROM produit WHERE type = ? AND id != ?LIMIT 3", [type, produitId]);
-    res.render('appareils_equipements', {
-        produit: produit,
-        produit_plaire: produit_plaire[0]
-    })
-});
-
-
 
 
 app.get("/catalogue_produit", async function (req, res) {
@@ -160,14 +102,10 @@ app.get("/catalogue_produit", async function (req, res) {
         queryParams.push(valeur);
     }
 
-    if (tri) {
-        RequetedeBase += ` ORDER BY ${tri} ${ordre}`;
-    }
-
     try {
         const result = await pool.query(RequetedeBase, queryParams);
             
-        res.render("catalogue_produit", { liste_produits: result[0] });
+        res.render("catalogue", { liste_produits: result[0], categorie: valeur});
     } catch (error) {
         console.error("Erreur SQL :", error);
         res.status(500).send("Erreur serveur");
@@ -177,17 +115,10 @@ app.get("/catalogue_produit", async function (req, res) {
 
 
 app.get("/connexion", function (req, res) {
-    res.render("connexion", { variable: "aled" });
+    res.render("connexion");
 });
 
 
-
-
-
-
-app.get("/inscription", function (req, res) {
-    res.render("inscription", { variable: "aled" });
-});
 
 app.get("/catalogue_categorie", async function (req, res) {
     // Récupérer les catégories uniques
@@ -242,6 +173,39 @@ app.get('/admin/liste_produits', async function (req,res){
 
 
 // Actions au click sur les boutons
+
+
+
+app.post("/contact", async (req, res) => {
+
+    const { prenom, nom, email, telephone, message } = req.body;
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "tonemail@gmail.com",
+            pass: "motdepasseapplication"
+        }
+    });
+
+    const mailOptions = {
+        from: email,
+        to: "emaildelaporteuse@gmail.com",
+        subject: "Nouveau message depuis le site",
+        text: `Prénom: ${prenom}Nom: ${nom} Email: ${email} Téléphone: ${telephone} 
+        Message: ${message}
+`
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.render("contact", { message: "Votre message a été envoyé !" });
+    } catch (error) {
+        console.log(error);
+        res.send("Erreur lors de l'envoi");
+    }
+});
+
 
 
 app.post("/connexion", async function (req, res) {
