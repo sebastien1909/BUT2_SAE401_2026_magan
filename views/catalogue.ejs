@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catalogue</title>
+    <link rel="stylesheet" href="/css/Catalogue.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('header') %>
+
+    <div class="content-wrapper">
+        
+        <form class="search-container" action="/catalogue" method="GET">
+            
+            <input type="text" name="search" id="searchBar" placeholder="Rechercher un produit..."
+                value="<%= typeof currentSearch !== 'undefined' ? currentSearch : '' %>">
+
+            <div class="select-wrapper">
+                <select name="sort" class="sort-dropdown" id="sortMenu" onchange="this.form.submit()">
+                    <option value="default" <%=typeof currentSort==='undefined' || currentSort==='default' ? 'selected' : '' %>>Trier par...</option>
+                    <option value="priceAsc" <%=typeof currentSort !=='undefined' && currentSort==='priceAsc' ? 'selected' : '' %>>Prix : croissant</option>
+                    <option value="priceDesc" <%=typeof currentSort !=='undefined' && currentSort==='priceDesc' ? 'selected' : '' %>>Prix : décroissant</option>
+                    
+                </select>
+            </div>
+
+            <button type="submit" id="searchBtn">
+                Rechercher
+            </button>
+
+            <% if (typeof currentCategory !=='undefined' && currentCategory) { %>
+                <input type="hidden" name="category" value="<%= currentCategory %>">
+            <% } %>
+        </form>
+
+        <div class="main-content-area">
+
+            <div class="sidebar">
+                <a href="/catalogue?sort=<%= currentSort || '' %>&search=<%= currentSearch || '' %>"
+                    class="category-link <%= typeof currentCategory === 'undefined' || !currentCategory ? 'active' : '' %>">
+                    <button class="category-button">Toutes Catégories</button>
+                </a>
+
+                <% if (typeof categories !=='undefined' && categories.length> 0) { %>
+                    <% categories.forEach(function(category) { %>
+                        <% const categoryLink=`/catalogue?category=${encodeURIComponent(category)}&sort=${currentSort || '' }&search=${currentSearch || '' }`; %>
+                        <a href="<%= categoryLink %>"
+                            class="category-link <%= typeof currentCategory !== 'undefined' && currentCategory === category ? 'active' : '' %>">
+                            <button class="category-button">
+                                <%= category %>
+                            </button>
+                        </a>
+                    <% }) %>
+                <% } %>
+            </div>
+
+            <div class="product-list">
+                <% if (typeof produits !=='undefined' && produits.length> 0) { %>
+                    <% produits.forEach(function(produit) { %>
+                        
+                        <div class="product-card">
+                            <h3 class="product-title">
+                                <%= produit.modele %>
+                            </h3>
+
+                            <div class="card-content-row">
+                                
+                                <div class="product-price">
+                                    <span class="price-val"><%= produit.prix_location %> €</span>
+                                    <span class="price-unit">/jour</span>
+                                </div>
+
+                                <div class="image-wrapper">
+                                    <% 
+                                        let imgPath = "https://placehold.co/150x150?text=No+Img";
+                                        if(produit.img) {
+                                            if(produit.img.startsWith('img/') || produit.img.startsWith('http')) imgPath = "/" + produit.img;
+                                            else imgPath = "/uploads/" + produit.img;
+                                        }
+                                    %>
+                                    <img src="<%= imgPath %>" alt="<%= produit.modele %>" class="product-image">
+                                </div>
+                            </div>
+
+                            <a href="/product/<%= produit.id %>" class="product-button">
+                                Voir détails
+                            </a>
+                                    
+                            <% if (userRole === 'agent' || userRole === 'admin') { %>
+                                <% if (produit.etat === 'disponible') { %>
+                                    
+                                    <div class="card-actions">
+                                        <button onclick="supprimerProduit(<%= produit.id %>)" class="btn btn--outline btn-full">
+                                            Supprimer
+                                        </button>
+                                    </div>
+
+                                <% } else { %>
+                                    
+                                    <div class="status-text">
+                                        (Actuellement loué)
+                                    </div>
+
+                                <% } %>
+                            <% } %>
+
+                        </div>
+
+                    <% }) %>
+                <% } else { %>
+                    <p class="no-results">Aucun produit ne correspond à vos critères.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    async function supprimerProduit(id) {
+      if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?\n\nCette action est irréversible.')) {
+        return;
+      }
+      
+      try {
+        const res = await fetch(`/agent/supprimer_produit/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+          alert( data.message);
+          location.reload();
+        } else {
+          alert(data.error);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erreur lors de la suppression');
+      }
+    }
+    </script>
+
+    <%- include('footer') %>
+</body>
+</html>
