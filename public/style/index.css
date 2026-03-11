@@ -105,14 +105,24 @@ Découvrez nos activités
 }
 
 .liste-categorie h2 {
-  font-size: 2.5em;
-  padding-left: 8%;
-  padding-right: 8%;
-  padding-top: 3%;
-  padding-bottom: 6%;
-  font-weight: 50;
-  color: white;
+    font-size: 3em;
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 3%;
+    padding-bottom: 6%;
+    font-weight: 50;
+    color: white;
 }
+
+.separateur-white{
+    margin-left: 8%;
+    width:120px;
+    height:2px;
+    background:white;
+    margin-bottom:40px;
+    margin-top: -5%;
+}
+
 .boutons-categories {
   display: flex;
   gap: 5%;
@@ -127,31 +137,108 @@ Découvrez nos activités
   color: black;
 }
 .boutons-categories h3 {
-  margin-top: 10px;
-  font-size: 1.5em;
-  font-weight: 500;
+    margin-top: 10px;
+    font-size: 1.5em;
+    font-weight: 300;
+    color: white;
+}
+.categorie-illu {
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* ##################################################################################################
-Découvrez nos activités
+Nos Horaires
 ################################################################################################## */
-
 .horaire {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5%;
-  padding-left: 8%;
+    display: flex;
+    gap: 5%;
+    padding-left: 8%;
+    padding-top: 6%;
+    padding-bottom: 6%;
+}
+.horaire-first-column {
+    display: flex;
+    width: 45%;
+    flex-direction: column;
+    gap: 5%;
+    align-items: center;
+}
+.horaire-first-column img {
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.aller {
+    background-color: #DCCBB2;
+    padding: 10px 50px;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: fit-content;
 }
 
-.horaire-first-column {
-  display: flex;
-  flex-direction: column;
-  gap: 5%;
-  grid-column: 1 / 2;
-}
 .horaire-second-column {
-  display: flex;
-  flex-direction: column;
-  gap: 5%;
-  grid-column: 2 / 2;
+    font-family: 'Inter', sans-serif;
+}
+
+.horaire-second-column h2 {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.separateur {
+    width: 80px;
+    height: 1px;
+    background-color: #000;
+    margin-bottom: 40px;
+}
+
+.second-column-info-cont {
+    display: flex;
+    gap: 40px;
+}
+
+.info-cont-column {
+    flex: 1;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center; 
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.title-wrapper i {
+    font-size: 1.8rem; 
+}
+
+.fa-location-dot {
+    margin-top: -30px;
+}
+.black {
+    color: #000;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.address {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: #000;
+    padding-left: 45px;
+    margin: 0;
 }
