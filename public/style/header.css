@@ -1,7 +1,7 @@
 .logo {
-    height:100px;
+    height:115px;
     width:auto;
-    margin-left: 2%;
+    margin-left:30%;
 }
 
 .connexion-button,
@@ -14,22 +14,27 @@
 
 .connexion-button {
     width: 7em;
-    margin-top: 3%;
+    margin-top: 5%;
 }
 
 .contact-button {
     background-color: #79DC81;
     border-radius: 10px;
     width: 8em;
-    padding: 5%;
+    padding: 8%;
     text-align: center;
     justify-content: center;
     justify-items: center;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
+.contact-button:hover {
+    background-color: #356839;
+    color: white;
+}
+
 .contact-button p {
-    margin-top: -3%;
+    margin-top: -8%;
 }
 
 header {
@@ -62,7 +67,7 @@ header {
         width: 32.5%;
         height: 100% ;
         z-index: 5;
-        left: 5%;
+        margin-left:3%;
     }
 
     .button-container {
@@ -89,6 +94,7 @@ header {
     }
 
     .hamburger {
+        display: block;
         cursor: pointer;
         position: fixed;
         background-COLOR: rgba(0, 0, 0, 0);
@@ -106,17 +112,14 @@ header {
     }
 
     .mobilemenu {
-        background-color: #40271C;
+        background-color: #F1F1F1;
         position: fixed;
-        top: 7.5%;
         right: 4%;
         width: 45%;
-        height: 30%;
-        border-radius: 25px;
+        height: 100%;
         display: flex;
         z-index: 5;
-        color: white;
-        border: 1px solid #ffffff;
+        color: rgb(0, 0, 0);
         box-shadow: #000000 0px 2px 2px;
     }
 
