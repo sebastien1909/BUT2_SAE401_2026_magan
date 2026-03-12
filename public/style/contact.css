@@ -149,3 +149,13 @@ button:hover{
 .coords-holder-info p{
     margin-top:20px;
 }
+
+
+
+
+
+.separateur-full-width{
+    width:100%;
+    height:1px;
+    background:black;
+}
