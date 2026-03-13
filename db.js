@@ -4,7 +4,7 @@ import mysql from "mysql2/promise";
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "Magan_Serveur_DB",
   database: "magan_db",
   waitForConnections: true,
   connectionLimit: 10,
