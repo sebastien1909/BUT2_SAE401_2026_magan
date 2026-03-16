@@ -63,7 +63,7 @@
 
     <section class="horaire">
     <div class="horaire-first-column">
-        <div ></div>
+        <div class="map"></div>
         <a class="aller" href="#">J'y vais !</a>
     </div>
 
@@ -94,5 +94,49 @@
 
     <%- include("footer") %>
  
+     <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    />
+
+    <!-- Style de la carte (adapter la hauteur à ton design) -->
+    <style>
+        #map {
+            height: 250px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- Leaflet JS -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+
+    <script>
+        // Coordonnées approximatives de Lanrodec (centre de la commune)
+        const lat = 48.516944;
+        const lng = -3.029722;
+
+        const map = L.map("map").setView([lat, lng], 15);
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        const marker = L.marker([lat, lng]).addTo(map);
+
+        marker.bindPopup(
+            "<b>Magañ - l'atelier végétal</b><br>5 Calvin<br>22170 Lanrodec"
+        );
+    </script>
 </body>
 </html>
