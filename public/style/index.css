@@ -78,7 +78,14 @@ L'atelier végétal
   text-decoration: none;
   color: black;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
 }
+
+.voir-plus:hover {
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
+}
+
 
 .presentation-first-column p {
   font-family:
@@ -158,7 +165,7 @@ Découvrez nos activités
     background-size: contain;
     background-position: center;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s ease, background-image 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .ill1 { background-image: url('/img/pepiniere.png'); }
@@ -172,7 +179,8 @@ Découvrez nos activités
 .categorie-lien:hover .ill4 { background-image: url('/img/transfo-hover.png'); }
 
 .categorie-lien:hover .categorie-illu {
-    transform: scale(1.05);
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
 }
 
 .categorie-lien {
@@ -218,7 +226,14 @@ Nos Horaires
     color: black;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     width: fit-content;
+    transition: all 0.3s ease;
 }
+
+.aller:hover {
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
+}
+
 
 .horaire-second-column {
     font-family: 'Inter', sans-serif;
@@ -277,4 +292,97 @@ Nos Horaires
     margin: 0;
 }
 
+/* ##################################################################################################
+NOUVEAU: RESPONSIVE DESIGN (Magie pour les téléphones !)
+################################################################################################## */
 
+@media screen and (max-width: 900px) {
+  /* Hero Section Mobile */
+  .first-row {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 15%;
+  }
+  h1 { font-size: 3em; }
+  .first-row h2 { font-size: 2em; margin-left: 0; margin-top: 10px; }
+  .index-title { padding-bottom: 10%; }
+
+  /* Section L'atelier végétal Mobile */
+  .presentation {
+    flex-direction: column;
+  }
+  .presentation-first-column, 
+  .presentation-second-column {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  .presentation-second-column img {
+    width: 100%; 
+    height: auto;
+  }
+  .black { font-size: 2.5em; }
+
+  /* Catégories Mobile (Grille 2x2 comme sur l'image) */
+  .boutons-categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Force 2 colonnes */
+    row-gap: 30px;
+    column-gap: 10px;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .boutons-categories a {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .liste-categorie h2 { font-size: 2em; }
+
+  /* Section Horaires Mobile (Map plein écran comme sur l'image) */
+  .horaire {
+    flex-direction: column;
+    padding-left: 0; /* Enlève la marge de gauche pour la carte */
+    padding-right: 0; /* Enlève la marge de droite */
+  }
+  .horaire-first-column {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  #map {
+    width: 100%;
+    border-radius: 0; /* Enlève les coins arrondis pour le plein écran */
+    margin-bottom: 25px;
+  }
+  .aller {
+    width: 60%; /* Rend le bouton plus large sur mobile */
+    text-align: center;
+    margin: 0 auto; /* Centre le bouton */
+    display: block;
+  }
+  
+  /* Remet du padding uniquement pour le texte des horaires */
+  .horaire-second-column {
+    width: 100%;
+    padding-left: 8%; 
+    padding-right: 8%;
+    box-sizing: border-box; /* Évite que le padding ne casse la largeur */
+  }
+  .second-column-info-cont {
+    flex-direction: column; 
+    gap: 20px;
+  }
+}
+
+/* Pour les très petits téléphones */
+@media screen and (max-width: 480px) {
+  h1 { font-size: 2.5em; }
+  .categorie-illu {
+    width: 100px; /* Réduit un peu les ronds pour qu'ils rentrent bien à 2 */
+    height: 100px;
+  }
+  .boutons-categories h3 {
+    font-size: 1.2em; /* Réduit un peu le texte des catégories */
+  }
+  .aller {
+    width: 80%; /* Le bouton prend encore plus de place sur un tout petit écran */
+  }
+}

@@ -2,39 +2,48 @@
 
 <body>
 
-<div class="background"> 
-  <form class="card-connexion" action="/connexion" method="post">
-    <h1>Connexion</h1>
-    <div class="aetm">
-      <p>Nom d'utilisateur</p>
-      <input type="text" placeholder="   Nom d'utilisateur" name="login">
+<div class="login-container">
 
-      <p>Mot de passe</p>
-      <input type="password" placeholder="   Mot de passe" name="mdp">
-    </div>
-    <br><br>
-    <div class="submit">
-    <button type="submit" class="lienconn">Connexion</button>
+  <!-- colonne gauche -->
+  <div class="login-left">
+    <form class="card-connexion" action="/connexion" method="post">
 
-    <div class="message">
-      <% if (locals.message){ %>
-      <%= message %>
-      <% } %>
-    </div>
+      <h1>Connexion</h1>
+      <div class="separateur"></div>
 
-    <p>Ou se connecter avec :</p>
-    <div class="autres-moyens">
-    <i class="fa-brands fa-google fa-google fa-xl" style="color: #ffffff;"></i>
-    <i class="fa-brands fa-facebook fa-google fa-xl" style="color: #ffffff;"></i>
-    <i class="fa-brands fa-apple fa-google fa-xl" style="color: #ffffff;"></i>
-    </div>
+      <div class="aetm">
 
-    <p class="pdc">Pas de compte ?</p>
+        <p>Email</p>
+        <input type="text" placeholder="Email" name="login">
+
+        <p>Mots de passe</p>
+        <input type="password" placeholder="Mot de passe" name="mdp">
+
+      </div>
+
+      <button type="submit" class="lienconn">Connexion</button>
+
+      <div class="message">
+        <% if (locals.message){ %>
+          <%= message %>
+        <% } %>
+      </div>
+
+      <div class="creecompte">
+        <p class="pdc">Pas de compte ?</p>
+
+        <a href="inscription" class="lieninscrip">Inscrivez-vous</a>
+      </div>
+
+    </form>
+  </div>
 
 
-    <a href="inscription" class="lieninscrip">Inscrivez-vous</a>
-    </div>
-  </form>
+  <!-- colonne droite -->
+  <div class="login-right">
+    <img src="/img/connexion_img.jpg" alt="panier légumes">
+  </div>
+
 </div>
 
 </body>
