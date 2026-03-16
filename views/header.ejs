@@ -20,9 +20,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-        
+
 </head>
 
 <body>
@@ -31,7 +31,7 @@
             <img src="/img/logomagan.png" alt="Logo Magañ" class="logo">
         </a>
         <div class="button-container">
-            <a href="connexion" class="connexion-button">
+            <a href="presentation" class="connexion-button">
                 L'atelier
             </a>
             <a href="contact" class="contact-button">
@@ -50,10 +50,10 @@
             <p class="mlv">MAGAÑ - l'atelier végétal</p>
             <div class="separateurmobile"></div>
             <ul>
-                <li><a href="#accueil">
+                <li><a href="presentation">
                         <p>L'atelier</p><i class="fa-solid fa-tree"></i>
                     </a></li>
-                <li><a href="projets.html">
+                <li><a href="catalogue">
                         <p>Produits</p><i class="fa-solid fa-seedling"></i>
                     </a></li>
                 <li><a href="contact">
@@ -61,23 +61,21 @@
                     </a></li>
             </ul>
         </div>
-  </header>
+    </header>
 
-<script>
-      const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const cross = document.getElementById('cross');
 
-    hamburger.addEventListener('click', () => {
-        mobileMenu.classList.toggle('mobilemenu');
-        mobileMenu.classList.toggle('hidden');
-    });
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.add('mobilemenu');
+            mobileMenu.classList.remove('hidden');
+        });
 
- document.addEventListener('DOMContentLoaded', function() {
-        console.log("projetData:", projetData);
-        
-    getProjetIdByName("tout",projetData);
-    list3Projet("tout",projetData);
+        cross.addEventListener('click', () => {
+            mobileMenu.classList.remove('mobilemenu');
+            mobileMenu.classList.add('hidden');
+        });
 
- });
-
-</script>
+    </script>
