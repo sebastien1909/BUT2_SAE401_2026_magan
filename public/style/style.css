@@ -3,3 +3,18 @@ body{
     padding:0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.separateur-header-full-width{
+    width:100%;
+    height:1px;
+    background:gray;
+    margin-top:-10px;
+    margin-bottom:40px;
+}

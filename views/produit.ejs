@@ -1,0 +1,65 @@
+<%- include("header") %>
+<div class="separateur-header-full-width"></div>
+<a href="javascript:history.back()" class="btn-retour"> < Retour</a>
+
+
+<section class="product-detail-card">
+
+    <div class="product-detail-top">
+        <div class="product-detail-img">
+            <img src="#">
+        </div>
+
+        <div class="product-detail-right-side">
+            <h2 class="product-detail-name"><%= produit.nom_produit %></h2>
+            <div class="separateur"></div>
+            <p class="product-detail-variete"><%= produit.variete %></p>
+            <p class="product-detail-price"><%= produit.prix %> €</p>
+            <p class="product-detail-description"><%= produit.description %></p>
+        </div>
+    </div>
+
+    <button class="voir-plus">
+        Voir Plus
+    </button>
+
+</section>
+
+
+<section class="peut-plaire">
+
+    <h3 class="white">
+        Cela pourrait aussi vous plaire
+    </h3>
+
+    <div class="separateur-white"></div>
+    <div class="plaire-liste">
+    <% if (peut_plaire.length > 0) { %>
+        <% peut_plaire.forEach(function(produit){ %>
+            <% let produit_id = produit.id; %>
+            <a href="/produit?produit_id=<%= produit.id %>" class="product-card-link">
+                <div class="product-card">
+                    <img src="<%= produit.image_path %>" class="product-image">
+
+                    <h3><%= produit.nom_produit %></h3>
+                    <p class="product-variete"><%= produit.variete %></p>
+                    <p class="product-price"><%= produit.prix %> €</p>
+                </div>
+            </a>
+        <% }) %>
+    <% } else { %>
+        <p>Aucun produit trouvé.</p>
+    <% } %>
+    </div>
+
+    <a href="/catalogue_produit?valeur=<%= produit.domaine %>" class="voir-plus">
+        Voir Plus
+    </a>
+</section>
+
+
+
+    <%- include("footer") %>
+ 
+</body>
+</html>

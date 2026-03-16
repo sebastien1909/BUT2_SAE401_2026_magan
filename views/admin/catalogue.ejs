@@ -1,0 +1,91 @@
+<%- include("header") %>
+
+<h2>Catalogue Admin</h2>
+
+<div class="categorie_holder">
+    <% let categorie_actuelle = categorie %>
+    <div class="categories">
+        <a href="/admin/catalogue_produit?valeur=pepiniere">
+            <img src="/img/<%= categorie_actuelle === 'pepiniere' ? 'pepiniere-hover.png' : 'pepiniere.png' %>" class="categorie-illu">
+        </a>
+        <a href="/admin/catalogue_produit?valeur=maraichage">
+            <img src="/img/<%= categorie_actuelle === 'maraichage' ? 'maraichage-hover.png' : 'maraichage.png' %>" class="categorie-illu">
+        </a>
+        <a href="/admin/catalogue_produit?valeur=arboriculture">
+            <img src="/img/<%= categorie_actuelle === 'arboriculture' ? 'arboriculture-hover.png' : 'arboriculture.png' %>" class="categorie-illu">
+        </a>
+        <a href="/admin/catalogue_produit?valeur=transformation">
+            <img src="/img/<%= categorie_actuelle === 'transformation' ? 'transfo-hover.png' : 'transfo.png' %>" class="categorie-illu">
+        </a>
+    </div>
+</div>
+
+<div class="separateur-full-width"></div>
+
+<div class="sous-categories">
+    <% if (types && types.length > 0) { %>
+        <% types.forEach(function(t){ %>
+            <a href="/admin/catalogue_produit?valeur=<%= categorie_actuelle %>&type=<%= t.type %>" class="type-button">
+                <%= t.type %>
+            </a>
+        <% }) %>
+    <% } %>
+</div>
+
+<div class="separateur-full-width"></div>
+
+<div class="product-list">
+    <% if (categorie_actuelle !== "arboriculture") { %>
+        <% if (produits.length > 0) { %>
+            <% produits.forEach(function(produit){ %>
+                <a href="/produit?produit_id=<%= produit.id %>" class="product-card-link">
+                    <div class="product-card">
+                        <img src="<%= produit.image_path %>" class="product-image">
+                        <div class="availability-badge <%= produit.disponible ? 'available' : 'unavailable' %>">
+                            <%= produit.disponible ? 'Disponible' : 'Indisponible' %>
+                        </div>
+                        <h3><%= produit.nom_produit %></h3>
+                        <p class="product-variete"><%= produit.variete %></p>
+                        <p class="product-price"><%= produit.prix %> €</p>
+                    </div>
+                </a>
+            <% }) %>
+        <% } else { %>
+            <p>Aucun produit trouvé.</p>
+        <% } %>
+    <% } else { %>
+        <!-- Éditeur blog pour arboriculture -->
+        <h3>Créer un article de blog</h3>
+        <form action="/admin/blog_arbo/ajouter" method="POST">
+            <input type="text" name="titre" placeholder="Titre de l'article" required><br><br>
+            <input type="text" name="redacteur" placeholder="Votre nom" required><br><br>
+            <div id="editor-container" style="height:200px;"></div>
+            <input type="hidden" name="message" id="message">
+            <button type="submit">Publier</button>
+        </form>
+
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <script>
+            var quill = new Quill('#editor-container', { theme: 'snow' });
+            document.querySelector('form').onsubmit = function() {
+                document.querySelector('#message').value = quill.root.innerHTML;
+            };
+        </script>
+
+        <h3>Articles existants</h3>
+        <% if(blog_articles && blog_articles.length > 0) { %>
+            <% blog_articles.forEach(function(article){ %>
+                <div class="blog-card">
+                    <h4><%= article.titre %></h4>
+                    <p>Par <%= article.redacteur %> le <%= new Date(article.date_publi).toLocaleDateString() %></p>
+                    <div class="blog-content"><%- article.message %></div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Aucun article publié pour le moment.</p>
+        <% } %>
+    <% } %>
+</div>
+
+<%- include("footer") %>

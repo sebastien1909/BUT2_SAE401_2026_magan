@@ -54,6 +54,10 @@
     transform:scale(1.15);
 }
 
+.reseaux a {
+    color: #2f4b2f;
+}
+
 /* CARTE */
 
 .footer-map{
@@ -77,7 +81,7 @@
 
 .footer-mentions{
     display:grid;
-    grid-template-columns:1fr auto 1fr;
+    grid-template-columns:1fr 1fr 1fr 1fr;
     align-items:center;
     color:#2f4b2f;
     font-size:14px;

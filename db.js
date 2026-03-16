@@ -2,10 +2,10 @@ import mysql from "mysql2/promise";
 
 // CrÃ©e un pool de connexions
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "Magan",
+  host: "127.0.0.1",
+  user: "site_user",
+  password: "Magan_Serveur_DB",
+  database: "magan_db",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,

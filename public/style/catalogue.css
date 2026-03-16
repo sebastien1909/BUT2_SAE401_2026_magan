@@ -1,0 +1,111 @@
+
+.product-list {
+    display: grid;
+    gap: 75px;
+    padding: 30px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.product-card h3 {
+    margin: 15px 0 5px 0;
+    font-size: 18px;
+}
+
+
+.product-variete {
+    color: #666;
+    font-size: 14px;
+}
+
+.product-price {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #2e7d32;
+    font-size: 18px;
+}
+
+
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+    margin-bottom:50px;
+}
+
+.categorie-illu {
+    width: 120px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.categorie-illu:hover {
+    transform: scale(1.05);
+}
+.sous-categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15%;
+    background-color:#D9C9B1;
+}
+
+.type-button {
+    padding: 8px 15px;
+    color: #1f3d1f;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.type-button:hover {
+    background: #7C6F5C;
+    color:#ffffff
+}
+
+
+.availability-badge {
+    position: absolute; 
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    z-index: 10;
+}
+
+
+
+
+.availability-badge.available {
+    background-color: #28a745; 
+}
+
+.availability-badge.unavailable {
+    background-color: #dc3545; 
+}

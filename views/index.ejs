@@ -41,19 +41,19 @@
         </div>
 
         <div class="boutons-categories">
-            <a href="catalogue_produit?filtre=type&valeur=pepiniere" class="categorie-lien">
-                <img src="/img/Pépiniere.png" class="categorie-illu">
+            <a href="catalogue_produit?valeur=pepiniere" class="categorie-lien">
+                <img src="/img/pepiniere.png" class="categorie-illu">
                 <h3>Pépinière spécialisée</h3>
             </a>
-            <a href="catalogue_produit?filtre=type&valeur=arboriculture" class="categorie-lien">
+            <a href="catalogue_produit?valeur=arboriculture" class="categorie-lien">
                 <img src="/img/arboriculture.png" class="categorie-illu">
                 <h3>Arboriculture</h3>
             </a>
-            <a href="catalogue_produit?filtre=type&valeur=maraichage" class="categorie-lien">
-                <img src="/img/Maraichage.png" class="categorie-illu">
+            <a href="catalogue_produit?valeur=maraichage" class="categorie-lien">
+                <img src="/img/maraichage.png" class="categorie-illu">
                 <h3>Maraichage diversifié</h3>
             </a>
-            <a href="catalogue_produit?filtre=type&valeur=transformation" class="categorie-lien">
+            <a href="catalogue_produit?valeur=transformation" class="categorie-lien">
                 <img src="/img/transfo.png" class="categorie-illu">
                 <h3>Transformation</h3>
             </a>
@@ -90,6 +90,22 @@
     </div>
 </section>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        const lat = 48.516944;
+        const lng = -3.029722;
+
+        const map = L.map('map').setView([lat, lng], 15);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        L.marker([lat, lng]).addTo(map)
+            .bindPopup("<b>Magañ - l'atelier végétal</b><br>5 Calvin<br>22170 Lanrodec");
+    </script>
 
 
     <%- include("footer") %>

@@ -89,29 +89,41 @@ app.get("/presentation", async function (req, res) {
 
 
 app.get("/catalogue_produit", async function (req, res) {
-    const tri = req.query.tri;
-    const ordre = req.query.ordre === 'desc' ? 'DESC' : 'ASC';
-    const filtre = req.query.filtre;
-    const valeur = req.query.valeur;
 
-    let RequetedeBase = "SELECT * FROM produit";
-    let queryParams = [];
-
-    if (filtre && valeur) {
-        RequetedeBase += ` WHERE ${filtre} = ?`;
-        queryParams.push(valeur);
+    const domaine = req.query.valeur;
+    const type = req.query.type;
+    let sql = "SELECT * FROM produits WHERE 1=1";
+    let params = [];
+    if (domaine) {
+        sql += " AND domaine = ?";
+        params.push(domaine);
     }
-
+    if (type) {
+        sql += " AND type = ?";
+        params.push(type);
+    }
     try {
-        const result = await pool.query(RequetedeBase, queryParams);
-            
-        res.render("catalogue", { liste_produits: result[0], categorie: valeur});
-    } catch (error) {
-        console.error("Erreur SQL :", error);
+        const [produits] = await pool.query(sql, params);
+
+        const produitsAvecDisponibilite = produits.map(p => ({...p,
+            disponible: p.disponibilite === 1 
+        }));
+
+        const [types] = await pool.query(
+            "SELECT DISTINCT type FROM produits WHERE domaine = ?",
+            [domaine]
+        );
+
+        res.render("catalogue", {
+            produits: produitsAvecDisponibilite,
+            categorie: domaine,
+            types
+        });
+    } catch (err) {
+        console.error(err);
         res.status(500).send("Erreur serveur");
     }
 });
-
 
 
 app.get("/connexion", function (req, res) {
@@ -119,24 +131,15 @@ app.get("/connexion", function (req, res) {
 });
 
 
+app.get("/produit", async function (req, res) {
+    const produitId = req.query.produit_id;
+    const [produit] = await pool.query("SELECT * FROM produits WHERE id = ?", [produitId]);
+    const domaine_produit = produit[0].domaine;
+    // Sélectionner 3 produits aléatoires du même domaine, en excluant le produit actuel
+    const peut_plaire_requete = "SELECT * FROM produits WHERE domaine = ? AND id <> ? ORDER BY RAND() LIMIT 3";
+    const [peut_plaire] = await pool.query(peut_plaire_requete, [domaine_produit, produitId]);
 
-app.get("/catalogue_categorie", async function (req, res) {
-    // Récupérer les catégories uniques
-    const typesResult = await pool.query("SELECT DISTINCT type FROM produit");
-    const types = typesResult[0].map(row => row.type);
-    
-    // Pour chaque catégorie, récupérer les produits
-    const categories = [];
-    for (let type of types) {
-        const produitsResult = await pool.query("SELECT * FROM produit WHERE type = ?", [type]);
-        categories.push({
-            type: type,
-            count: produitsResult[0].length,
-            produits: produitsResult[0]
-        });
-    }
-    
-    res.render("catalogue_categorie", { categories: categories });
+    res.render("produit", { produit: produit[0], peut_plaire });
 });
 
 
@@ -145,23 +148,77 @@ app.get("/catalogue_categorie", async function (req, res) {
 
 // ADMIN
 
+app.get('/deconnexion', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error("Erreur lors de la déconnexion :", err);
+            return res.redirect('/admin'); 
+        }
+        res.redirect('/'); 
+    });
+});
 
 app.get('/admin/index', async function (req, res) {
 
-    let produits_aime = await pool.query("SELECT * FROM produit LIMIT 5");
-    res.render("admin/accueil", {
+    let produits_aime = await pool.query("SELECT * FROM produits LIMIT 5");
+    res.render("admin/index", {
         produits_aime: produits_aime[0],
         prenom: req.session.nom
     });
 });
 
+
 app.get('/admin/liste_produits', async function (req,res){
-    const liste_produits = await pool.query("SELECT * FROM produit")
+    const liste_produits = await pool.query("SELECT * FROM produits")
     res.render("admin/liste_produits", {produits:liste_produits[0]})
 })
 
 
+app.get("/admin/catalogue_produit", async function (req, res) {
+    const domaine = req.query.valeur;
+    const type = req.query.type;
 
+    try {
+        let produits = [];
+        let blog_articles = [];
+        let types = [];
+
+        if (domaine === "arboriculture") {
+            // Articles de blog existants
+            const [articles] = await pool.query("SELECT * FROM blog_arbo ORDER BY date_publi DESC");
+            blog_articles = articles;
+        } else {
+            // Produits classiques pour pepiniere / maraichage / transformation
+            let sql = "SELECT * FROM produits WHERE 1=1";
+            let params = [];
+            if (domaine) {
+                sql += " AND domaine = ?";
+                params.push(domaine);
+            }
+            if (type) {
+                sql += " AND type = ?";
+                params.push(type);
+            }
+            const [listeProduits] = await pool.query(sql, params);
+            produits = listeProduits.map(p => ({ ...p, disponible: p.disponibilite === 1 }));
+
+            // Sous-types
+            const [listeTypes] = await pool.query("SELECT DISTINCT type FROM produits WHERE domaine = ?", [domaine]);
+            types = listeTypes;
+        }
+
+        res.render("admin/catalogue", {
+            categorie: domaine,
+            produits,
+            types,
+            blog_articles
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+});
 
 
 
@@ -173,6 +230,23 @@ app.get('/admin/liste_produits', async function (req,res){
 
 
 // Actions au click sur les boutons
+
+
+
+app.post("/admin/blog_arbo/ajouter", async (req, res) => {
+    try {
+        const { titre, redacteur, message } = req.body;
+        await pool.query(
+            "INSERT INTO blog_arbo (titre, redacteur, message, date_publi, shown) VALUES (?, ?, ?, NOW(), 1)",
+            [titre, redacteur, message]
+        );
+        res.redirect("/admin/catalogue_produit?valeur=arboriculture");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur lors de l'ajout de l'article");
+    }
+});
+
 
 
 
@@ -214,11 +288,11 @@ app.post("/connexion", async function (req, res) {
     let password = req.body.mdp;
     let hashedPassword = crypto.createHash('md5').update(password).digest('hex');
 
-    let result = await pool.query("SELECT * FROM utilisateur WHERE login = ? AND password = ?", [username, hashedPassword])
+    let result = await pool.query("SELECT * FROM utilisateur WHERE identifiant = ? AND mdp = ?", [username, hashedPassword])
 
     // verification info de l'utilisateur sont dans la bdd
     if (result[0].length > 0) {
-        req.session.userRole = result[0][0].type_utilisateur;
+        req.session.userRole = result[0][0].role;
         req.session.userID = result[0][0].id;
         req.session.prenom = result[0][0].prenom;
         if (req.session.userRole == "admin") {
@@ -403,309 +477,6 @@ app.post('/deco', async function (req, res) {
     res.redirect('/connexion');
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// TESTS //
-
-
-
-
-
-
-
-
-app.post("/reservation", async function (req, res) {
-    try {
-        const produitId = req.body.produit_id;
-        const quantite = req.body.quantite || 1;
-        const date_debut = req.body.date_debut;
-        const date_fin = req.body.date_fin;
-        
-        if (!req.session.userID) {
-            return res.redirect("/connexion");
-        }
-
-        // Vérifier si le produit existe
-        const produit = await pool.query("SELECT * FROM produit WHERE id = ?", [produitId]);
-        if (produit[0].length === 0) {
-            return res.status(404).send("Produit non trouvé");
-        }
-
-        // Ajouter au panier
-        await pool.query(
-            "INSERT INTO panier (id_utilisateur, id_produit) VALUES (?, ?)",
-            [req.session.userID, produitId]
-        );
-
-        // Stocker les dates en session pour la page paiement
-        if (!req.session.panier_temp) {
-            req.session.panier_temp = {};
-        }
-        req.session.panier_temp[produitId] = {
-            quantite: quantite,
-            date_debut: date_debut,
-            date_fin: date_fin,
-            prix: produit[0][0].prix_location * quantite
-        };
-
-        res.redirect("/panier");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Erreur lors de l'ajout au panier");
-    }
-});
-
-
-
-
-app.get("/panier", async function (req, res) {
-    try {
-        if (!req.session.userID) {
-            return res.redirect("/connexion");
-        }
-
-        const panier = await pool.query(
-            `SELECT panier.id, panier.id_produit, produit.marque, produit.modele, 
-             produit.image, produit.prix_location, produit.description
-             FROM panier 
-             JOIN produit ON panier.id_produit = produit.id 
-             WHERE panier.id_utilisateur = ?`,
-            [req.session.userID]
-        );
-
-        // Calculer le total
-        let total = 0;
-        const panierAvecDetails = panier[0].map(item => {
-            const details = req.session.panier_temp?.[item.id_produit] || {
-                quantite: 1,
-                date_debut: null,
-                date_fin: null
-            };
-            
-            // Calculer les jours de location
-            let jours = 1;
-            if (details.date_debut && details.date_fin) {
-                const debut = new Date(details.date_debut);
-                const fin = new Date(details.date_fin);
-                jours = Math.ceil((fin - debut) / (1000 * 60 * 60 * 24)) || 1;
-            }
-            
-            const prix_total = item.prix_location * jours * details.quantite;
-            total += prix_total;
-
-            return {
-                ...item,
-                ...details,
-                jours: jours,
-                prix_total: prix_total
-            };
-        });
-
-        res.render("panier", { 
-            panier: panierAvecDetails,
-            total: total.toFixed(2)
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Erreur lors de l'affichage du panier");
-    }
-});
-
-
-
-
-app.post("/panier/supprimer/:id", async function (req, res) {
-    try {
-        const panierId = req.params.id;
-        
-        // Récupérer l'id_produit avant suppression
-        const item = await pool.query("SELECT id_produit FROM panier WHERE id = ?", [panierId]);
-        
-        if (item[0].length > 0) {
-            const produitId = item[0][0].id_produit;
-            
-            // Supprimer du panier
-            await pool.query("DELETE FROM panier WHERE id = ? AND id_utilisateur = ?", 
-                [panierId, req.session.userID]);
-            
-            // Supprimer des données temporaires
-            if (req.session.panier_temp && req.session.panier_temp[produitId]) {
-                delete req.session.panier_temp[produitId];
-            }
-        }
-
-        res.redirect("/panier");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Erreur lors de la suppression");
-    }
-});
-
-
-
-app.get("/paiement", async function (req, res) {
-    try {
-        if (!req.session.userID) {
-            return res.redirect("/connexion");
-        }
-
-        // Récupérer les produits du panier
-        const panier = await pool.query(
-            `SELECT panier.id, panier.id_produit, produit.marque, produit.modele, 
-             produit.image, produit.prix_location, produit.description
-             FROM panier 
-             JOIN produit ON panier.id_produit = produit.id 
-             WHERE panier.id_utilisateur = ?`,
-            [req.session.userID]
-        );
-
-        if (panier[0].length === 0) {
-            return res.redirect("/panier");
-        }
-
-        // Calculer le total
-        let total = 0;
-        const produitsAvecDetails = panier[0].map(item => {
-            const details = req.session.panier_temp?.[item.id_produit] || {
-                quantite: 1,
-                date_debut: null,
-                date_fin: null
-            };
-            
-            let jours = 1;
-            if (details.date_debut && details.date_fin) {
-                const debut = new Date(details.date_debut);
-                const fin = new Date(details.date_fin);
-                jours = Math.ceil((fin - debut) / (1000 * 60 * 60 * 24)) || 1;
-            }
-            
-            const prix_total = item.prix_location * jours * details.quantite;
-            total += prix_total;
-
-            return {
-                ...item,
-                ...details,
-                jours: jours,
-                prix_total: prix_total
-            };
-        });
-
-        // Récupérer les infos utilisateur
-        const user = await pool.query("SELECT * FROM utilisateur WHERE id = ?", [req.session.userID]);
-
-        res.render("paiement", { 
-            produits: produitsAvecDetails,
-            total: total.toFixed(2),
-            user: user[0][0]
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Erreur lors de l'affichage du paiement");
-    }
-});
-
-
-
-
-app.post("/paiement", async function (req, res) {
-    try {
-        if (!req.session.userID) {
-            return res.redirect("/connexion");
-        }
-
-        const { cardname, cardnumber, exp, cvv, nom, prenom, address, address2, city, codepostal } = req.body;
-
-        // Récupérer les produits du panier
-        const panier = await pool.query(
-            "SELECT * FROM panier WHERE id_utilisateur = ?",
-            [req.session.userID]
-        );
-
-        if (panier[0].length === 0) {
-            return res.redirect("/panier");
-        }
-
-        // Créer les locations pour chaque produit
-        for (let item of panier[0]) {
-            const details = req.session.panier_temp?.[item.id_produit] || {};
-            
-            let jours = 1;
-            if (details.date_debut && details.date_fin) {
-                const debut = new Date(details.date_debut);
-                const fin = new Date(details.date_fin);
-                jours = Math.ceil((fin - debut) / (1000 * 60 * 60 * 24)) || 1;
-            }
-
-            // Récupérer le prix du produit
-            const produit = await pool.query("SELECT prix_location FROM produit WHERE id = ?", [item.id_produit]);
-            const prix_total = produit[0][0].prix_location * jours * (details.quantite || 1);
-
-            // Insérer dans la table location
-            await pool.query(
-                `INSERT INTO location (date_debut, date_retour_prevue, prix_total, utilisateur_id, produit_id) 
-                 VALUES (?, ?, ?, ?, ?)`,
-                [
-                    details.date_debut || new Date(),
-                    details.date_fin || new Date(),
-                    prix_total,
-                    req.session.userID,
-                    item.id_produit
-                ]
-            );
-        }
-
-        // Vider le panier
-        await pool.query("DELETE FROM panier WHERE id_utilisateur = ?", [req.session.userID]);
-        
-        // Nettoyer les données temporaires
-        delete req.session.panier_temp;
-
-        // Rediriger vers une page de confirmation
-        res.redirect("/confirmation-paiement");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Erreur lors du paiement");
-    }
-});
-
-
-
-app.get("/confirmation-paiement", function (req, res) {
-    res.render("confirmation", { 
-        message: "Votre paiement a été effectué avec succès !" 
-    });
-});
-
-
-
-
-
-
-
-
-
 
 
 
