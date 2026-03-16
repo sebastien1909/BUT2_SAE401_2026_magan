@@ -67,6 +67,10 @@ header {
     display: none;
 }
 
+.hidden {
+    display: none !important;
+}
+
 
 @media screen and (max-width: 768px) {
 
@@ -94,9 +98,8 @@ header {
         display: block;
         position: absolute;
         top: 1.5%;
-        right: 18%;
+        right: 5%;
         z-index: 5;
-
     }
 
     .hamburger {
@@ -163,5 +166,21 @@ header {
 
     #cross {
         display: block;
+    }
+
+    .mobilemenu {
+        animation: slideIn 0.25s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
 }
