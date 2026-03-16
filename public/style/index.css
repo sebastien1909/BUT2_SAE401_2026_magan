@@ -149,6 +149,40 @@ Découvrez nos activités
     border-radius: 100%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.categorie-illu {
+    width: 125px;
+    height: 125px;
+    border-radius: 100%;
+    object-fit: cover;
+    margin: 0 auto;
+    background-size: contain;
+    background-position: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, background-image 0.2s ease;
+}
+
+.ill1 { background-image: url('/img/pepiniere.png'); }
+.ill2 { background-image: url('/img/arboriculture.png'); }
+.ill3 { background-image: url('/img/maraichage.png'); }
+.ill4 { background-image: url('/img/transfo.png'); }
+
+.categorie-lien:hover .ill1 { background-image: url('/img/pepiniere-hover.png'); }
+.categorie-lien:hover .ill2 { background-image: url('/img/arboriculture-hover.png'); }
+.categorie-lien:hover .ill3 { background-image: url('/img/maraichage-hover.png'); }
+.categorie-lien:hover .ill4 { background-image: url('/img/transfo-hover.png'); }
+
+.categorie-lien:hover .categorie-illu {
+    transform: scale(1.05);
+}
+
+.categorie-lien {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    text-align: center;
+}
+
+
 
 /* ##################################################################################################
 Nos Horaires
