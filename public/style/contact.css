@@ -2,13 +2,13 @@
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
-    padding:80px 10% 8px 10%;
     gap:60px;
 }
 
 .contact-cont-left-column{
     width:50%;
     max-width:600px;
+        padding:80px 10%;
 }
 .contact-cont-left-column h2{
     font-size:32px;
@@ -84,7 +84,6 @@ button:hover{
 
 .contact-cont-right-column{
     width:50%;
-    min-height:400px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -94,14 +93,14 @@ button:hover{
     width:100%;
     max-width:500px;
     height:auto;
-    object-fit:cover;
+    object-fit:fill;
 }
 
-
-
-
-
-
+.debut_footer {
+    background-color: #D9C9B1;
+    height: 100px;
+    margin-top: -8%;
+}
 
 .coords-holder{
     display:flex;
@@ -140,6 +139,8 @@ button:hover{
     left:50%;
     transform:translateX(-50%);
 }
+
+
 
 .coords-icon-holder img{
     width:35px;
