@@ -1,0 +1,110 @@
+.login-container{
+    display:flex;
+    min-height:100vh;
+}
+
+
+/* colonne gauche */
+
+h1{
+    text-transform: capitalize;
+}
+
+.login-left{
+    width:70%;
+    display:flex;
+    justify-content:center;
+    padding-top: 100px;
+}
+
+.card-connexion{
+    width:350px;
+}
+
+.card-connexion h1{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.separateur{
+    width:100px;
+    height:2px;
+    background:black;
+    margin-bottom:30px;
+}
+
+.aetm{
+    display:flex;
+    flex-direction:column;
+}
+
+.aetm p{
+    margin-bottom:5px;
+}
+
+.aetm input{
+    padding:12px;
+    border:2px solid #8ccf88;
+    margin-bottom:20px;
+    outline:none;
+}
+
+
+.lienconn{
+    width:100%;
+    padding:14px;
+    background:#8ccf88;
+    border:none;
+    font-size:18px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.lienconn:hover{
+    background:#78b774;
+}
+
+
+.autres-moyens{
+    display:flex;
+    gap:20px;
+    margin-top:10px;
+}
+
+.autres-moyens i{
+    cursor:pointer;
+}
+
+.pdc{
+    margin-top:20px;
+}
+
+.lieninscrip{
+    display:inline-block;
+    margin-top:10px;
+    background:#a6d8a3;
+    padding:10px 20px;
+    border-radius:6px;
+    text-decoration:none;
+    color:black;
+}
+
+.creecompte{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* colonne droite */
+
+.login-right{
+    width:50%;
+}
+
+.login-right img{
+    width:100%;
+    height:100vh;
+    object-fit:cover;
+}
