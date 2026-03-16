@@ -108,15 +108,17 @@
 
 
     <script>
-        const lat = 48.4863183;
-        const lng = -3.046472;
+        const lat = 48.48575775075784;
+        const lng = -3.0456114382587085;
+        //meilleur adresse :50.581787845173984, 1.6628077190092139 (je sais ou t'habite, seb !!!!!!!!!!)
 
 
         const map = L.map('map').setView([lat, lng], 15);
 
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
+            maxZoom: 17,
+            Zoom: 12,
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
