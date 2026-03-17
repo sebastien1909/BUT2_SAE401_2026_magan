@@ -1,18 +1,30 @@
+/* ############################################################################
+Reset global (Empêche les débordements et l'espace blanc sur la droite)
+############################################################################### */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   font-family: "Inter", sans-serif;
-
-  margin: 0px;
+  margin: 0;
 }
+
 body h1,
 h2 {
   font-family: "Reem Kufi", sans-serif;
   font-weight: 100;
+  margin: 0;
 }
 
-/* ##################################################################################################
+/* ############################################################################
 Titre et image
-################################################################################################## */
-
+############################################################################### */
 .index-top-pic {
   background-image: url("/img/jardin_ensoleille.png");
   background-size: cover;
@@ -21,7 +33,7 @@ Titre et image
 
 .index-title {
   font-size: 1.5em;
-  font-weight: 50;
+  font-weight: 100;
   color: white;
   padding-left: 8%;
   padding-bottom: 4%;
@@ -29,6 +41,7 @@ Titre et image
 
 .first-row {
   display: flex;
+  flex-wrap: wrap; /* Permet au texte de passer à la ligne sur les écrans moyens */
   margin-top: 30%;
   align-items: center;
 }
@@ -36,13 +49,14 @@ Titre et image
 h1 {
   font-size: 4em;
   text-transform: uppercase;
-  font-weight: 50;
+  font-weight: 100;
+  background-color: transparent;
 }
 
 .first-row h2 {
   font-size: 3em;
   margin-left: 5%;
-  font-weight: 50;
+  font-weight: 100;
 }
 
 .second-row {
@@ -50,9 +64,9 @@ h1 {
   align-items: center;
 }
 
-/* ##################################################################################################
+/* ############################################################################
 L'atelier végétal
-################################################################################################## */
+############################################################################### */
 .presentation {
   display: flex;
   padding-left: 8%;
@@ -79,55 +93,53 @@ L'atelier végétal
   color: black;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .voir-plus:hover {
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 6px rgba(0,0,0,0.15);
 }
 
-
 .presentation-first-column p {
-  font-family:
-    Inter,
-    sans-serif 400;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
   font-size: 1.2em;
   line-height: 1.5em;
   margin-bottom: 5%;
   margin-top: 5%;
-  align-items: center;
 }
 
 .presentation-second-column img {
-  align-items: baseline;
-  size: 1.5%;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 
-/* ##################################################################################################
+/* ############################################################################
 Découvrez nos activités
-################################################################################################## */
-
+############################################################################### */
 .liste-categorie {
   background-color: #7c6f5c;
 }
 
 .liste-categorie h2 {
-    font-size: 3em;
-    padding-left: 8%;
-    padding-right: 8%;
-    padding-top: 3%;
-    padding-bottom: 6%;
-    font-weight: 50;
-    color: white;
+  font-size: 3em;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-top: 3%;
+  padding-bottom: 6%;
+  font-weight: 100;
+  color: white;
 }
 
 .separateur-white{
-    margin-left: 8%;
-    width:120px;
-    height:2px;
-    background:white;
-    margin-bottom:40px;
-    margin-top: -5%;
+  margin-left: 8%;
+  width: 120px;
+  height: 2px;
+  background: white;
+  margin-bottom: 40px;
+  margin-top: -5%;
 }
 
 .boutons-categories {
@@ -136,6 +148,7 @@ Découvrez nos activités
   justify-content: center;
   padding-bottom: 6%;
 }
+
 .boutons-categories a {
   display: flex;
   flex-direction: column;
@@ -143,28 +156,22 @@ Découvrez nos activités
   text-decoration: none;
   color: black;
 }
+
 .boutons-categories h3 {
-    margin-top: 10px;
-    font-size: 1.5em;
-    font-weight: 300;
-    color: white;
+  margin-top: 10px;
+  font-size: 1.5em;
+  font-weight: 300;
+  color: white;
 }
+
 .categorie-illu {
-    width: 125px;
-    height: 125px;
-    object-fit: cover;
-    border-radius: 100%;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-.categorie-illu {
-    width: 125px;
-    height: 125px;
-    border-radius: 100%;
-    object-fit: cover;
-    margin: 0 auto;
-    background-size: contain;
-    background-position: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 125px;
+  height: 125px;
+  border-radius: 100%;
+  margin: 0 auto;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
 }
 
@@ -179,117 +186,109 @@ Découvrez nos activités
 .categorie-lien:hover .ill4 { background-image: url('/img/transfo-hover.png'); }
 
 .categorie-lien:hover .categorie-illu {
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 6px rgba(0,0,0,0.15);
 }
 
 .categorie-lien {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    text-align: center;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  text-align: center;
 }
 
-
-
-/* ##################################################################################################
+/* ###########################################################################
 Nos Horaires
-################################################################################################## */
+################################################################################ */
 .horaire {
-    display: flex;
-    gap: 5%;
-    padding-left: 8%;
-    padding-top: 6%;
-    padding-bottom: 6%;
+  display: flex;
+  gap: 5%;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-top: 6%;
+  padding-bottom: 6%;
 }
+
 .horaire-first-column {
-    display: flex;
-    width: 45%;
-    flex-direction: column;
-    gap: 5%;
-    align-items: center;
+  display: flex;
+  width: 45%;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 }
-.horaire-first-column img {
-    width: 80%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+#map {
+  width: 100%;
+  height: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
 .aller {
-    background-color: #DCCBB2;
-    padding: 10px 50px;
-    border-radius: 10px;
-    font-size: 1em;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: fit-content;
-    transition: all 0.3s ease;
+  background-color: #DCCBB2;
+  padding: 10px 50px;
+  border-radius: 10px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: fit-content;
+  transition: all 0.3s ease;
 }
 
 .aller:hover {
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 6px rgba(0,0,0,0.15);
 }
 
-
 .horaire-second-column {
-    font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
+  width: 50%;
 }
 
 .horaire-second-column h2 {
-    font-size: 3rem;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #000;
+  font-size: 3rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #000;
 }
 
 .separateur {
-    width: 80px;
-    height: 1px;
-    background-color: #000;
-    margin-bottom: 40px;
+  width: 80px;
+  height: 1px;
+  background-color: #000;
+  margin-bottom: 40px;
 }
 
 .second-column-info-cont {
-    display: flex;
-    gap: 40px;
+  display: flex;
+  gap: 40px;
 }
 
 .info-cont-column {
-    flex: 1;
+  flex: 1;
 }
 
 .title-wrapper {
-    display: flex;
-    align-items: center; 
-    gap: 15px;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center; 
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 .title-wrapper i {
-    font-size: 1.8rem; 
-}
-
-.fa-location-dot {
-    margin-top: -30px;
-}
-.black {
-    color: #000;
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin: 0;
+  font-size: 1.8rem; 
 }
 
 .address {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.4;
-    color: #000;
-    padding-left: 45px;
-    margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: #000;
+  padding-left: 45px;
+  margin: 0;
 }
 
 .horaires-table {
@@ -313,8 +312,26 @@ Nos Horaires
 NOUVEAU: RESPONSIVE DESIGN (Magie pour les téléphones !)
 ################################################################################################## */
 
+/* ######################################################################
+Responsive
+######################################################################### */
+
+/* Écrans intermédiaires (Petits portables, Tablettes paysage) */
+@media screen and (max-width: 1200px) {
+  .first-row {
+    margin-top: 20%; 
+  }
+  h1 { 
+    font-size: 3.5em; 
+  }
+  .first-row h2 { 
+    font-size: 2.5em; 
+  }
+}
+
+/* Tablettes portrait */
 @media screen and (max-width: 900px) {
-  /* Hero Section Mobile */
+  /* Hero Section */
   .first-row {
     flex-direction: column;
     align-items: flex-start;
@@ -322,84 +339,108 @@ NOUVEAU: RESPONSIVE DESIGN (Magie pour les téléphones !)
   }
   h1 { font-size: 3em; }
   .first-row h2 { font-size: 2em; margin-left: 0; margin-top: 10px; }
-  .index-title { padding-bottom: 10%; }
-
-  /* Section L'atelier végétal Mobile */
+  .index-title { padding-bottom: 10%; padding-right: 5%; }
+  
+  /* Présentation */
   .presentation {
     flex-direction: column;
+    padding-left: 5%;
+    padding-right: 5%;
+    gap: 30px;
   }
   .presentation-first-column, 
   .presentation-second-column {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 0;
   }
   .presentation-second-column img {
     width: 100%; 
     height: auto;
+    object-fit: cover;
   }
   .black { font-size: 2.5em; }
 
-  /* Catégories Mobile (Grille 2x2 comme sur l'image) */
+  /* Catégories */
+  .liste-categorie h2 { 
+    font-size: 2.2em; 
+    padding-left: 5%; 
+    padding-right: 5%; 
+  }
+  .separateur-white { margin-left: 5%; }
+  
   .boutons-categories {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Force 2 colonnes */
-    row-gap: 30px;
-    column-gap: 10px;
+    grid-template-columns: 1fr 1fr; 
+    gap: 30px;
     padding-left: 5%;
     padding-right: 5%;
+    padding-bottom: 10%;
   }
   .boutons-categories a {
     width: 100%;
     margin-bottom: 0;
   }
-  .liste-categorie h2 { font-size: 2em; }
 
-  /* Section Horaires Mobile (Map plein écran comme sur l'image) */
+  /* Horaires et Carte */
   .horaire {
     flex-direction: column;
-    padding-left: 0; /* Enlève la marge de gauche pour la carte */
-    padding-right: 0; /* Enlève la marge de droite */
+    padding-left: 5%; 
+    padding-right: 5%; 
+    gap: 40px;
   }
   .horaire-first-column {
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 0;
   }
   #map {
     width: 100%;
-    border-radius: 0; /* Enlève les coins arrondis pour le plein écran */
+    height: 350px; 
+    border-radius: 10px; 
     margin-bottom: 25px;
   }
   .aller {
-    width: 60%; /* Rend le bouton plus large sur mobile */
+    width: 100%; 
+    box-sizing: border-box;
     text-align: center;
-    margin: 0 auto; /* Centre le bouton */
+    margin: 0 auto; 
     display: block;
   }
-  
-  /* Remet du padding uniquement pour le texte des horaires */
+
   .horaire-second-column {
     width: 100%;
-    padding-left: 8%; 
-    padding-right: 8%;
-    box-sizing: border-box; /* Évite que le padding ne casse la largeur */
+    padding: 0; 
   }
   .second-column-info-cont {
     flex-direction: column; 
-    gap: 20px;
+    gap: 30px;
   }
 }
 
-/* Pour les très petits téléphones */
+/* Mobiles */
 @media screen and (max-width: 480px) {
+  /* Hero Section Mobile */
   h1 { font-size: 2.5em; }
+  .first-row h2 { font-size: 1.5em; }
+  .second-row h3 { font-size: 1.2em; padding-right: 5%; }
+
+  .black { font-size: 2em; }
+
+  /* Catégories Mobile */
+  .boutons-categories {
+    grid-template-columns: 1fr; 
+    gap: 40px;
+  }
   .categorie-illu {
-    width: 100px; /* Réduit un peu les ronds pour qu'ils rentrent bien à 2 */
-    height: 100px;
+    width: 110px; 
+    height: 110px;
   }
   .boutons-categories h3 {
-    font-size: 1.2em; /* Réduit un peu le texte des catégories */
+    font-size: 1.3em; 
   }
+  
+  /* Ajustements divers */
   .aller {
-    width: 80%; /* Le bouton prend encore plus de place sur un tout petit écran */
+    padding: 12px 20px; 
   }
+  .title-wrapper i { font-size: 1.5rem; }
 }
