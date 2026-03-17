@@ -92,7 +92,7 @@ button:hover {
 .debut_footer {
     background-color: #D9C9B1;
     height: 100px;
-    margin-top: -8%;
+    margin-top: -6%;
 }
 
 
@@ -117,15 +117,15 @@ button:hover {
 }
 
 .coords-icon-holder {
-    width: 70px;
-    height: 70px;
+    width: 110px;
+    height: 110px;
     background: #f2f2f2;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: -45px;
+    top: -135px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -134,7 +134,7 @@ button:hover {
     margin-top: 5%;
 }
 .coords-holder-info .title_contact {
-    margin-top: 20%;
+    margin-top: 2%;
 }
 
 .separateur-full-width {
@@ -230,9 +230,6 @@ button:hover {
         margin-bottom: 10px;
     }
 
-    .debut_footer {
-        margin-top: 40px;
-    }
 
     .coords-holder-info .title_contact {
     margin-top: 5%;

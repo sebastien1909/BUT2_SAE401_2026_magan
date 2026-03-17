@@ -35,6 +35,9 @@ header {
     margin-top: 0;
     white-space: nowrap;
 }
+.connexion-button:hover {
+    text-decoration: underline;
+}
 
 .contact-button {
     background-color: #79DC81;
