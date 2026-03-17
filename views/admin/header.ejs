@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Magañ - L'atelier végétal. Cultiver le vivant, éveiller les sens. Pépinière spécialisée, arboriculture, maraîchage diversifié et transformation à Lanrodec.">
     <title>Magañ - L'atelier du vivant</title>
     <link rel="icon" href="/img/logo-ico.ico" type="image/ico">
     <script src="https://kit.fontawesome.com/08b10a2ab2.js" crossorigin="anonymous"></script>
@@ -15,15 +16,15 @@
     <link rel=stylesheet href="/style/contact.css">
     <link rel=stylesheet href="/style/connexion.css">
     <link rel="stylesheet" href="/style/catalogue.css">
+    <link rel="stylesheet" href="/style/404.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-        
+
 </head>
 
 <body>
@@ -35,7 +36,10 @@
             <a href="/deconnexion" class="deconnexion-button">
                 Se déconnecter
             </a>
-            <a href="contact" class="contact-button">
+            <a href="/presentation" class="connexion-button">
+                L'atelier
+            </a>
+            <a href="/contact" class="contact-button">
                 <p>Contact</p>
             </a>
         </div>
@@ -46,39 +50,45 @@
                 <span class="bar"></span>
             </button>
         </div>
-        <div id="mobileMenu" class="hidden">
-            <i class="fa-solid fa-xmark" class="cross"></i>
+        <nav id="mobileMenu" class="hidden">
+            <i class="fa-solid fa-xmark" id="cross" tabindex="0" role="button" aria-label="Fermer le menu"></i>
             <p class="mlv">MAGAÑ - l'atelier végétal</p>
             <div class="separateurmobile"></div>
             <ul>
-                <li><a href="#accueil">
-                        <p>L'atelier</p><i class="fa-solid fa-tree"></i>
+                <li><a href="/presentation">
+                        <p>L'atelier</p><i class="fa-solid fa-tree" aria-hidden="true"></i>
                     </a></li>
-                <li><a href="projets.html">
-                        <p>Produits</p><i class="fa-solid fa-seedling"></i>
+                <li><a href="/catalogue">
+                        <p>Produits</p><i class="fa-solid fa-seedling" aria-hidden="true"></i>
                     </a></li>
-                <li><a href="#Contact">
-                        <p>Contact</p><i class="fa-solid fa-envelope"></i>
+                <li><a href="/contact">
+                        <p>Contact</p><i class="fa-solid fa-envelope" aria-hidden="true"></i>
                     </a></li>
             </ul>
-        </div>
-  </header>
+        </nav>
+    </header>
 
-<script>
-      const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const cross = document.getElementById('cross');
 
-    hamburger.addEventListener('click', () => {
-        mobileMenu.classList.toggle('mobilemenu');
-        mobileMenu.classList.toggle('hidden');
-    });
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.add('mobilemenu');
+            mobileMenu.classList.remove('hidden');
+        });
 
- document.addEventListener('DOMContentLoaded', function() {
-        console.log("projetData:", projetData);
-        
-    getProjetIdByName("tout",projetData);
-    list3Projet("tout",projetData);
+        cross.addEventListener('click', () => {
+            mobileMenu.classList.remove('mobilemenu');
+            mobileMenu.classList.add('hidden');
+        });
 
- });
+        cross.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                mobileMenu.classList.remove('mobilemenu');
+                mobileMenu.classList.add('hidden');
+            }
+        });
 
-</script>
+    </script>
