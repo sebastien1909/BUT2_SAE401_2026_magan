@@ -1,7 +1,25 @@
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2%;
+    height: 10%;
+}
+
 .logo {
-    height: 115px;
+    height: 100px;
     width: auto;
-    margin-left: 30%;
+    margin-left: 0; 
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-left: 0;
+    margin-top: 0;
+    height: auto;
 }
 
 .connexion-button,
@@ -13,19 +31,22 @@
 }
 
 .connexion-button {
-    width: 7em;
-    margin-top: 5%;
+    width: auto;
+    margin-top: 0;
+    white-space: nowrap;
+}
+.connexion-button:hover {
+    text-decoration: underline;
 }
 
 .contact-button {
     background-color: #79DC81;
     border-radius: 10px;
-    width: 8em;
-    padding: 8%;
+    padding: 0.65em 3em;
     text-align: center;
-    justify-content: center;
-    justify-items: center;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    white-space: nowrap;
+    transition: background 0.2s;
 }
 
 .contact-button:hover {
@@ -34,79 +55,53 @@
 }
 
 .contact-button p {
-    margin-top: -8%;
-}
-
-header {
-    display: flex;
-}
-
-.button-container {
-    display: flex;
-    margin-left: 72%;
-    height: 2em;
-    margin-top: 2%;
+    margin: 0; 
 }
 
 
-.mobilemenu {
+.mobilenav, .hamburger,
+#cross, .mlv,
+.separateurmobile  {
     display: none;
 }
 
-.mlv {
-    display: none;
-}
-
-.separateurmobile {
-    display: none;
-}
-
-.hidden li,
-.hamburger,
-#cross {
-    display: none;
-}
 
 .hidden {
     display: none !important;
 }
 
 
+
 @media screen and (max-width: 768px) {
 
+    header {
+        height: 70px;
+        position: relative;
+    }
+
     .logo {
-        width: 32.5%;
-        height: 100%;
-        z-index: 5;
-        margin-left: 3%;
+        height: 65px;
+        width: auto;
     }
 
     .button-container {
         display: none;
     }
 
-
-    nav ul {
-        display: none;
-    }
-
-    .hidden ul li {
-        display: none;
-    }
-
     .mobilenav {
         display: block;
-        position: absolute;
-        top: 1.5%;
-        right: 5%;
         z-index: 5;
     }
 
     .hamburger {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         cursor: pointer;
-        background-COLOR: rgba(0, 0, 0, 0);
-        BORDER: NONE;
+        background: transparent;
+        border: none;
+        padding: 0.4rem;
+        gap: 5px;
     }
 
     .bar {
@@ -114,62 +109,95 @@ header {
         width: 31px;
         height: 6px;
         background-color: #274D23;
-        margin: 5px 0;
-        transition: 0.4s;
         border-radius: 25px;
+        transition: 0.3s;
     }
 
     .mobilemenu {
         background-color: #F1F1F1;
         position: fixed;
-        right: 1%;
-        width: 45%;
+        top: 0;
+        right: 0;
+        width: 65%;
+        max-width: 300px;
         height: 100%;
         display: flex;
-        z-index: 5;
-        color: rgb(0, 0, 0);
-        box-shadow: #000000 0px 2px 2px;
         flex-direction: column;
-        align-items: center;
-    }
-
-    .mobilemenu ul {
-        position: relative;
-        padding: 1em;
-    }
-
-    .mobilemenu a {
-        color: #000000;
-        text-decoration: none;
-    }
-
-    .mobilemenu li {
-        list-style: none;
+        z-index: 100;
+        color: #000;
+        box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.25s ease-out;
+        padding: 0;
     }
 
     .mlv {
         display: block;
-
+        font-family: 'Inter', sans-serif;
+        font-weight: bold;
+        padding: 0.5em 1.5em 0.5em;
+        color: #274D23;
     }
 
     .separateurmobile {
         display: block;
-        width: 10%;
+        width: 80%;
         height: 1px;
-    }
-
-    .mobilemenu ul i {
-        background-color: #D9C9B1;
-        padding: 10%;
-        border-radius: 50%;
+        background-color: #ccc;
+        margin: 0 auto 1rem;
     }
 
     #cross {
         display: block;
+        padding: 1em 1.5em 0.5em;
+        font-size: 1.5em;
+        align-self: flex-end;
+        color: #274D23;
     }
 
-    .mobilemenu {
-        animation: slideIn 0.25s ease-out;
+    .mobilemenu ul {
+        list-style: none;
+        padding: 0 1rem;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .mobilemenu ul li {
+        display: flex;
+    }
+
+    .mobilemenu ul li a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        text-decoration: none;
+        color: #000;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+
+    .mobilemenu ul li a:hover {
+        background-color: #e4e4e4;
+    }
+
+    .mobilemenu ul li a p {
+        margin: 0;
+    }
+
+    .mobilemenu ul i {
+        background-color: #D9C9B1;
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 1em;
+        height: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     @keyframes slideIn {
@@ -177,7 +205,6 @@ header {
             transform: translateX(100%);
             opacity: 0;
         }
-
         to {
             transform: translateX(0);
             opacity: 1;

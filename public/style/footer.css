@@ -45,13 +45,9 @@
     margin-top:15px;
 }
 
-.reseaux img{
-    width:22px;
-    transition:0.2s;
-}
-
-.reseaux img:hover{
+.reseaux a:hover{
     transform:scale(1.15);
+    color: white;
 }
 
 .reseaux a {
@@ -112,24 +108,39 @@
 
 @media (max-width:900px){
 
+    .footer-logo{
+    margin-left: 22.5%;
+}
+
+.footer{
+    text-align: center;
+    justify-content: center;
+    padding: 2.5% 10%;
+}
+
+.footer-left{
+    grid-template-columns: 1fr;
+}
+
 .footer-top{
     grid-template-columns:1fr;
     gap:40px;
 }
 
 .footer-map{
-    justify-content:flex-start;
+    display: none;
 }
 
 .footer-mentions{
     grid-template-columns:1fr;
     gap:10px;
-    text-align:center;
+    text-align: center;
 }
-
-.footer-mentions p,
-.footer-mentions a{
-    justify-self:center;
+.footer-info p {
+    margin-top: -15%;
+}
+.reseaux{
+    margin-left: 35%;
 }
 
 }
