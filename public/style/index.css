@@ -291,6 +291,26 @@ Nos Horaires
   margin: 0;
 }
 
+.horaires-table {
+    margin-top: 15px;
+    margin-left: 45px;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #000;
+}
+
+.horaires-table td {
+    padding: 8px 0;
+}
+
+.horaires-table td:first-child {
+    padding-right: 50px;
+}
+
+/* ##################################################################################################
+NOUVEAU: RESPONSIVE DESIGN (Magie pour les téléphones !)
+################################################################################################## */
 
 /* ######################################################################
 Responsive
