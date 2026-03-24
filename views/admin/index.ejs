@@ -1,22 +1,28 @@
 <body>
     <div class="index-top-pic">
         <%- include("header") %>
-            <div class="index-title">
-                <div class="first-row">
-                    <h1>Magañ</h1>
-                    <h2 class="white">l'atelier végétal</h2>
-                </div>
-                <div class="second-row">
-                    <h3 class="white">
-                        Cultiver le vivant, éveiller les sens
-                    </h3>
-                </div>
-
+        <div class="index-title">
+            <div class="first-row">
+                <h1>Magañ</h1>
+                <h2 class="white">l'atelier végétal</h2>
             </div>
+            <div class="second-row">
+                <h3 class="white">
+                    Cultiver le vivant, éveiller les sens
+                </h3>
+            </div>
+        </div>
     </div>
 
-    <section class="presentation">
+    <!-- ===== BOUTONS ADMIN ===== -->
+    <section class="admin-buttons">
+        <div class="boutons-admin-container">
+            <a href="/admin/ajout_produit" class="btn-admin">Ajouter un produit</a>
+            <a href="/admin/modif_produit" class="btn-admin">Modifier un produit</a>
+        </div>
+    </section>
 
+    <section class="presentation">
         <div class="presentation-first-column">
             <h2 class="black">L'atelier végétal</h2>
             <div class="separateur"></div>
@@ -24,14 +30,13 @@
                 Magañ c’est tout d’abord un projet mais ce n’est pas un projet comme les autres, mené par Camille
                 Montier,
                 ce projet est divisé en plusieurs catégories et regroupe le maraîchage diversifié, la transformation,
-                l’arboriculture ainsi qu’une pépinière spécialisé.
+                l’arboriculture ainsi qu’une pépinière spécialisée.
             </p>
             <a class="voir-plus" href="presentation"> Voir plus</a>
         </div>
         <div class="presentation-second-column">
             <img src="/img/presentation_picture.png" alt="Présentation de l'atelier végétal">
         </div>
-
     </section>
 
     <section class="liste-categorie">
@@ -58,39 +63,38 @@
                 <h3>Transformation</h3>
             </a>
         </div>
-
     </section>
 
     <section class="horaire">
-    <div class="horaire-first-column">
-        <div id="map"></div>
-        <a class="aller" href="https://www.google.com/maps/dir/?api=1&destination=5+Calvin+22170+Lanrodec" target="_blank">
-            J'y vais !
-        </a>
-    </div>
+        <div class="horaire-first-column">
+            <div id="map"></div>
+            <a class="aller" href="https://www.google.com/maps/dir/?api=1&destination=5+Calvin+22170+Lanrodec" target="_blank">
+                J'y vais !
+            </a>
+        </div>
 
-    <div class="horaire-second-column">
-        <h2>Nos horaires</h2>
-        <div class="separateur"></div>
+        <div class="horaire-second-column">
+            <h2>Nos horaires</h2>
+            <div class="separateur"></div>
 
-        <div class="second-column-info-cont">
-            <div class="info-cont-column">
-                <div class="title-wrapper">
-                    <i class="fa-solid fa-store" style="color: #98e39d;"></i>
-                    <h3 class="black">Cette semaine</h3>
+            <div class="second-column-info-cont">
+                <div class="info-cont-column">
+                    <div class="title-wrapper">
+                        <i class="fa-solid fa-store" style="color: #98e39d;"></i>
+                        <h3 class="black">Cette semaine</h3>
+                    </div>
                 </div>
-            </div>
 
-            <div class="info-cont-column">
-                <div class="title-wrapper">
-                    <i class="fa-solid fa-location-dot" style="color: #98e39d;"></i>
-                    <h3 class="black">Où nous retrouver</h3>
+                <div class="info-cont-column">
+                    <div class="title-wrapper">
+                        <i class="fa-solid fa-location-dot" style="color: #98e39d;"></i>
+                        <h3 class="black">Où nous retrouver</h3>
+                    </div>
+                    <p class="address">5 Calvin, 22170<br>Lanrodec</p>
                 </div>
-                <p class="address">5 Calvin, 22170<br>Lanrodec</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -109,8 +113,6 @@
             .bindPopup("<b>Magañ - l'atelier végétal</b><br>5 Calvin<br>22170 Lanrodec");
     </script>
 
-
     <%- include("footer") %>
- 
 </body>
 </html>

@@ -11,7 +11,7 @@ import nodemailer from "nodemailer";
 // Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/img/produits'); // dossier de stockage des images
+        cb(null, 'public/img/produit'); 
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
@@ -89,36 +89,52 @@ app.get("/presentation", async function (req, res) {
 
 
 app.get("/catalogue_produit", async function (req, res) {
-
     const domaine = req.query.valeur;
     const type = req.query.type;
-    let sql = "SELECT * FROM produits WHERE 1=1";
-    let params = [];
-    if (domaine) {
-        sql += " AND domaine = ?";
-        params.push(domaine);
-    }
-    if (type) {
-        sql += " AND type = ?";
-        params.push(type);
-    }
+
     try {
+        //Récupération des produits
+        let sql = "SELECT * FROM produits WHERE 1=1";
+        let params = [];
+        if (domaine) {
+            sql += " AND domaine = ?";
+            params.push(domaine);
+        }
+        if (type) {
+            sql += " AND type = ?";
+            params.push(type);
+        }
+
         const [produits] = await pool.query(sql, params);
 
-        const produitsAvecDisponibilite = produits.map(p => ({...p,
-            disponible: p.disponibilite === 1 
+        const produitsAvecDisponibilite = produits.map(p => ({
+            ...p,
+            disponible: p.disponibilite === 1
         }));
 
+        // Récupération des types
         const [types] = await pool.query(
             "SELECT DISTINCT type FROM produits WHERE domaine = ?",
             [domaine]
         );
 
+        //  Récupération des articles de blog (uniquement pour arboriculture)
+        let blog_articles = [];
+        if (domaine === "arboriculture") {
+            const [articles] = await pool.query(
+                "SELECT * FROM blog_arbo ORDER BY date_publi DESC"
+            );
+            blog_articles = articles;
+        }
+
+        //  Rendu de la page avec blog_articles inclus
         res.render("catalogue", {
             produits: produitsAvecDisponibilite,
             categorie: domaine,
-            types
+            types,
+            blog_articles
         });
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur serveur");
@@ -168,6 +184,80 @@ app.get('/admin/index', async function (req, res) {
 });
 
 
+// Route pour afficher le formulaire d'ajout d'un produit
+app.get("/admin/ajout_produit", async (req, res) => {
+    try {
+        // Récupérer les types et domaines existants pour remplir les sélecteurs dans le formulaire
+        const [types] = await pool.query("SELECT DISTINCT type FROM produits");
+        const [domaines] = await pool.query("SELECT DISTINCT domaine FROM produits");
+
+        res.render("admin/ajout_produit", {
+            types,
+            domaines
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
+// Route pour afficher la liste des produits à modifier
+app.get("/admin/modif_produit", async (req, res) => {
+    try {
+        const [produits] = await pool.query("SELECT * FROM produits");
+        res.render("admin/modif_produit", {
+            produits
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
+// Route pour traiter le formulaire d'ajout de produit
+app.post("/admin/ajout_produit", upload.single("image"), async (req, res) => {
+    try {
+        const { nom_produit, variete, prix, domaine, type, disponibilite } = req.body;
+        const image_path = req.file ? `/img/produit/${req.file.filename}` : null;
+
+        await pool.query(
+            "INSERT INTO produits (nom_produit, variete, prix, domaine, type, disponibilite, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [nom_produit, variete, prix, domaine, type, disponibilite ? 1 : 0, image_path]
+        );
+
+        res.redirect("admin/ajout_produit");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur lors de l'ajout du produit");
+    }
+});
+
+// Route pour traiter la modification d'un produit
+app.post("/admin/modif_produit/:id", upload.single("image"), async (req, res) => {
+    try {
+        const produit_id = req.params.id;
+        const { nom_produit, variete, prix, domaine, type, disponibilite } = req.body;
+        let image_path = req.file ? `/img/produit/${req.file.filename}` : null;
+
+        // Si aucune nouvelle image, ne pas écraser l'ancienne
+        if (!image_path) {
+            const [rows] = await pool.query("SELECT image_path FROM produits WHERE id = ?", [produit_id]);
+            if (rows.length > 0) image_path = rows[0].image_path;
+        }
+
+        await pool.query(
+            "UPDATE produits SET nom_produit = ?, variete = ?, prix = ?, domaine = ?, type = ?, disponibilite = ?, image_path = ? WHERE id = ?",
+            [nom_produit, variete, prix, domaine, type, disponibilite ? 1 : 0, image_path, produit_id]
+        );
+
+        res.redirect("/admin/modif_produit");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur lors de la modification du produit");
+    }
+});
+
+
 app.get('/admin/liste_produits', async function (req,res){
     const liste_produits = await pool.query("SELECT * FROM produits")
     res.render("admin/liste_produits", {produits:liste_produits[0]})
@@ -175,6 +265,7 @@ app.get('/admin/liste_produits', async function (req,res){
 
 
 app.get("/admin/catalogue_produit", async function (req, res) {
+    const mode = req.query.mode;
     const domaine = req.query.valeur;
     const type = req.query.type;
 
@@ -184,9 +275,33 @@ app.get("/admin/catalogue_produit", async function (req, res) {
         let types = [];
 
         if (domaine === "arboriculture") {
-            // Articles de blog existants
-            const [articles] = await pool.query("SELECT * FROM blog_arbo ORDER BY date_publi DESC");
-            blog_articles = articles;
+
+            if (req.query.mode === "blog") {
+                const [articles] = await pool.query("SELECT * FROM blog_arbo ORDER BY date_publi DESC");
+                blog_articles = articles;
+            }
+
+            if (req.query.mode === "produits") {
+                let sql = "SELECT * FROM produits WHERE domaine = ?";
+                let params = [domaine];
+
+                if (type) {
+                    sql += " AND type = ?";
+                    params.push(type);
+                }
+
+                const [listeProduits] = await pool.query(sql, params);
+                produits = listeProduits.map(p => ({
+                    ...p,
+                    disponible: p.disponibilite === 1
+                }));
+            }
+
+            const [listeTypes] = await pool.query(
+                "SELECT DISTINCT type FROM produits WHERE domaine = ?",
+                [domaine]
+            );
+            types = listeTypes;
         } else {
             // Produits classiques pour pepiniere / maraichage / transformation
             let sql = "SELECT * FROM produits WHERE 1=1";
@@ -211,7 +326,9 @@ app.get("/admin/catalogue_produit", async function (req, res) {
             categorie: domaine,
             produits,
             types,
-            blog_articles
+            blog_articles,
+            query_mode: mode,
+            page_css: "blog_arbo.css"
         });
 
     } catch (err) {
@@ -232,6 +349,18 @@ app.get("/admin/catalogue_produit", async function (req, res) {
 // Actions au click sur les boutons
 
 
+app.post('/upload-image', upload.single('image'), (req, res) => {
+    try {
+        const imageUrl = `/img/produits/${req.file.filename}`;
+        res.json({ url: imageUrl });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Upload failed" });
+    }
+});
+
+
+
 
 app.post("/admin/blog_arbo/ajouter", async (req, res) => {
     try {
@@ -244,6 +373,21 @@ app.post("/admin/blog_arbo/ajouter", async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur lors de l'ajout de l'article");
+    }
+});
+
+
+
+app.post('/admin/blog_arbo/supprimer/:id', async (req, res) => {
+    const articleId = req.params.id;
+
+    try {
+        await pool.query("DELETE FROM blog_arbo WHERE id = ?", [articleId]);
+
+        res.redirect('/admin/catalogue_produit?valeur=arboriculture&mode=blog');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur suppression");
     }
 });
 

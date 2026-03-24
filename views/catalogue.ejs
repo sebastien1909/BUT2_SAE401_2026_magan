@@ -1,9 +1,17 @@
 <%- include("header") %>
 
-<h2>Nos produits</h2>
+<% let categorie_actuelle = categorie; %>
+
+
+<h2>
+    <% if (categorie_actuelle === "arboriculture") { %>
+        Blog Arboriculture
+    <% } else { %>
+        Nos produits
+    <% } %>
+</h2>
 
 <div class="categorie_holder">
-    <% let categorie_actuelle = categorie %>
     <div class="categories">
 
         <a href="/catalogue_produit?valeur=pepiniere">
@@ -12,58 +20,75 @@
         <a href="/catalogue_produit?valeur=maraichage">
             <img src="/img/<%= categorie_actuelle === 'maraichage' ? 'maraichage-hover.png' : 'maraichage.png' %>" class="categorie-illu">
         </a>
-
         <a href="/catalogue_produit?valeur=arboriculture">
             <img src="/img/<%= categorie_actuelle === 'arboriculture' ? 'arboriculture-hover.png' : 'arboriculture.png' %>" class="categorie-illu">
         </a>
-
         <a href="/catalogue_produit?valeur=transformation">
             <img src="/img/<%= categorie_actuelle === 'transformation' ? 'transfo-hover.png' : 'transfo.png' %>" class="categorie-illu">
         </a>
 
     </div>
-
 </div>
 
 <div class="separateur-full-width"></div>
-<div class="sous-categories">
 
-    <% if (types && types.length > 0) { %>
+<div class="sous-categories">
+    <% if (types && types.length > 0 && categorie_actuelle !== "arboriculture") { %>
         <% types.forEach(function(t){ %>
             <a href="/catalogue_produit?valeur=<%= categorie_actuelle %>&type=<%= t.type %>" class="type-button">
                 <%= t.type %>
             </a>
         <% }) %>
     <% } %>
-
 </div>
+
 <div class="separateur-full-width"></div>
 
-<div class="product-list">
-    <% if (produits.length > 0) { %>
-        <% produits.forEach(function(produit){ %>
-            <% let produit_id = produit.id; %>
-            <a href="/produit?produit_id=<%= produit.id %>" class="product-card-link">
-                <div class="product-card">
-                    <img src="<%= produit.image_path %>" class="product-image">
+<% if (categorie_actuelle === "arboriculture") { %>
+    <!-- ================= BLOG ARBORICULTURE ================= -->
+    <% if (blog_articles && blog_articles.length > 0) { %>
+        <div class="blog-list">
+            <% blog_articles.forEach(function(article){ %>
+                <div class="blog-card">
+                    <h4><%= article.titre %></h4>
+                    <p>
+                        Par <%= article.redacteur %> 
+                        le <%= new Date(article.date_publi).toLocaleDateString() %>
+                    </p>
 
-                    <div class="availability-badge <%= produit.disponible ? 'available' : 'unavailable' %>">
-                        <%= produit.disponible ? 'Disponible' : 'Indisponible' %>
+                    <div class="blog-content">
+                        <%- article.message %>
                     </div>
-
-                    <h3><%= produit.nom_produit %></h3>
-                    <p class="product-variete"><%= produit.variete %></p>
-                    <p class="product-price"><%= produit.prix %> €</p>
                 </div>
-            </a>
-        <% }) %>
+            <% }) %>
+        </div>
     <% } else { %>
-        <p>Aucun produit trouvé.</p>
+        <p>Aucun article publié pour le moment.</p>
     <% } %>
 
-</div>
+<% } else { %>
+    <!-- ================= PRODUITS POUR AUTRES DOMAINES ================= -->
+    <div class="product-list">
+        <% if (produits.length > 0) { %>
+            <% produits.forEach(function(produit){ %>
+                <a href="/produit?produit_id=<%= produit.id %>" class="product-card-link">
+                    <div class="product-card">
+                        <img src="<%= produit.image_path %>" class="product-image">
+
+                        <div class="availability-badge <%= produit.disponible ? 'available' : 'unavailable' %>">
+                            <%= produit.disponible ? 'Disponible' : 'Indisponible' %>
+                        </div>
+
+                        <h3><%= produit.nom_produit %></h3>
+                        <p class="product-variete"><%= produit.variete %></p>
+                        <p class="product-price"><%= produit.prix %> €</p>
+                    </div>
+                </a>
+            <% }) %>
+        <% } else { %>
+            <p>Aucun produit trouvé.</p>
+        <% } %>
+    </div>
+<% } %>
 
 <%- include("footer") %>
- 
-</body>
-</html>

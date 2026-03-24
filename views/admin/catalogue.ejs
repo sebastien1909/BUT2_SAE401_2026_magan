@@ -35,7 +35,13 @@
 <div class="separateur-full-width"></div>
 
 <div class="product-list">
+
+    <% const mode = query_mode || "choix"; %>
+
     <% if (categorie_actuelle !== "arboriculture") { %>
+
+        <!-- ================= AUTRES CATÉGORIES ================= -->
+
         <% if (produits.length > 0) { %>
             <% produits.forEach(function(produit){ %>
                 <a href="/produit?produit_id=<%= produit.id %>" class="product-card-link">
@@ -53,39 +59,164 @@
         <% } else { %>
             <p>Aucun produit trouvé.</p>
         <% } %>
+
     <% } else { %>
-        <!-- Éditeur blog pour arboriculture -->
-        <h3>Créer un article de blog</h3>
-        <form action="/admin/blog_arbo/ajouter" method="POST">
-            <input type="text" name="titre" placeholder="Titre de l'article" required><br><br>
-            <input type="text" name="redacteur" placeholder="Votre nom" required><br><br>
-            <div id="editor-container" style="height:200px;"></div>
-            <input type="hidden" name="message" id="message">
-            <button type="submit">Publier</button>
-        </form>
 
-        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-        <script>
-            var quill = new Quill('#editor-container', { theme: 'snow' });
-            document.querySelector('form').onsubmit = function() {
-                document.querySelector('#message').value = quill.root.innerHTML;
-            };
-        </script>
+        <!-- ================= ARBORICULTURE ================= -->
 
-        <h3>Articles existants</h3>
-        <% if(blog_articles && blog_articles.length > 0) { %>
-            <% blog_articles.forEach(function(article){ %>
-                <div class="blog-card">
-                    <h4><%= article.titre %></h4>
-                    <p>Par <%= article.redacteur %> le <%= new Date(article.date_publi).toLocaleDateString() %></p>
-                    <div class="blog-content"><%- article.message %></div>
+        <h3>Arboriculture</h3>
+
+        <div class="arbo-choix">
+            <a href="/admin/catalogue_produit?valeur=arboriculture&mode=produits" class="btn">
+                Voir les produits
+            </a>
+            <a href="/admin/catalogue_produit?valeur=arboriculture&mode=blog" class="btn">
+                Voir les articles
+            </a>
+        </div>
+
+        <div class="separateur-full-width"></div>
+
+        <% if (mode === "produits") { %>
+
+            <!-- ===== PRODUITS ARBORICULTURE ===== -->
+
+            <% if (produits.length > 0) { %>
+                <% produits.forEach(function(produit){ %>
+                    <a href="/produit?produit_id=<%= produit.id %>" class="product-card-link">
+                        <div class="product-card">
+                            <img src="<%= produit.image_path %>" class="product-image">
+                            <div class="availability-badge <%= produit.disponible ? 'available' : 'unavailable' %>">
+                                <%= produit.disponible ? 'Disponible' : 'Indisponible' %>
+                            </div>
+                            <h3><%= produit.nom_produit %></h3>
+                            <p class="product-variete"><%= produit.variete %></p>
+                            <p class="product-price"><%= produit.prix %> €</p>
+                        </div>
+                    </a>
+                <% }) %>
+            <% } else { %>
+                <p>Aucun produit trouvé.</p>
+            <% } %>
+
+        <% } else if (mode === "blog") { %>
+
+            <!-- ===== BLOG ===== -->
+
+            <div class="blog-layout">
+
+                <!-- ===== FORMULAIRE ===== -->
+                <div class="blog-form">
+                    <h3>Créer un article</h3>
+
+                    <form action="/admin/blog_arbo/ajouter" method="POST">
+                        <input type="text" name="titre" placeholder="Titre de l'article" required>
+                        <input type="text" name="redacteur" placeholder="Votre nom" required>
+
+                        <div id="editor-container" style="height:200px;"></div>
+                        <input type="hidden" name="message" id="message">
+
+                        <button type="submit">Publier</button>
+                    </form>
                 </div>
-            <% }) %>
-        <% } else { %>
-            <p>Aucun article publié pour le moment.</p>
+
+                <!-- ===== LISTE ARTICLES ===== -->
+                <div class="blog-list">
+                    <h3>Articles</h3>
+
+                    <% if(blog_articles && blog_articles.length > 0) { %>
+                        <% blog_articles.forEach(function(article){ %>
+                            <div class="blog-card">
+                                <h4><%= article.titre %></h4>
+                                <p>
+                                    Par <%= article.redacteur %> 
+                                    le <%= new Date(article.date_publi).toLocaleDateString() %>
+                                </p>
+
+                                <div class="blog-content">
+                                    <%- article.message %>
+                                </div>
+
+                                <form action="/admin/blog_arbo/supprimer/<%= article.id %>" method="POST" onsubmit="return confirm('Supprimer cet article ?');">
+                                    <button type="submit" class="btn-delete">Supprimer</button>
+                                </form>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>Aucun article publié pour le moment.</p>
+                    <% } %>
+                </div>
+
+            </div>
+
+            <!-- QUILL -->
+                <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+                <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+                <script>
+                    var quill = new Quill('#editor-container', {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: {
+                                container: [
+                                    [{ header: [1, 2, false] }],
+                                    ['bold', 'italic', 'underline'],
+                                    ['image', 'link'],
+                                    [{ list: 'ordered'}, { list: 'bullet' }]
+                                ],
+                                handlers: {
+                                    image: imageHandler
+                                }
+                            }
+                        }
+                    });
+
+                    // Upload image
+                    function imageHandler() {
+                        const input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', 'image/*');
+                        input.click();
+
+                        input.onchange = async () => {
+                            const file = input.files[0];
+                            const formData = new FormData();
+                            formData.append('image', file);
+
+                            try {
+                                const res = await fetch('/upload-image', {
+                                    method: 'POST',
+                                    body: formData
+                                });
+
+                                const data = await res.json();
+
+                                // gestion du curseur
+                                let range = quill.getSelection() || { index: quill.getLength() };
+
+                                // corrige le chemin si besoin
+                                let imageUrl = data.url.replace('/img/produits/', '/img/produit/');
+
+                                // insère l'image et repositionne le curseur après
+                                quill.insertEmbed(range.index, 'image', imageUrl);
+                                quill.setSelection(range.index + 1);
+
+                            } catch (err) {
+                                console.error("Erreur upload :", err);
+                            }
+                        };
+                    }
+
+                    // Envoi du contenu
+                    document.querySelector('form').onsubmit = function() {
+                        document.querySelector('#message').value = quill.root.innerHTML;
+                    };
+                </script>
+
         <% } %>
+
     <% } %>
+
 </div>
 
 <%- include("footer") %>
