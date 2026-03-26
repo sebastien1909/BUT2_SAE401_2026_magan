@@ -1,5 +1,5 @@
 /* ############################################################################
-Reset global (Empêche les débordements et l'espace blanc sur la droite)
+Reset global (Empêche les débordements horizontaux)
 ############################################################################### */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -41,7 +41,7 @@ Titre et image
 
 .first-row {
   display: flex;
-  flex-wrap: wrap; /* Permet au texte de passer à la ligne sur les écrans moyens */
+  flex-wrap: wrap; 
   margin-top: 30%;
   align-items: center;
 }
@@ -94,6 +94,7 @@ L'atelier végétal
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
   display: inline-block;
+  width: fit-content;
 }
 
 .voir-plus:hover {
@@ -162,6 +163,7 @@ Découvrez nos activités
   font-size: 1.5em;
   font-weight: 300;
   color: white;
+  text-align: center;
 }
 
 .categorie-illu {
@@ -313,134 +315,98 @@ NOUVEAU: RESPONSIVE DESIGN (Magie pour les téléphones !)
 ################################################################################################## */
 
 /* ######################################################################
-Responsive
+Responsive Mobile & Tablette
 ######################################################################### */
 
-/* Écrans intermédiaires (Petits portables, Tablettes paysage) */
+/* Écrans intermédiaires */
 @media screen and (max-width: 1200px) {
-  .first-row {
-    margin-top: 20%; 
-  }
-  h1 { 
-    font-size: 3.5em; 
-  }
-  .first-row h2 { 
-    font-size: 2.5em; 
-  }
+  .first-row { margin-top: 15%; }
+  h1 { font-size: 3.5em; }
+  .first-row h2 { font-size: 2.5em; }
 }
 
-/* Tablettes portrait */
+/* Tablettes portrait et grands mobiles */
 @media screen and (max-width: 900px) {
-  /* Hero Section */
-  .first-row {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 15%;
-  }
+  .first-row { flex-direction: column; align-items: flex-start; margin-top: 15%; }
   h1 { font-size: 3em; }
   .first-row h2 { font-size: 2em; margin-left: 0; margin-top: 10px; }
   .index-title { padding-bottom: 10%; padding-right: 5%; }
   
-  /* Présentation */
-  .presentation {
-    flex-direction: column;
-    padding-left: 5%;
-    padding-right: 5%;
-    gap: 30px;
-  }
-  .presentation-first-column, 
-  .presentation-second-column {
-    width: 100%;
-    margin-bottom: 0;
-  }
-  .presentation-second-column img {
-    width: 100%; 
-    height: auto;
-    object-fit: cover;
-  }
-  .black { font-size: 2.5em; }
+  .presentation { flex-direction: column; padding-left: 5%; padding-right: 5%; gap: 30px; }
+  .presentation-first-column, .presentation-second-column { width: 100%; margin-bottom: 0; }
+  .presentation-second-column img { width: 100%; height: auto; object-fit: cover; }
+  
+  /* Textes plus petits sur tablette */
+  .black { font-size: 2.2em; }
+  .presentation-first-column p { font-size: 1.1em; }
 
-  /* Catégories */
-  .liste-categorie h2 { 
-    font-size: 2.2em; 
-    padding-left: 5%; 
-    padding-right: 5%; 
-  }
+  .liste-categorie h2 { font-size: 2.2em; padding-left: 5%; padding-right: 5%; }
   .separateur-white { margin-left: 5%; }
   
-  .boutons-categories {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 30px;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 10%;
+  /* Inversion de l'ordre : Le texte "Horaires" passe AU DESSUS de la carte */
+  .horaire { 
+    flex-direction: column; 
+    padding-left: 0; /* Permet à la carte de toucher les bords plus bas */
+    padding-right: 0; 
+    gap: 30px; 
   }
-  .boutons-categories a {
-    width: 100%;
-    margin-bottom: 0;
+  .horaire-second-column { 
+    order: 1; 
+    width: 100%; 
+    padding-left: 5%; 
+    padding-right: 5%;
+    box-sizing: border-box;
+  }
+  .horaire-first-column { 
+    order: 2; 
+    width: 100%; 
+    margin-bottom: 0; 
   }
 
-  /* Horaires et Carte */
-  .horaire {
-    flex-direction: column;
-    padding-left: 5%; 
-    padding-right: 5%; 
-    gap: 40px;
-  }
-  .horaire-first-column {
-    width: 100%;
-    margin-bottom: 0;
-  }
-  #map {
-    width: 100%;
-    height: 350px; 
-    border-radius: 10px; 
-    margin-bottom: 25px;
-  }
-  .aller {
+  /* La carte touche les bords (bord à bord) */
+  #map { 
     width: 100%; 
+    height: 300px; 
+    border-radius: 0; /* Enlève les coins arrondis */
+    margin-bottom: 25px; 
+  }
+
+  /* Les boutons ne prennent pas tout l'écran */
+  .aller, .voir-plus { 
+    width: fit-content; 
     box-sizing: border-box;
     text-align: center;
     margin: 0 auto; 
-    display: block;
+    display: block; 
   }
 
-  .horaire-second-column {
-    width: 100%;
-    padding: 0; 
-  }
-  .second-column-info-cont {
-    flex-direction: column; 
-    gap: 30px;
-  }
+  .second-column-info-cont { flex-direction: column; gap: 20px; }
 }
 
-/* Mobiles */
+/* Petits Mobiles (L'affichage exact de ta maquette) */
 @media screen and (max-width: 480px) {
-  /* Hero Section Mobile */
-  h1 { font-size: 2.5em; }
-  .first-row h2 { font-size: 1.5em; }
-  .second-row h3 { font-size: 1.2em; padding-right: 5%; }
+  h1 { font-size: 20%; }
+  .first-row h2 { font-size: 1.3em; }
+  .second-row h3 { font-size: 1em; padding-right: 5%; }
+  .black { font-size: 1.8em; }
 
-  .black { font-size: 2em; }
-
-  /* Catégories Mobile */
-  .boutons-categories {
-    grid-template-columns: 1fr; 
-    gap: 40px;
-  }
-  .categorie-illu {
-    width: 110px; 
-    height: 110px;
-  }
-  .boutons-categories h3 {
-    font-size: 1.3em; 
+  /* Catégories : Forcé en 2 colonnes comme sur ta maquette ! */
+  .boutons-categories { 
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px; 
+    padding-left: 5%;
+    padding-right: 5%;
   }
   
-  /* Ajustements divers */
-  .aller {
-    padding: 12px 20px; 
+  .categorie-illu { 
+    width: 90px; 
+    height: 110px; 
   }
-  .title-wrapper i { font-size: 1.5rem; }
+  .boutons-categories h3 { 
+    font-size: 1.1em; 
+  }
+  
+  .aller, .voir-plus { padding: 10px 30px; }
+  .title-wrapper i { font-size: 1.3rem; }
 }
