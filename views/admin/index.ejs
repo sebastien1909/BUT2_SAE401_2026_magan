@@ -1,17 +1,17 @@
 <body>
     <div class="index-top-pic">
         <%- include("header") %>
-        <div class="index-title">
-            <div class="first-row">
-                <h1>Magañ</h1>
-                <h2 class="white">l'atelier végétal</h2>
+            <div class="index-title">
+                <div class="first-row">
+                    <h1>Magañ</h1>
+                    <h2 class="white">l'atelier végétal</h2>
+                </div>
+                <div class="second-row">
+                    <h3 class="white">
+                        Cultiver le vivant, éveiller les sens
+                    </h3>
+                </div>
             </div>
-            <div class="second-row">
-                <h3 class="white">
-                    Cultiver le vivant, éveiller les sens
-                </h3>
-            </div>
-        </div>
     </div>
 
     <!-- ===== BOUTONS ADMIN ===== -->
@@ -68,7 +68,8 @@
     <section class="horaire">
         <div class="horaire-first-column">
             <div id="map"></div>
-            <a class="aller" href="https://www.google.com/maps/dir/?api=1&destination=5+Calvin+22170+Lanrodec" target="_blank">
+            <a class="aller" href="https://www.google.com/maps/dir/?api=1&destination=5+Calvin+22170+Lanrodec"
+                target="_blank">
                 J'y vais !
             </a>
         </div>
@@ -82,23 +83,27 @@
                     <div class="title-wrapper">
                         <i class="fa-solid fa-store" style="color: #98e39d;"></i>
                         <h3 class="black">Cette semaine</h3>
-                        <% if (userRole === 'admin') { %>
-                            <a class="aller" href="/admin/modif_horaire">Modifier</a>
-                        <% } %>
+
                     </div>
 
-                    <% 
-                    const jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
-                    jours.forEach(function(jour) {
-                        const ligne = horaires.find(h => h.jour === jour);
-                    %>
+                    <% const jours=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+                        jours.forEach(function(jour) { const ligne=horaires.find(h=> h.jour === jour);
+                        %>
                         <div class="horaire-ligne">
-                            <span class="horaire-jour"><%= jour.charAt(0).toUpperCase() + jour.slice(1) %></span>
-                            <span class="horaire-valeur"><%= ligne && ligne.horaire ? ligne.horaire : 'Non renseigné' %></span>
+                            <span class="horaire-jour">
+                                <%= jour.charAt(0).toUpperCase() + jour.slice(1) %>
+                            </span>
+                            <span class="horaire-valeur">
+                                <%= ligne && ligne.horaire ? ligne.horaire : 'Non renseigné' %>
+                            </span>
                             <br><br>
                         </div>
-                    <% }) %>
+                        <% }) %>
+                            <% if (userRole==='admin' ) { %>
+                                <a class="btn-admin" href="/admin/modif_horaire">Modifier</a>
+                                <% } %>
                 </div>
+
 
                 <div class="info-cont-column">
                     <div class="title-wrapper">
@@ -109,7 +114,9 @@
                 </div>
             </div>
         </div>
+
     </section>
+
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -130,4 +137,5 @@
 
     <%- include("footer") %>
 </body>
+
 </html>
