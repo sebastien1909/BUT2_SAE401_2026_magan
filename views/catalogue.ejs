@@ -53,17 +53,18 @@
     <% if (blog_articles && blog_articles.length > 0) { %>
         <div class="blog-list">
             <% blog_articles.forEach(function(article){ %>
-                <div class="blog-card">
-                    <h4><%= article.titre %></h4>
-                    <p>
-                        Par <%= article.redacteur %> 
-                        le <%= new Date(article.date_publi).toLocaleDateString() %>
-                    </p>
-
+                <article class="blog-card">
+                    <header class="blog-header">
+                        <h4 class="blog-title"><%= article.titre %></h4>
+                        <div class="blog-meta">
+                            <span class="blog-author">Par <%= article.redacteur %></span>
+                            <span class="blog-date">le <%= new Date(article.date_publi).toLocaleDateString() %></span>
+                        </div>
+                    </header>
                     <div class="blog-content">
                         <%- article.message %>
                     </div>
-                </div>
+                </article>
             <% }) %>
         </div>
     <% } else { %>

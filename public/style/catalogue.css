@@ -154,6 +154,160 @@
     background-color: #dc3545;
 }
 
+/* === Blog Arboriculture === */
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.blog-card {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  width: 90vw;
+  max-width: 1100px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+  margin-bottom: 2.5rem;
+}
+.blog-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+.blog-header {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.7rem;
+  margin-bottom: 1.1rem;
+}
+.blog-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #1d3a23;
+  margin: 0 0 0.3rem 0;
+  letter-spacing: 0.01em;
+}
+.blog-meta {
+  display: flex;
+  gap: 1.2rem;
+  font-size: 0.98rem;
+  color: #7a7a7a;
+  font-style: italic;
+}
+.blog-author {
+  font-weight: 600;
+  color: #2a5d3c;
+}
+.blog-date {
+  color: #b1a16b;
+}
+.blog-card p, .blog-card ul, .blog-card ol {
+  margin-bottom: 0.7em;
+}
+.blog-content {
+  color: #222;
+  font-size: 1.13rem;
+  line-height: 1.7;
+  margin-top: 0.5rem;
+  word-break: break-word;
+}
+
+/* Admin Blog Form */
+.admin-blog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background: #f8f7f3;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  width: 90vw;
+  max-width: 1100px;
+  margin: 0 auto 2.5rem auto;
+}
+.admin-blog-form label {
+  font-weight: 600;
+  color: #2a5d3c;
+  margin-bottom: 0.2rem;
+  font-size: 1.08rem;
+}
+.admin-blog-form input[type="text"] {
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d9c9b1;
+  font-size: 1.08rem;
+  background: #fff;
+  margin-bottom: 0.2rem;
+  transition: border 0.2s;
+}
+.admin-blog-form input[type="text"]:focus {
+  border: 1.5px solid #2a5d3c;
+  outline: none;
+}
+.admin-blog-form #editor-container {
+  background: #fff;
+  border-radius: 0.5rem;
+  border: 1px solid #d9c9b1;
+  margin-bottom: 0.2rem;
+}
+.btn-publish {
+  background: #2a5d3c;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.8rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.7rem;
+  align-self: flex-end;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: background 0.2s;
+}
+.btn-publish:hover {
+  background: #1d3a23;
+}
+
+.admin-blog-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .blog-card {
+    width: 98vw;
+    max-width: 98vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .blog-card {
+    width: 99vw;
+    max-width: 99vw;
+    padding: 1.2rem 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .blog-card {
+    font-size: 0.98rem;
+    padding: 0.8rem 0.5rem;
+  }
+  .blog-card h4 {
+    font-size: 1.08rem;
+  }
+  .blog-content {
+    font-size: 0.98rem;
+  }
+}
 
 @media (max-width: 768px) {
     h2 {
@@ -203,4 +357,12 @@
         min-width: unset;
     }
 
+}
+
+@media (max-width: 700px) {
+  .admin-blog-form {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+    max-width: 98vw;
+    width: 98vw;
+  }
 }

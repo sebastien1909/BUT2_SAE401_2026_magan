@@ -69,9 +69,11 @@
 
         <!-- ================= ARBORICULTURE ================= -->
 
-        <h3>Arboriculture</h3>
+        
 
-        <div class="arbo-choix">
+        <% if (mode !== "blog") { %>
+        <h3>Arboriculture</h3>
+        <div class="arbo-choix" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
             <a href="/admin/catalogue_produit?valeur=arboriculture&mode=produits" class="btn">
                 Voir les produits
             </a>
@@ -79,6 +81,7 @@
                 Voir les articles
             </a>
         </div>
+        <% } %>
 
         <div class="separateur-full-width"></div>
 
@@ -105,43 +108,33 @@
             <% } %>
 
         <% } else if (mode === "blog") { %>
-
-            <!-- ===== BLOG ===== -->
-
-            <div class="blog-layout">
-
-                <!-- ===== FORMULAIRE ===== -->
+            <div class="admin-blog-center">
                 <div class="blog-form">
                     <h3>Créer un article</h3>
-
-                    <form action="/admin/blog_arbo/ajouter" method="POST">
-                        <input type="text" name="titre" placeholder="Titre de l'article" required>
-                        <input type="text" name="redacteur" placeholder="Votre nom" required>
-
+                    <form action="/admin/blog_arbo/ajouter" method="POST" class="admin-blog-form">
+                        <label for="titre">Titre de l'article</label>
+                        <input type="text" id="titre" name="titre" placeholder="Titre de l'article" required>
+                        <label for="redacteur">Auteur</label>
+                        <input type="text" id="redacteur" name="redacteur" placeholder="Votre nom" required>
+                        <label for="editor-container">Contenu</label>
                         <div id="editor-container" style="height:200px;"></div>
                         <input type="hidden" name="message" id="message">
-
-                        <button type="submit">Publier</button>
+                        <button type="submit" class="btn-publish">Publier l'article</button>
                     </form>
                 </div>
-
-                <!-- ===== LISTE ARTICLES ===== -->
                 <div class="blog-list">
                     <h3>Articles</h3>
-
                     <% if(blog_articles && blog_articles.length > 0) { %>
-                        <% blog_articles.forEach(function(article){ %>
+                        <% blog_articles.forEach(function(article, idx){ %>
                             <div class="blog-card">
                                 <h4><%= article.titre %></h4>
                                 <p>
                                     Par <%= article.redacteur %> 
                                     le <%= new Date(article.date_publi).toLocaleDateString() %>
                                 </p>
-
                                 <div class="blog-content">
                                     <%- article.message %>
                                 </div>
-
                                 <form action="/admin/blog_arbo/supprimer/<%= article.id %>" method="POST" onsubmit="return confirm('Supprimer cet article ?');">
                                     <button type="submit" class="btn-delete">Supprimer</button>
                                 </form>
@@ -151,30 +144,27 @@
                         <p>Aucun article publié pour le moment.</p>
                     <% } %>
                 </div>
-
             </div>
-
             <!-- QUILL -->
-                <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-                <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
-                <script>
-                    var quill = new Quill('#editor-container', {
-                        theme: 'snow',
-                        modules: {
-                            toolbar: {
-                                container: [
-                                    [{ header: [1, 2, false] }],
-                                    ['bold', 'italic', 'underline'],
-                                    ['image', 'link'],
-                                    [{ list: 'ordered'}, { list: 'bullet' }]
-                                ],
-                                handlers: {
-                                    image: imageHandler
-                                }
+            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+            <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var quill = new Quill('#editor-container', {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: {
+                            container: [
+                                [{ header: [1, 2, false] }],
+                                ['bold', 'italic', 'underline'],
+                                ['image', 'link'],
+                                [{ list: 'ordered'}, { list: 'bullet' }]
+                            ],
+                            handlers: {
+                                image: imageHandler
                             }
                         }
-                    });
+                    }});
 
                     // Upload image
                     function imageHandler() {
@@ -213,15 +203,16 @@
                     }
 
                     // Envoi du contenu
-                    document.querySelector('form').onsubmit = function() {
+                    document.querySelector('.admin-blog-form').onsubmit = function() {
                         document.querySelector('#message').value = quill.root.innerHTML;
                     };
-                </script>
+            });
+            </script>
 
         <% } %>
 
     <% } %>
 
-</div>
+</div> <!-- fermeture de .product-list -->
 
 <%- include("footer") %>
