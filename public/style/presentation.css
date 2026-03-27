@@ -98,71 +98,85 @@
 
 @media screen and (max-width: 768px) {
     .main-presentation {
-    display: block;
-}
+        display: block;
+    }
 
-.left-column h2, .cultural-planning h2 {
-    font-size: 2em;
-    margin-left: 2%;
-}
-.left-column .separateur, .cultural-planning .separateur  {
+    .left-column h2, .cultural-planning h2 {
+        font-size: 2em;
+        margin-left: 2%;
+    }
+
+    .left-column .separateur, .cultural-planning .separateur {
         width: 15%;
         height: 1.5px;
         margin-left: 3%;
-}
-.left-column p {
-    font-size: 1em;
-}
-.contexte {
-    padding: 9% 9%;
-    margin-bottom: 10%;
-}
-.right-column {
-    position: absolute;
-    top:63%;
-}
-.right-column img{
-    width: 100%;
-}
-.valeurs {
-    margin-top: 150%;
-}
-.guillemet1 {
-    top: 24%;
-    width: 10%;
-}
-.guillemet2 {
-    position: absolute;
-    left: 80%;
-    top: 53%;
-    width: 10%;
-}
+    }
 
-.left-column ul {
-    font-size: 1em;
-    list-style: none;
-    display: flex;
-    margin-top: 5%;
-    margin-left: -10%;
-    margin-right: 10%;
-}
+    .left-column p {
+        font-size: 1em;
+    }
 
-.left-column li {
-    background-color: #D5F2D3;
-    border-radius: 25px;
-    padding: 3%;
-    text-align: center;
-    margin-right: 2%;
-    width: 40%
-}
-.left-column .petit {
-    width: 15%
-}
+    .contexte {
+        padding: 9%;
+        margin-bottom: 5%;
+    }
 
-.cultural-planning img {
-    width:100%;
-    text-align: center;
-    padding: 0% 0%;
-    margin-bottom: 10%;
-}
+    .right-column {
+        position: static;
+        width: 100%;
+        position: absolute;
+        top: 58%;
+    }
+
+    .right-column img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .valeurs {
+        margin-top: 115%;
+        padding: 0 3%;
+        margin-bottom: 5%;
+    }
+    .guillemet1 {
+        position: absolute;
+        top: 24%;
+        left: 3%;
+        width: 8%;
+    }
+
+    .guillemet2 {
+        position: absolute;
+        left: 85%;
+        top: 48%;
+        width: 8%;
+    }
+
+     .left-column ul {
+        font-size: 1em;
+        flex-direction: column;
+        margin: 3% 3% 0 3%;
+    }
+
+    .left-column li {
+        background-color: #D5F2D3;
+        border-radius: 25px;
+        padding: 3% 4%;
+        text-align: center;
+        margin-right: 0;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+
+    .left-column .petit {
+        width: 100%;
+    }
+
+    .cultural-planning img {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 10%;
+    }
 }
