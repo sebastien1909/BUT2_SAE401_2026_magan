@@ -13,7 +13,6 @@
 
 <div class="categorie_holder">
     <div class="categories">
-
         <a href="/catalogue_produit?valeur=pepiniere">
             <img src="/img/<%= categorie_actuelle === 'pepiniere' ? 'pepiniere-hover.png' : 'pepiniere.png' %>" class="categorie-illu">
         </a>
@@ -26,16 +25,17 @@
         <a href="/catalogue_produit?valeur=transformation">
             <img src="/img/<%= categorie_actuelle === 'transformation' ? 'transfo-hover.png' : 'transfo.png' %>" class="categorie-illu">
         </a>
-
     </div>
 </div>
 
+<% if (categorie_actuelle !== "arboriculture") { %>
 <button class="filtre-toggle" onclick="document.querySelector('.sous-categories').classList.toggle('open')">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black" stroke-width="2" stroke-linecap="round" fill="none">
         <path d="M3 5h18M6 12h12M9 19h6"/>
     </svg>
     Filtres
 </button>
+<% } %>
 
 <div class="sous-categories">
     <% if (types && types.length > 0 && categorie_actuelle !== "arboriculture") { %>
