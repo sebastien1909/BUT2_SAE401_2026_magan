@@ -22,6 +22,7 @@ header {
     height: auto;
 }
 
+.deconnexion-button,
 .connexion-button,
 .contact-button {
     text-decoration: none;
@@ -29,12 +30,13 @@ header {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
 }
-
+.deconnexion-button,
 .connexion-button {
     width: auto;
     margin-top: 0;
     white-space: nowrap;
 }
+.deconnexion-button:hover,
 .connexion-button:hover {
     text-decoration: underline;
 }
