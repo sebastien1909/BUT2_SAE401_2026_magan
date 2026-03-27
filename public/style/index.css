@@ -29,41 +29,56 @@ Titre et image
   background-image: url("/img/jardin_ensoleille.png");
   background-size: cover;
   background-position: center;
+  width: 100%;
+  min-height: 90vh; 
+  display: flex;
+  flex-direction: column;
 }
 
 .index-title {
-  font-size: 1.5em;
-  font-weight: 100;
-  color: white;
   padding-left: 8%;
-  padding-bottom: 4%;
+  padding-right: 8%;
+  padding-bottom: 5%; 
+  color: white;
+  margin-top: auto; 
 }
 
 .first-row {
   display: flex;
   flex-wrap: wrap; 
-  margin-top: 30%;
-  align-items: center;
+  margin-top: 40vh; /* Plus de marge en haut pour descendre les titres dans l'image */
+  align-items: baseline;
 }
 
 h1 {
-  font-size: 4em;
+  /* Taille massive sur PC (10rem), fluide sur mobile */
+  font-size: clamp(2.5rem, 12vw, 10rem); 
   text-transform: uppercase;
   font-weight: 100;
   background-color: transparent;
+  line-height: 0.85; /* Resserré pour un look plus moderne */
+  margin: 0;
+  max-width: 100%;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* Optionnel : aide à la lecture sur fond clair */
 }
 
 .first-row h2 {
-  font-size: 3em;
-  margin-left: 5%;
+  /* Taille augmentée pour le sous-titre h2 */
+  font-size: clamp(1.5rem, 5vw, 4.5rem);
+  margin-left: 3%;
   font-weight: 100;
 }
 
 .second-row {
-  display: flex;
-  align-items: center;
+  margin-top: 10px; /* Espace entre les deux lignes de titre */
 }
 
+.second-row h3 {
+  /* Taille augmentée pour le h3 */
+  font-size: clamp(1.1rem, 2.5vw, 2.5rem);
+  font-weight: 300;
+  margin: 0;
+}
 /* ############################################################################
 L'atelier végétal
 ############################################################################### */
