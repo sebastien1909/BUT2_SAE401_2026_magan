@@ -48,16 +48,24 @@ Ce projet s’inscrit donc dans cette logique : créer une plateforme web claire
 2. Importer le fichier "dumpBDD.sql" dans la base de données
 3. Installer les dépendances :
    - `npm install`
-4. Configurer le fichier .env :
+4. Dans le dossier racine, créer un fichier renommer ".env".
+5. Importer ce code dans le fichier .env : 
+```env
+DB_HOST=localhost
+DB_NAME=magan_db
+DB_USER=root
+DB_PASSWORD=
+```
+6. Configurer le fichier .env :
    - host, user, password, database
-5. (Optionnel) Configurer nodemailer dans server.js afin de tester l'envoi de mail
+7. (Optionnel) Configurer nodemailer dans server.js afin de tester l'envoi de mail
 
 ---
 
 ## Lancer l'application
 
 - Démarrer le serveur : 
-    - `nodemon server.js`
+    - `node server.js` ou `nodemon server.js` selon votre installation
 - Ouvrir ensuite "http://localhost:3000" dans votre navigateur.
 
 ---
