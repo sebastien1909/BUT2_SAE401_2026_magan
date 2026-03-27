@@ -17,6 +17,9 @@
     <link rel=stylesheet href="/style/connexion.css">
     <link rel="stylesheet" href="/style/catalogue.css">
     <link rel="stylesheet" href="/style/404.css">
+    <% if (typeof page_css !== "undefined") { %>
+        <link rel="stylesheet" href="/style/<%= page_css %>">
+    <% } %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -29,7 +32,7 @@
 
 <body>
     <header>
-        <a href="/">
+        <a href="<%= typeof userRole !== 'undefined' && userRole === 'admin' ? '/admin/index' : '/' %>">
             <img src="/img/logomagan.png" alt="Logo Magañ" class="logo">
         </a>
         <div class="button-container">

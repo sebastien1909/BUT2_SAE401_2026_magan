@@ -74,18 +74,22 @@
                     <div class="title-wrapper">
                         <i class="fa-solid fa-store" style="color: #98e39d;"></i>
                         <h3 class="black">Cette semaine</h3>
+                        <% if (userRole === 'admin') { %>
+                            <a class="aller" href="/admin/modif_horaire">Modifier</a>
+                        <% } %>
                     </div>
-                    <table class="horaires-table">
-                        <tbody>
-                            <tr><td>Lundi</td><td>Fermé</td></tr>
-                            <tr><td>Mardi</td><td>8:00 - 18:00</td></tr>
-                            <tr><td>Mercredi</td><td>8:00 - 18:00</td></tr>
-                            <tr><td>Jeudi</td><td>8:00 - 18:00</td></tr>
-                            <tr><td>Vendredi</td><td>8:00 - 18:00</td></tr>
-                            <tr><td>Samedi</td><td>8:00 - 18:00</td></tr>
-                            <tr><td>Dimanche</td><td>8:00 - 18:00</td></tr>
-                        </tbody>
-                    </table>
+
+                    <% 
+                    const jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+                    jours.forEach(function(jour) {
+                        const ligne = horaires.find(h => h.jour === jour);
+                    %>
+                        <div class="horaire-ligne">
+                            <span class="horaire-jour"><%= jour.charAt(0).toUpperCase() + jour.slice(1) %></span>
+                            <span class="horaire-valeur"><%= ligne && ligne.horaire ? ligne.horaire : 'Non renseigné' %></span>
+                            <br><br>
+                        </div>
+                    <% }) %>
                 </div>
 
                 <div class="info-cont-column">

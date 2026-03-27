@@ -32,7 +32,7 @@
                 ce projet est divisé en plusieurs catégories et regroupe le maraîchage diversifié, la transformation,
                 l’arboriculture ainsi qu’une pépinière spécialisée.
             </p>
-            <a class="voir-plus" href="presentation"> Voir plus</a>
+            <a class="voir-plus" href="/admin/presentation"> Voir plus</a>
         </div>
         <div class="presentation-second-column">
             <img src="/img/presentation_picture.png" alt="Présentation de l'atelier végétal">
@@ -82,7 +82,22 @@
                     <div class="title-wrapper">
                         <i class="fa-solid fa-store" style="color: #98e39d;"></i>
                         <h3 class="black">Cette semaine</h3>
+                        <% if (userRole === 'admin') { %>
+                            <a class="aller" href="/admin/modif_horaire">Modifier</a>
+                        <% } %>
                     </div>
+
+                    <% 
+                    const jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+                    jours.forEach(function(jour) {
+                        const ligne = horaires.find(h => h.jour === jour);
+                    %>
+                        <div class="horaire-ligne">
+                            <span class="horaire-jour"><%= jour.charAt(0).toUpperCase() + jour.slice(1) %></span>
+                            <span class="horaire-valeur"><%= ligne && ligne.horaire ? ligne.horaire : 'Non renseigné' %></span>
+                            <br><br>
+                        </div>
+                    <% }) %>
                 </div>
 
                 <div class="info-cont-column">

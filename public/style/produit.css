@@ -1,0 +1,231 @@
+/* ============================================================
+   PAGE DÉTAIL PRODUIT
+   ============================================================ */
+
+.btn-retour {
+    display: inline-block;
+    margin: 20px 8%;
+    text-decoration: none;
+    color: #7c6f5c;
+    font-weight: 500;
+    font-size: 1em;
+    transition: color 0.2s ease;
+}
+
+.btn-retour:hover {
+    color: #4a3f30;
+}
+
+/* ---- Carte principale ---- */
+.product-detail-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0 8% 6% 8%;
+    gap: 40px;
+}
+
+.product-detail-top {
+    display: flex;
+    gap: 6%;
+    align-items: flex-start;
+}
+
+/* ---- Image ---- */
+.product-detail-img {
+    width: 45%;
+    flex-shrink: 0;
+}
+
+.product-detail-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* ---- Infos droite ---- */
+.product-detail-right-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.product-detail-name {
+    font-size: 2.5em;
+    font-weight: 500;
+    color: #000;
+    margin: 0;
+}
+
+.separateur {
+    width: 80px;
+    height: 2px;
+    background-color: #7c6f5c;
+    margin: 5px 0;
+}
+
+.product-detail-variete {
+    font-size: 1.1em;
+    color: #7c6f5c;
+    font-style: italic;
+    margin: 0;
+}
+
+.product-detail-price {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2e7d32;
+    margin: 0;
+}
+
+.product-detail-description {
+    font-size: 1.05em;
+    line-height: 1.7;
+    color: #444;
+    margin: 0;
+}
+
+/* ---- Bouton Voir Plus ---- */
+.product-detail-card > .voir-plus {
+    align-self: flex-start;
+    background-color: #dccbb2;
+    padding: 10px 50px;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+.product-detail-card > .voir-plus:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 6px rgba(0,0,0,0.15);
+}
+
+/* ============================================================
+   SECTION "CELA POURRAIT VOUS PLAIRE"
+   ============================================================ */
+.peut-plaire {
+    background-color: #7c6f5c;
+    padding: 5% 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.peut-plaire h3 {
+    font-size: 2.5em;
+    font-weight: 400;
+    color: white;
+    margin: 0;
+    text-align: center;
+}
+
+.plaire-liste {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 250px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.product-card .product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.product-card h3 {
+    margin: 15px 0 5px 0;
+    font-size: 1.1em;
+    color: #000;
+}
+
+.product-variete {
+    color: #666;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.product-price {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #2e7d32;
+    font-size: 1.1em;
+}
+
+.peut-plaire > .voir-plus {
+    margin-top: 10px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media screen and (max-width: 900px) {
+    .product-detail-top {
+        flex-direction: column;
+    }
+
+    .product-detail-img {
+        width: 100%;
+    }
+
+    .product-detail-name {
+        font-size: 1.8em;
+    }
+
+    .plaire-liste {
+        gap: 20px;
+    }
+
+    .product-card {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .product-detail-card {
+        padding: 0 5% 6% 5%;
+    }
+
+    .product-detail-name {
+        font-size: 1.5em;
+    }
+
+    .product-detail-price {
+        font-size: 1.5em;
+    }
+
+    .plaire-liste {
+        flex-direction: column;
+        align-items: center;
+    }
+}

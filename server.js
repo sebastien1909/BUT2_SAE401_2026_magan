@@ -6,6 +6,7 @@ import pool from "./db.js";
 import multer from "multer";
 import path from "path";
 import nodemailer from "nodemailer";
+import fs from "fs";
 
 
 // Multer
@@ -36,9 +37,15 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+
+app.use((req, res, next) => {
+    res.locals.userRole = req.session.userRole || null;
+    next();
+});
+
 //MIDDLEWARES MAISON
 function authenticate(req, res, next) {
-    if (req.session.hasOwnProperty("userId")) {
+    if (req.session.hasOwnProperty("userID")) {
         next();
     }
     else {
@@ -47,7 +54,7 @@ function authenticate(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-    if (req.session.userRole == "Admin") {
+    if (req.session.userRole == "admin") {
         next();
     }
     else {
@@ -72,19 +79,25 @@ function isAdmin(req, res, next) {
 
 
 app.get("/", async function (req, res) {    
-    if (req.session.role === "admin") {
-        res.render("/admin/index");
-    } else {
-        res.render("index");
+    try {
+        const [horaires] = await pool.query("SELECT * FROM horaires ORDER BY FIELD(jour, 'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche')");
+        if (req.session.role === "admin") {
+            res.render("/admin/index", { page_css: "none.css", horaires });
+        } else {
+            res.render("index", { page_css: "none.css", horaires });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
     }
 });
 
 app.get("/contact", async function (req, res) {
-    res.render("contact");
+    res.render("contact", { page_css: "none.css" });
 });
 
 app.get("/presentation", async function (req, res) {
-    res.render("presentation");
+    res.render("presentation", { page_css: "none.css" });
 });
 
 
@@ -132,7 +145,8 @@ app.get("/catalogue_produit", async function (req, res) {
             produits: produitsAvecDisponibilite,
             categorie: domaine,
             types,
-            blog_articles
+            blog_articles,
+            page_css: "none.css"
         });
 
     } catch (err) {
@@ -143,7 +157,7 @@ app.get("/catalogue_produit", async function (req, res) {
 
 
 app.get("/connexion", function (req, res) {
-    res.render("connexion");
+    res.render("connexion", { page_css: "none.css" });
 });
 
 
@@ -155,7 +169,7 @@ app.get("/produit", async function (req, res) {
     const peut_plaire_requete = "SELECT * FROM produits WHERE domaine = ? AND id <> ? ORDER BY RAND() LIMIT 3";
     const [peut_plaire] = await pool.query(peut_plaire_requete, [domaine_produit, produitId]);
 
-    res.render("produit", { produit: produit[0], peut_plaire });
+    res.render("produit", { produit: produit[0], peut_plaire, page_css: "produit.css" });
 });
 
 
@@ -174,26 +188,20 @@ app.get('/deconnexion', (req, res) => {
     });
 });
 
-app.get('/admin/index', async function (req, res) {
 
-    let produits_aime = await pool.query("SELECT * FROM produits LIMIT 5");
-    res.render("admin/index", {
-        produits_aime: produits_aime[0],
-        prenom: req.session.nom
-    });
-});
+app.get('/admin/presentation', authenticate, isAdmin, async function (req, res) {
 
+    res.render("admin/presentation")});
 
-// Route pour afficher le formulaire d'ajout d'un produit
-app.get("/admin/ajout_produit", async (req, res) => {
+app.get('/admin/index', authenticate, isAdmin, async function (req, res) {
     try {
-        // Récupérer les types et domaines existants pour remplir les sélecteurs dans le formulaire
-        const [types] = await pool.query("SELECT DISTINCT type FROM produits");
-        const [domaines] = await pool.query("SELECT DISTINCT domaine FROM produits");
-
-        res.render("admin/ajout_produit", {
-            types,
-            domaines
+        let produits_aime = await pool.query("SELECT * FROM produits LIMIT 5");
+        const [horaires] = await pool.query("SELECT * FROM horaires ORDER BY FIELD(jour, 'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche')");
+        res.render("admin/index", {
+            produits_aime: produits_aime[0],
+            prenom: req.session.nom,
+            page_css: "none.css",
+            horaires
         });
     } catch (err) {
         console.error(err);
@@ -201,12 +209,42 @@ app.get("/admin/ajout_produit", async (req, res) => {
     }
 });
 
-// Route pour afficher la liste des produits à modifier
-app.get("/admin/modif_produit", async (req, res) => {
+
+// Route pour afficher le formulaire d'ajout d'un produit
+app.get("/admin/ajout_produit", authenticate, isAdmin, async (req, res) => {
+    try {
+        // Récupérer les types et domaines existants pour remplir les sélecteurs dans le formulaire
+        const [types] = await pool.query("SELECT DISTINCT type FROM produits");
+        const [domaines] = await pool.query("SELECT DISTINCT domaine FROM produits");
+        
+
+        res.render("admin/ajout_produit", {
+            types,
+            domaines,
+            page_css: "ajout_produit.css"
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
+app.get("/admin/modif_produit", authenticate, isAdmin, async (req, res) => {
     try {
         const [produits] = await pool.query("SELECT * FROM produits");
-        res.render("admin/modif_produit", {
-            produits
+
+        // récupérer domaines et types distincts
+        const [domainesRows] = await pool.query("SELECT DISTINCT domaine FROM produits");
+        const [typesRows] = await pool.query("SELECT DISTINCT type FROM produits");
+
+        const domaines = domainesRows.map(r => r.domaine);
+        const types = typesRows.map(r => r.type);
+
+        res.render("admin/modif_suppr_produit", {
+            produits,
+            domaines,
+            types,
+            page_css: "modif_suppr_produit.css"
         });
     } catch (err) {
         console.error(err);
@@ -215,31 +253,34 @@ app.get("/admin/modif_produit", async (req, res) => {
 });
 
 // Route pour traiter le formulaire d'ajout de produit
-app.post("/admin/ajout_produit", upload.single("image"), async (req, res) => {
+app.post("/admin/ajout_produit", authenticate, isAdmin, upload.single("image"), async (req, res) => {
     try {
-        const { nom_produit, variete, prix, domaine, type, disponibilite } = req.body;
+        console.log("req.body reçu :", req.body);
+        const { nom_produit, variete, prix, domaine, type, disponibilite, description } = req.body;
         const image_path = req.file ? `/img/produit/${req.file.filename}` : null;
+        const prixNum = parseFloat(prix.replace(',', '.'));
 
-        await pool.query(
-            "INSERT INTO produits (nom_produit, variete, prix, domaine, type, disponibilite, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [nom_produit, variete, prix, domaine, type, disponibilite ? 1 : 0, image_path]
-        );
+        const [result] = await pool.query(
+            "INSERT INTO produits (nom_produit, variete, prix, domaine, type, disponibilite, image_path, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [nom_produit, variete, prixNum, domaine, type, disponibilite ? 1 : 0, image_path, description ?? null]
+);
 
-        res.redirect("admin/ajout_produit");
+        console.log("Résultat INSERT :", result);
+        console.log("Valeurs envoyées au SQL :", [nom_produit, variete, prixNum, domaine, type, disponibilite ? 1 : 0, image_path, description ?? null])
+
+        res.redirect("/admin/ajout_produit");
     } catch (err) {
-        console.error(err);
-        res.status(500).send("Erreur serveur lors de l'ajout du produit");
+        console.error("ERREUR INSERT :", err);
+        res.status(500).send("Erreur : " + err.message);
     }
 });
 
-// Route pour traiter la modification d'un produit
-app.post("/admin/modif_produit/:id", upload.single("image"), async (req, res) => {
+// Modif d'un produit
+app.post("/admin/modif_produit/:id", authenticate, isAdmin, upload.single("image"), async (req, res) => {
     try {
         const produit_id = req.params.id;
         const { nom_produit, variete, prix, domaine, type, disponibilite } = req.body;
         let image_path = req.file ? `/img/produit/${req.file.filename}` : null;
-
-        // Si aucune nouvelle image, ne pas écraser l'ancienne
         if (!image_path) {
             const [rows] = await pool.query("SELECT image_path FROM produits WHERE id = ?", [produit_id]);
             if (rows.length > 0) image_path = rows[0].image_path;
@@ -258,13 +299,13 @@ app.post("/admin/modif_produit/:id", upload.single("image"), async (req, res) =>
 });
 
 
-app.get('/admin/liste_produits', async function (req,res){
+app.get('/admin/liste_produits', authenticate, isAdmin, async function (req,res){
     const liste_produits = await pool.query("SELECT * FROM produits")
-    res.render("admin/liste_produits", {produits:liste_produits[0]})
+    res.render("admin/liste_produits", {produits:liste_produits[0], page_css: "none.css" });
 })
 
 
-app.get("/admin/catalogue_produit", async function (req, res) {
+app.get("/admin/catalogue_produit", authenticate, isAdmin, async function (req, res) {
     const mode = req.query.mode;
     const domaine = req.query.valeur;
     const type = req.query.type;
@@ -303,7 +344,6 @@ app.get("/admin/catalogue_produit", async function (req, res) {
             );
             types = listeTypes;
         } else {
-            // Produits classiques pour pepiniere / maraichage / transformation
             let sql = "SELECT * FROM produits WHERE 1=1";
             let params = [];
             if (domaine) {
@@ -316,8 +356,6 @@ app.get("/admin/catalogue_produit", async function (req, res) {
             }
             const [listeProduits] = await pool.query(sql, params);
             produits = listeProduits.map(p => ({ ...p, disponible: p.disponibilite === 1 }));
-
-            // Sous-types
             const [listeTypes] = await pool.query("SELECT DISTINCT type FROM produits WHERE domaine = ?", [domaine]);
             types = listeTypes;
         }
@@ -337,7 +375,15 @@ app.get("/admin/catalogue_produit", async function (req, res) {
     }
 });
 
-
+app.get("/admin/modif_horaire", authenticate, isAdmin, async (req, res) => {
+    try {
+        const [horaires] = await pool.query("SELECT * FROM horaires ORDER BY FIELD(jour, 'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche')");
+        res.render("admin/modif_horaire", { horaires, page_css: "none.css" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+});
 
 
 
@@ -349,9 +395,26 @@ app.get("/admin/catalogue_produit", async function (req, res) {
 // Actions au click sur les boutons
 
 
+app.post("/admin/modif_horaire", authenticate, isAdmin, async (req, res) => {
+    try {
+        const jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+        for (const jour of jours) {
+            const horaire = req.body[jour] || null;
+            await pool.query(
+                "INSERT INTO horaires (jour, horaire) VALUES (?, ?) ON DUPLICATE KEY UPDATE horaire = ?",
+                [jour, horaire, horaire]
+            );
+        }
+        res.redirect("/admin/modif_horaire");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+});
+
 app.post('/upload-image', upload.single('image'), (req, res) => {
     try {
-        const imageUrl = `/img/produits/${req.file.filename}`;
+        const imageUrl = `/img/produit/${req.file.filename}`;
         res.json({ url: imageUrl });
     } catch (err) {
         console.error(err);
@@ -362,7 +425,7 @@ app.post('/upload-image', upload.single('image'), (req, res) => {
 
 
 
-app.post("/admin/blog_arbo/ajouter", async (req, res) => {
+app.post("/admin/blog_arbo/ajouter", authenticate, isAdmin, async (req, res) => {
     try {
         const { titre, redacteur, message } = req.body;
         await pool.query(
@@ -378,7 +441,7 @@ app.post("/admin/blog_arbo/ajouter", async (req, res) => {
 
 
 
-app.post('/admin/blog_arbo/supprimer/:id', async (req, res) => {
+app.post('/admin/blog_arbo/supprimer/:id', authenticate, isAdmin, async (req, res) => {
     const articleId = req.params.id;
 
     try {
@@ -395,49 +458,53 @@ app.post('/admin/blog_arbo/supprimer/:id', async (req, res) => {
 
 
 app.post("/contact", async (req, res) => {
-
     const { prenom, nom, email, telephone, message } = req.body;
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "tonemail@gmail.com",
-            pass: "motdepasseapplication"
+            user: "sebastienconfrere6@gmail.com",
+            pass: "tyyb debc ornd dxho" 
         }
     });
 
     const mailOptions = {
-        from: email,
-        to: "emaildelaporteuse@gmail.com",
-        subject: "Nouveau message depuis le site",
-        text: `Prénom: ${prenom}Nom: ${nom} Email: ${email} Téléphone: ${telephone} 
-        Message: ${message}
-`
+        from: `"${prenom} ${nom}" <sebastienconfrere6@gmail.com>`,
+        to: "sebastienconfrere6@gmail.com",
+        replyTo: email,
+        subject: `Nouveau message de ${prenom} ${nom}`,
+        html: `
+            <h3>Nouveau message depuis le site Magañ</h3>
+            <p><strong>Prénom :</strong> ${prenom}</p>
+            <p><strong>Nom :</strong> ${nom}</p>
+            <p><strong>Email :</strong> ${email}</p>
+            <p><strong>Téléphone :</strong> ${telephone || "Non renseigné"}</p>
+            <hr>
+            <p><strong>Message :</strong></p>
+            <p>${message}</p>
+        `
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        res.render("contact", { message: "Votre message a été envoyé !" });
+        res.render("contact", { message: "Votre message a été envoyé avec succès !", page_css: "contact.css" });
     } catch (error) {
-        console.log(error);
-        res.send("Erreur lors de l'envoi");
+        console.error("Erreur envoi mail :", error);
+        res.render("contact", { message: "Erreur lors de l'envoi, veuillez réessayer.", page_css: "contact.css" });
     }
 });
 
 
 
 app.post("/connexion", async function (req, res) {
-    // recup info de connexion
     let username = req.body.login;
     let password = req.body.mdp;
     let hashedPassword = crypto.createHash('md5').update(password).digest('hex');
 
     let result = await pool.query("SELECT * FROM utilisateur WHERE identifiant = ? AND mdp = ?", [username, hashedPassword])
-
-    // verification info de l'utilisateur sont dans la bdd
     if (result[0].length > 0) {
         req.session.userRole = result[0][0].role;
-        req.session.userID = result[0][0].id;
+        req.session.userID = result[0][0].identifiant;
         req.session.prenom = result[0][0].prenom;
         if (req.session.userRole == "admin") {
             res.redirect("/admin/index");
@@ -449,46 +516,41 @@ app.post("/connexion", async function (req, res) {
     }
 
     else {
-        res.render("connexion", { message: "Nom d'utilisateur ou mot de passe incorrect" });
+        res.render("connexion", { message: "Nom d'utilisateur ou mot de passe incorrect" , page_css: "none.css"});
     }
 });
 
-app.post("/deleteProduit/:id", async function(req, res){
+app.post("/admin/delete_produit/:id", authenticate, isAdmin, async (req, res) => {
     try {
         const id = req.params.id;
-        console.log("ID à supprimer:", id); // DEBUG
-        
-        const suppression = await pool.query("DELETE FROM produit WHERE id = ?", [id]);
-        console.log("Résultat suppression:", suppression[0]); // DEBUG
-        
-        res.redirect("/admin/liste_produits");
-    }
-    catch(err) {
-        console.error("Erreur:", err);
-        res.status(500).send("Erreur lors de la suppression du produit");
-    }
-});
 
+        // Récupérer chemin de l'image avant de supprimer
+        const [rows] = await pool.query("SELECT image_path FROM produits WHERE id = ?", [id]);
 
+        // Supprimer le produit de la BDD
+        await pool.query("DELETE FROM produits WHERE id = ?", [id]);
 
-app.post('/ajouter-produit', upload.single('image'), async function (req, res) {
-    try {
-        const { marque, modele, categorie, prix, description } = req.body;
-        const image = req.file ? `/img/produits/${req.file.filename}` : null;
-        await pool.query("INSERT INTO produit (type, description, marque, modele, prix_location, etat, image) VALUES (?, ?, ?, ?, ?, ?, ?)", [categorie, description, marque, modele, prix, 'très bon état', image]);
+        // Suppression de l'image si elle exitse
+        if (rows.length > 0 && rows[0].image_path) {
+            const imagePath = "public" + rows[0].image_path; // ex: public/img/produit/Prdt123.png
+            fs.unlink(imagePath, (err) => {
+                if (err) console.error("Impossible de supprimer l'image :", err);
+            });
+        }
 
-        res.redirect('/admin/ajout_produit');
+        res.json({ success: true });
     } catch (err) {
         console.error(err);
-        res.status(500).send("Erreur lors de l'ajout du produit");
+        res.status(500).json({ success: false });
     }
 });
+
 
 app.post('/rechercher_suppression', async function (req, res) {
     try {
         const nomRecherche = '%' + req.body.search + '%';
         const produits_suppr = await pool.query("SELECT * FROM produit WHERE modele LIKE ? OR marque LIKE ?", [nomRecherche, nomRecherche]);
-        res.render("gerant/ajout_suppr_produit", { produits_suppr: produits_suppr[0] });
+        res.render("gerant/ajout_suppr_produit", { produits_suppr: produits_suppr[0] , page_css: "modif_suppr_produit.css"});
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur lors de la recherche du produit");
@@ -499,7 +561,7 @@ app.post('/rechercher_suppression', async function (req, res) {
 app.post('/supprimer-produit', async function (req, res) {
     try {
         const produitId = req.body.id;
-        await pool.query("DELETE FROM produit WHERE id = ? AND NOT EXISTS (SELECT * FROM location WHERE produit_id = ?);", [produitId, produitId]);
+        await pool.query("DELETE FROM produits WHERE id = ? AND NOT EXISTS (SELECT * FROM location WHERE produit_id = ?);", [produitId, produitId]);
         res.redirect('/gerant/ajout_suppr_produit');
     } catch (err) {
         console.error(err);
@@ -540,10 +602,10 @@ app.post('/inscription_infos', async function (req, res) {
 
 
     if (mailExistant[0].length > 0) {
-        return res.render("inscription", { message: "Email déjà utilisé" });
+        return res.render("inscription", { message: "Email déjà utilisé", page_css: "none.css" });
     }
     else if (loginExistant[0].length > 0) {
-        return res.render("inscription", { message: "Login déjà utilisé" });
+        return res.render("inscription", { message: "Login déjà utilisé", page_css: "none.css" });
     }
 
     else if (mdp == mdp_confirm) {
@@ -551,7 +613,7 @@ app.post('/inscription_infos', async function (req, res) {
         await pool.query("INSERT INTO utilisateur(login,password,nom,prenom,email,type_utilisateur, téléphone, age, newsletter) VALUES (?,?,?,?,?,?,?,?, ?)", [login, mdp_hash, nom, prenom, mail, 'client', tel, age, recevoir_mail]);
         res.redirect('/');
     } else {
-        res.render("/inscription", { message: "Une information est erronée" });
+        res.render("/inscription", { message: "Une information est erronée", page_css: "none.css" });
     }
 });
 
@@ -592,16 +654,14 @@ app.post('/modif_infos', async function (req, res) {
             values.push(hashedPassword);
         }
 
-        if (updates.length === 0) { // si aucun champ n'a été modifié
+        if (updates.length === 0) {
             return res.redirect('/co');
         }
 
-        //modif info bdd
         values.push(userId);
         const requete = `UPDATE utilisateur SET ${updates.join(', ')} WHERE id = ?`;
         await pool.query(requete, values);
 
-        //smodif info session
         if (prenom) req.session.userprenom = prenom;
         if (nom) req.session.usernom = nom;
         if (ddn) req.session.userddn = ddn;

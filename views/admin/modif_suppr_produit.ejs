@@ -1,0 +1,159 @@
+<%- include ("header") %>
+
+<div class="container">
+
+    <h2>Modifier / Supprimer un produit</h2>
+    <input type="text" id="search" placeholder="Rechercher un produit...">
+    <form id="editForm" action="" method="POST" enctype="multipart/form-data" style="display:none;">
+
+    <input type="hidden" name="id" id="produit_id">
+
+    <div class="grid">
+
+        <!-- ===== Image upload ===== -->
+        <div class="image-upload">
+            <label for="image">Image de présentation du produit :</label>
+            <input type="file" name="image" id="image" accept="image/*">
+        </div>
+
+        <!-- ===== Infos produit ===== -->
+        <div class="infos">
+
+            <!-- Nom et Prix -->
+            <div class="row">
+                <input type="text" name="nom_produit" id="nom_produit" placeholder="Nom du produit" required>
+                <input type="number" step="0.01" name="prix" id="prix" placeholder="Prix (€)" required>
+            </div>
+
+            <!-- Domaine / Type -->
+            <div class="row">
+                <select name="domaine" id="domaine" required>
+                    <option value="">Choisir une catégorie</option>
+                    <% domaines.forEach(function(d){ %>
+                        <option value="<%= d %>"><%= d %></option>
+                    <% }) %>
+                </select>
+
+                <select name="type" id="type" required>
+                    <option value="">Choisir une variété</option>
+                    <% types.forEach(function(t){ %>
+                        <option value="<%= t %>"><%= t %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <!-- Varieté / Description -->
+            <textarea name="variete" id="variete" placeholder="Description / variété"></textarea>
+
+            <!-- Disponibilité -->
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="disponibilite" id="disponibilite">
+                    Disponible
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <button type="submit">Valider modification</button>
+
+</form>
+
+</div>
+
+
+<div class="product-list" id="productList">
+
+    <% produits.forEach(function(produit){ %>
+        <div class="product-card" data-name="<%= produit.nom_produit.toLowerCase() %>">
+
+            <img src="<%= produit.image_path %>" class="product-image">
+
+            <h3><%= produit.nom_produit %></h3>
+            <p><%= produit.prix %> €</p>
+
+            <!-- ACTIONS -->
+            <button onclick='editProduit(<%- JSON.stringify(produit) %>)'>
+                Modifier
+            </button>
+
+            <button onclick="deleteProduit(<%= produit.id %>)">
+                Supprimer
+            </button>
+
+        </div>
+    <% }) %>
+
+</div>
+
+
+
+
+
+<script>
+
+
+document.getElementById("search").addEventListener("input", function() {
+    let value = this.value.toLowerCase();
+    let cards = document.querySelectorAll(".product-card");
+
+    cards.forEach(card => {
+        let name = card.dataset.name;
+        card.style.display = name.includes(value) ? "block" : "none";
+    });
+});
+
+
+
+function editProduit(produit) {
+    const form = document.getElementById("editForm");
+
+    form.style.display = "block";
+
+    document.getElementById("produit_id").value = produit.id;
+    document.getElementById("nom_produit").value = produit.nom_produit;
+    document.getElementById("prix").value = produit.prix;
+    document.getElementById("domaine").value = produit.domaine;
+    document.getElementById("type").value = produit.type;
+    document.getElementById("variete").value = produit.variete;
+    document.getElementById("disponibilite").checked = produit.disponibilite == 1;
+
+    form.action = "/admin/modif_produit/" + produit.id;
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+
+function deleteProduit(id) {
+
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return;
+
+    fetch("/admin/delete_produit/" + id, {
+        method: "POST"
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+
+
+document.getElementById("editForm").addEventListener("submit", function(e){
+    if (!confirm("Confirmer la modification ?")) {
+        e.preventDefault();
+    }
+});
+
+</script>
+
+
+<br><br><br><br><br><br>
+<%- include("footer") %>

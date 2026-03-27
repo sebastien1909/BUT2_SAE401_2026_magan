@@ -1,6 +1,7 @@
 body{
     margin:auto;
     padding:0;
+    scroll-behavior: smooth;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -16,5 +17,5 @@ body{
     height:1px;
     background:gray;
     margin-top:-10px;
-    margin-bottom:40px;
+    margin-bottom:20px;
 }

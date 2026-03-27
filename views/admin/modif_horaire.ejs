@@ -1,0 +1,30 @@
+<%- include("header") %>
+
+
+<div class="container">
+    <h2>Modifier les horaires d'ouverture</h2>
+
+    <form action="/admin/modif_horaire" method="POST">
+
+        <% 
+        const jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+        jours.forEach(function(jour) { 
+            const ligne = horaires.find(h => h.jour === jour);
+        %>
+            <div class="horaire-row">
+                <label><%= jour.charAt(0).toUpperCase() + jour.slice(1) %></label>
+                <input 
+                    type="text" 
+                    name="<%= jour %>" 
+                    value="<%= ligne ? ligne.horaire : '' %>"
+                    placeholder="ex: 9h-12h / 14h-18h  ou  Fermé"
+                >
+            </div>
+        <% }) %>
+
+        <button type="submit">Enregistrer</button>
+
+    </form>
+</div>
+
+<%- include("footer") %>

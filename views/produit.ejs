@@ -7,7 +7,7 @@
 
     <div class="product-detail-top">
         <div class="product-detail-img">
-            <img src="#">
+            <img src="<%= produit.image_path %>">
         </div>
 
         <div class="product-detail-right-side">
@@ -32,7 +32,6 @@
         Cela pourrait aussi vous plaire
     </h3>
 
-    <div class="separateur-white"></div>
     <div class="plaire-liste">
     <% if (peut_plaire.length > 0) { %>
         <% peut_plaire.forEach(function(produit){ %>

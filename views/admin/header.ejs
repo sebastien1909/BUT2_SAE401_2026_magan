@@ -32,7 +32,7 @@
 
 <body>
     <header>
-        <a href="/admin/index">
+        <a href="<%= typeof userRole !== 'undefined' && userRole === 'admin' ? '/admin/index' : '/' %>">
             <img src="/img/logomagan.png" alt="Logo Magañ" class="logo">
         </a>
         <div class="button-container">
