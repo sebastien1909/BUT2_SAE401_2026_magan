@@ -163,7 +163,9 @@ button:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive */
+/* #####################################################################
+Responsive 
+########################################################################*/
 @media screen and (max-width: 768px) {
     .grid {
         flex-direction: column;
@@ -182,5 +184,90 @@ button:hover {
     .container {
         padding: 20px;
         width: 95%;
+    }
+}
+
+
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 95%;
+        padding: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+        width: 95%;
+    }
+
+    .container h2 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .image-upload {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .upload-box {
+        height: 220px;
+    }
+
+    .infos {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input, select, textarea {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .checkbox {
+        padding: 15px;
+    }
+
+    button {
+        padding: 18px;
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    .container h2 {
+        font-size: 1.5rem;
+    }
+
+    .upload-box {
+        height: 180px;
+    }
+
+    .checkbox label {
+        font-size: 0.9rem;
+        gap: 10px;
+    }
+
+    .checkbox input {
+        width: 24px;
+        height: 24px;
     }
 }
