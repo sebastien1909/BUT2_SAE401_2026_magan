@@ -20,7 +20,12 @@
     </div>
 </div>
 
-<div class="separateur-full-width"></div>
+<button class="filtre-toggle" onclick="document.querySelector('.sous-categories').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="white" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M3 5h18M6 12h12M9 19h6"/>
+    </svg>
+    Filtrer
+</button>
 
 <div class="sous-categories">
     <% if (types && types.length > 0) { %>
@@ -32,7 +37,7 @@
     <% } %>
 </div>
 
-<div class="separateur-full-width"></div>
+
 
 <div class="product-list">
 
