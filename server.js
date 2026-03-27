@@ -197,6 +197,7 @@ app.get('/admin/index', authenticate, isAdmin, async function (req, res) {
     try {
         let produits_aime = await pool.query("SELECT * FROM produits LIMIT 5");
         const [horaires] = await pool.query("SELECT * FROM horaires ORDER BY FIELD(jour, 'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche')");
+        console.log("SESSION:", req.session);
         res.render("admin/index", {
             produits_aime: produits_aime[0],
             prenom: req.session.nom,
