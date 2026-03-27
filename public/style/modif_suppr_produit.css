@@ -1,28 +1,24 @@
 /* ############################################################################
 Reset global
 ############################################################################### */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-html,
-body {
-    overflow-x: hidden;
-    max-width: 100%;
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
-    font-family: "Inter", sans-serif;
-    margin: 0;
+  font-family: "Inter", sans-serif;
+  margin: 0;
 }
 
-body h1,
-h2 {
-    font-family: "Reem Kufi", sans-serif;
-    font-weight: 100;
-    margin: 0;
+body h1, h2 {
+  font-family: "Reem Kufi", sans-serif;
+  font-weight: 100;
+  margin: 0;
 }
 
 /* ############################################################################
@@ -33,12 +29,11 @@ h2 {
     margin-bottom: 30px;
     color: #333;
     font-weight: 400;
-    /* Remis comme à l'origine */
 }
 
 #search {
     display: block;
-    width: 100%;
+    width: 90%; /* Ajusté pour ne pas coller aux bords sur mobile */
     max-width: 400px;
     margin: 0 auto 30px auto;
     padding: 10px 15px;
@@ -51,270 +46,253 @@ h2 {
 L'atelier végétal (Layout 50/50)
 ############################################################################### */
 .presentation {
-    display: flex;
-    padding: 6% 8%;
-    gap: 5%;
-    align-items: center;
+  display: flex;
+  padding: 6% 8%;
+  gap: 5%;
+  align-items: center;
 }
 
-.presentation-first-column,
+.presentation-first-column, 
 .presentation-second-column {
-    flex: 1;
-    width: 50%;
+  flex: 1;
+  width: 50%;
 }
 
 .black {
-    color: black;
-    font-size: 1.8em;
-    font-weight: 500;
+  color: black;
+  font-size: 1.8em;
+  font-weight: 500;
 }
 
 .voir-plus {
-    background-color: #98e39d;
-    padding: 10px 50px;
-    border-radius: 10px;
-    font-size: 1em;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    transition: transform 0.3s;
+  background-color: #98e39d;
+  padding: 10px 50px;
+  border-radius: 10px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  transition: transform 0.3s;
 }
 
-.voir-plus:hover {
-    transform: translateY(-2px);
-}
+.voir-plus:hover { transform: translateY(-2px); }
 
 .presentation-first-column p {
-    font-size: 1.2em;
-    line-height: 1.5em;
-    margin: 5% 0;
+  font-size: 1.2em;
+  line-height: 1.5em;
+  margin: 5% 0;
 }
 
 .presentation-second-column img {
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
 }
 
 /* ###########################################################################
 Nos Horaires
 ################################################################################ */
 .horaire {
-    display: flex;
-    gap: 5%;
-    padding: 6% 8%;
+  display: flex;
+  gap: 5%;
+  padding: 6% 8%;
 }
 
 .horaire-first-column {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 #map {
-    width: 100%;
-    height: 400px;
-    border-radius: 15px;
+  width: 100%;
+  height: 400px;
+  border-radius: 15px;
 }
 
 .separateur {
-    width: 80px;
-    height: 2px;
-    background-color: #98e39d;
-    margin-bottom: 40px;
+  width: 80px;
+  height: 2px;
+  background-color: #98e39d;
+  margin-bottom: 40px;
 }
 
 .title-wrapper i {
-    color: #98e39d;
-    font-size: 1.8rem;
+  color: #98e39d;
+  font-size: 1.8rem;
 }
 
 .aller {
-    background-color: #98e39d;
-    padding: 10px 50px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-    display: inline-block;
-    margin-top: auto;
+  background-color: #98e39d;
+  padding: 10px 50px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: auto;
 }
 
 /* ############################################################################
-Popup de modification (Arrière-plan sombre & Champs blancs)
+Popup de modification (Optimisée pour Mobile)
 ############################################################################### */
 #editForm {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    background-color: white;
-    padding: 35px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 850px;
-    display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: white;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  width: 95%; 
+  max-width: 850px;
+  max-height: 90vh; 
+  overflow-y: auto; 
+  display: none; 
 }
 
 
 
 .grid {
-    display: flex;
-    gap: 30px;
-    align-items: stretch;
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
 }
 
 .image-upload {
-    flex: 0 0 280px;
+  flex: 0 0 280px;
 }
 
 .image-upload label {
-    width: 100%;
-    aspect-ratio: 1;
-    background-color: #ffffff;
-    border: 1px solid #98e39d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #888;
-    padding: 20px;
-    text-align: center;
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: #ffffff;
+  border: 1px solid #98e39d;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #888;
+  padding: 20px;
+  text-align: center;
 }
 
 .infos {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .row {
-    display: flex;
-    gap: 15px;
+  display: flex;
+  gap: 15px;
 }
 
-.row input,
-.row select,
-textarea#variete {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #98e39d;
-    font-size: 14px;
-    outline: none;
-    background-color: #ffffff;
+.row input, .row select, textarea#variete {
+  flex: 1;
+  width: 100%; 
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #98e39d; 
+  font-size: 14px;
+  outline: none;
+  background-color: #ffffff;
 }
 
 textarea#variete {
-    width: 100%;
-    min-height: 100px;
+  min-height: 100px;
 }
 
 #editForm button[type="submit"] {
-    background-color: #98e39d;
-    color: black;
-    border: none;
-    padding: 12px 40px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    align-self: flex-end;
-    margin-top: 10px;
-    transition: all 0.3s ease;
-}
-
-#editForm button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
+  background-color: #98e39d;
+  color: black;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 10px;
 }
 
 /* ############################################################################
 Admin & Cartes
 ############################################################################### */
 .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
-    padding: 20px 8%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  padding: 20px 8%;
 }
 
 .product-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #f0f0f0;
-    text-align: center;
-    transition: box-shadow 0.3s;
-}
-
-.product-card:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  text-align: center;
 }
 
 .product-image {
-    width: 100%;
-    height: 150px;
-    object-fit: contain;
-    margin-bottom: 15px;
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 15px;
 }
 
 .product-card button {
-    padding: 8px 15px;
-    margin: 4px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
+  padding: 8px 15px;
+  margin: 4px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
 }
 
-.product-card button:first-of-type {
-    background-color: #98e39d;
-    transition: all 0.3s ease;
-}
+.product-card button:first-of-type { background-color: #98e39d; }
+.product-card button:last-of-type { background-color: #ffb3b3; color: #600; }
 
-.product-card button:last-of-type {
-    background-color: #ffb3b3;
-    color: #600;
-    transition: all 0.3s ease;
-}
-
-
-.product-card button:first-of-type:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
-}
-.product-card button:last-of-type:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Responsive */
+/* ############################################################################
+RESPONSIVE (Correction pour mobile)
+############################################################################### */
 @media screen and (max-width: 800px) {
+  .presentation, .horaire, .grid { 
+    flex-direction: column; 
+    padding: 20px 5%;
+  }
 
-    .presentation,
-    .horaire,
-    .grid {
-        flex-direction: column;
-    }
+  .presentation-first-column, 
+  .presentation-second-column, 
+  .horaire-first-column,
+  .image-upload { 
+    width: 100%; 
+    flex: none; 
+  }
 
-    .presentation-first-column,
-    .presentation-second-column,
-    .image-upload,
-    .horaire-first-column {
-        width: 100%;
-        flex: none;
-    }
+  .row { 
+    flex-direction: column; 
+    gap: 10px;
+  }
 
-    .row {
-        flex-direction: column;
-    }
+  #editForm { 
+    padding: 20px; 
+    width: 95%;
+    top: 50%; /* Garde le centrage vertical */
+  }
 
-    #editForm {
-        padding: 20px;
-    }
+  .image-upload {
+    margin-bottom: 20px;
+  }
+
+  #editForm button[type="submit"] {
+    width: 100%; /* Bouton plein écran sur mobile */
+  }
 }
