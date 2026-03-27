@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 13 mars 2026 à 13:31
+-- Généré le : ven. 27 mars 2026 à 10:28
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -39,7 +39,43 @@ CREATE TABLE IF NOT EXISTS `blog_arbo` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `blog_arbo`
+--
+
+INSERT INTO `blog_arbo` (`id`, `redacteur`, `date_publi`, `shown`, `message`, `titre`, `categorie`, `created_at`, `updated_at`) VALUES
+(2, 'Sébastien', '2026-03-24', 1, '<p>fsmflvjnvam kgzjpmoijaz qmtfokvnaerqmoip gkjùrpagij ùqptifk vgjm qroihjzù \'poi gjùzetokgnù qerlkgjzùmtpigj zùepofgjzù  pogjzùtpgj zùptgjzù fpkvjzùptij gùspifkgjùz kpt</p><p><br></p><p><br></p><p>ztlgjzh mgozaem gioj</p><p><br></p><h1>Dfmaeoir</h1><p><br></p><p><br></p><ul><li>zetgmzlfkjvzmslfkv zmr ùgp zoejzf m okzfjm vljk aqnrmfoik qezjùgpiajùropfjg aùpeorijg  ùaeripqfjgfùqke jmkj</li></ul>', 'Test 2 taille', NULL, '2026-03-23 23:54:44', '2026-03-23 23:54:44'),
+(3, 'Sébastien', '2026-03-24', 1, '<p>va:vaqmdnml kamc qmlkaj rmlkjaùefpj fùa<strong> faergfa</strong> </p>', 'test 3 image', NULL, '2026-03-23 23:59:10', '2026-03-23 23:59:10'),
+(4, 'sébastien', '2026-03-24', 1, '<p>hlih liuhgiug oli gi gl iuhliuhnlkj h <img src=\"/img/produits/Prdt1774311115672.png\"></p>', 'test 4 image', NULL, '2026-03-24 00:12:08', '2026-03-24 00:12:08'),
+(5, 'Sébastien', '2026-03-24', 1, '<p>kvloygoi hoiuhfp aeuijrfha qejfnhm aoerhg ameoiqfhfapmeuoihfpaihf aoefma oihjfmaeruoifnhla erihjua leirufnhmaqro eiaghomqreioghameroighaemrogihaermpoghaerpoghapermoih poairh paoierhgfpaoripaoerjkfma oirhfpmao eihgaeroi mapifaoig apmeroighja eproihgp oiha pmeroi ga <strong>aerfl akjfhgm amoaeirhjgm oaer</strong>a rffga erjkhg<img src=\"/img/produit/Prdt1774311555582.png\"></p><p>aerfkag arlfjka hmroifhamoif maeroifhmaoimaokdjvm zjrhgouaerhf m</p>', 'test 5 image', NULL, '2026-03-24 00:19:34', '2026-03-24 00:19:34');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `horaires`
+--
+
+DROP TABLE IF EXISTS `horaires`;
+CREATE TABLE IF NOT EXISTS `horaires` (
+  `jour` enum('lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche') NOT NULL,
+  `horaire` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`jour`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `horaires`
+--
+
+INSERT INTO `horaires` (`jour`, `horaire`) VALUES
+('lundi', '9h-12h / 14h-18h'),
+('mardi', '9h-12h / 14h-16h marché'),
+('mercredi', '10h-12h / 14h-16h'),
+('jeudi', 'Fermé'),
+('vendredi', 'Marché 9h-12h'),
+('samedi', '14h-18h'),
+('dimanche', 'Fermé');
 
 -- --------------------------------------------------------
 
@@ -62,15 +98,13 @@ CREATE TABLE IF NOT EXISTS `produits` (
   `porte_greffe` varchar(100) DEFAULT NULL,
   `conseil_culture` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=184 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `produits`
 --
 
 INSERT INTO `produits` (`id`, `nom_produit`, `prix`, `domaine`, `type`, `variete`, `description`, `image_path`, `disponibilite`, `pollinisation`, `porte_greffe`, `conseil_culture`) VALUES
-(1, 'Abricotier Bergeron', 99.99, 'arboriculture', 'abricotier', 'Bergeron', 'Variété d’abricotier très productive donnant des fruits parfumés et sucrés en été.', '/img/produit/abricotierbergeron.png', 0, NULL, NULL, NULL),
-(2, 'Abricotier Luizet', 99.99, 'arboriculture', 'abricotier', 'Luizet', 'Variété ancienne réputée pour sa chair fondante et son goût très aromatique.', '/img/produit/abricotierluizet.png', 0, NULL, NULL, NULL),
 (3, 'Abricotier Paviot', 99.99, 'arboriculture', 'abricotier', 'Paviot', 'Variété savoureuse et productive, adaptée aux climats tempérés.', '/img/produit/abricotierpaviot.png', 0, NULL, NULL, NULL),
 (4, 'Abricotier Peche de Nancy', 99.99, 'arboriculture', 'abricotier', 'Pêche de Nancy', 'Variété ancienne offrant de beaux fruits doux et juteux.', '/img/produit/abricotierpechedenancy.png', 0, NULL, NULL, NULL),
 (5, 'Abricotier Polonais', 99.99, 'arboriculture', 'abricotier', 'Polonais', 'Abricotier résistant et généreux en fruits parfumés.', '/img/produit/abricotierpolonais.png', 0, NULL, NULL, NULL),
@@ -115,6 +149,7 @@ INSERT INTO `produits` (`id`, `nom_produit`, `prix`, `domaine`, `type`, `variete
 (48, 'Amelanchier Prince William', 99.99, 'pepiniere', 'amelanchier', 'Prince William', 'Arbuste rustique donnant des fruits savoureux, idéal haie ou jardin.', '/img/produit/amelanchier_prince_william.png', 0, NULL, NULL, NULL),
 (49, 'Amelanchier Pitchoun', 99.99, 'pepiniere', 'amelanchier', 'Pitchoun', 'Variété compacte, idéale pour petits jardins, fruits sucrés.', '/img/produit/amelanchier_pitchoun.png', 0, NULL, NULL, NULL),
 (50, 'Arbousier', 99.99, 'pepiniere', 'arbousier', 'unedo', 'Arbuste méditerranéen produisant des fruits rouges comestibles, parfait en haie ou jardin.', '/img/produit/arbousier_unedo.png', 0, NULL, NULL, NULL),
+(190, 'Abricotier Corinne Schuchard', 12.99, 'arboriculture', 'abricotier', 'rpguhazeqprmgjhzepmrijuhb ', 'lefihaqp oigap erfoiv zqs ofmvj hspm ofi vjzqsofmjvh zmqoifghqperokfha^q epoifkjvgnh pmeoqjnpoiq fhpqodf hvql jkhgp olqdfjh vpqojdf vpqodfj smjv l siqj', '/img/produit/Prdt1774574935971.png', 1, NULL, NULL, NULL),
 (53, 'Myrte du Chili', 99.99, 'pepiniere', 'myrte', 'luma apiculata', 'Arbuste produisant de petites baies rouges parfumées, idéal en massif.', '/img/produit/myrte_du_chili.png', 0, NULL, NULL, NULL),
 (54, 'Goyavier du Brésil', 99.99, 'pepiniere', 'goyavier', 'Psidium cattleyanum rouge', 'Arbuste tropical donnant des fruits rouges acidulés et sucrés.', '/img/produit/goyavier_brésil_rouge.png', 0, NULL, NULL, NULL),
 (56, 'Feijoa', 99.99, 'pepiniere', 'feijoa', 'sellowiana', 'Arbuste produisant des fruits verts au goût sucré-acidulé, parfait pour jus et confitures.', '/img/produit/feijoa_sellowiana.png', 0, NULL, NULL, NULL),
@@ -134,6 +169,7 @@ INSERT INTO `produits` (`id`, `nom_produit`, `prix`, `domaine`, `type`, `variete
 (70, 'Bai de Mai Redwood', 99.99, 'pepiniere', 'bai de mai', 'Redwood', 'Variété rustique à fruits rouges décoratifs.', '/img/produit/bai_de_mai_redwood.png', 0, NULL, NULL, NULL),
 (71, 'Bai de Mai Altaj', 99.99, 'pepiniere', 'bai de mai', 'Altaj', 'Arbuste résistant donnant des baies rouges savoureuses.', '/img/produit/bai_de_mai_altaj.png', 0, NULL, NULL, NULL),
 (72, 'Bai de Mai Aurora', 99.99, 'pepiniere', 'bai de mai', 'Aurora', 'Baies rouges riches en antioxydants, arbuste décoratif.', '/img/produit/bai_de_mai_aurora.png', 0, NULL, NULL, NULL),
+(187, 'Abricotier Corinne Schuchard', 12.99, 'pepiniere', 'abricotier', 'tgzsfbsgzbesrgbe ztgzs ', NULL, '/img/produit/Prdt1774574058696.png', 0, NULL, NULL, NULL),
 (74, 'Goji Sweety', 99.99, 'pepiniere', 'goji', 'Sweety', 'Arbuste donnant des baies rouges sucrées, parfaites pour jus et confitures.', '/img/produit/goji_sweety.png', 0, NULL, NULL, NULL),
 (75, 'Lycium Chinense', 99.99, 'pepiniere', 'goji', 'Chinense', 'Variété traditionnelle de goji à fruits rouges et savoureux.', '/img/produit/lycium_chinense.png', 0, NULL, NULL, NULL),
 (76, 'Lycium Ruthenicum', 99.99, 'pepiniere', 'goji', 'Ruthenicum', 'Arbuste à baies noires riches en antioxydants.', '/img/produit/lycium_ruthenicum.png', 0, NULL, NULL, NULL),
