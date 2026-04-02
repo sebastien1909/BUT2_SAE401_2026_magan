@@ -59,17 +59,41 @@
 }
 
 .video-cont {
-    margin-top: -2.75%;
+    margin-top: 25px;
     background-color: #7C6F5C;
     text-align: center;
     margin-bottom: 3%;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 480px; /* hauteur souhaitée */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .video-cont iframe {
-    padding: 10%;
-    width: 70%;
+    position: absolute;
+    max-width: 960px;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
     border: 0;
+    background-color: #000;
 }
+
+@media screen and (max-width: 768px) {
+    .video-cont {
+        width: 95%;
+        max-width: 100%;
+    }
+}
+
 
 .separateur-top {
         width: 100%;
