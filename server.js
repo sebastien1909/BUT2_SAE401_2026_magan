@@ -106,7 +106,6 @@ app.get("/catalogue_produit", async function (req, res) {
     const type = req.query.type;
 
     try {
-        //Récupération des produits
         let sql = "SELECT * FROM produits WHERE 1=1";
         let params = [];
         if (domaine) {
