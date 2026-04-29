@@ -127,7 +127,7 @@
                     <% if(blog_articles && blog_articles.length > 0) { %>
                         <% blog_articles.forEach(function(article, idx){ %>
                             <div class="blog-card">
-                                <h4><%= article.titre %></h4>
+                            <h4><%= article.titre %></h4>
                                 <p>
                                     Par <%= article.redacteur %> 
                                     le <%= new Date(article.date_publi).toLocaleDateString() %>
